@@ -1,0 +1,242 @@
+/* ================= LOGIN PAGE ================= */
+
+.login-page {
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #ffffff;
+  perspective: 1200px;
+
+  font-family: "Georgia", serif;
+
+  animation: pageFade 0.9s ease;
+}
+
+
+/* ================= CARD ================= */
+
+.login-card {
+  width: 360px;
+  padding: 20px;
+
+  background: #ffffff;
+
+  border-radius: 16px;
+
+  transform-style: preserve-3d;
+
+  animation: cardFloatIn 0.8s ease;
+
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.18),
+    0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 3D Hover */
+
+.login-card:hover {
+  transform: rotateX(6deg) rotateY(-6deg) translateY(-6px);
+}
+
+
+/* ================= TITLE ================= */
+
+.title-pill {
+  background: #aee3c2;
+
+  text-align: center;
+
+  padding: 10px 0;
+
+  border-radius: 25px;
+
+  font-size: 26px;
+  font-weight: bold;
+
+  margin-bottom: 30px;
+}
+
+
+/* ================= LABELS ================= */
+
+.label {
+  font-size: 18px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+
+/* ================= INPUTS ================= */
+
+.input {
+  width: 100%;
+  height: 38px;
+
+  background: #d9e8dc;
+
+  border: none;
+  border-radius: 20px;
+
+  padding: 0 15px;
+
+  margin-bottom: 20px;
+
+  outline: none;
+
+  transition: box-shadow 0.3s ease;
+}
+
+.input:focus {
+  box-shadow: 0 8px 18px rgba(110, 240, 135, 0.45);
+}
+
+
+/* ================= LINK ================= */
+
+.link {
+  color: #4b47ff;
+  font-size: 14px;
+
+  cursor: pointer;
+
+  display: inline-block;
+
+  margin-bottom: 18px;
+}
+
+
+/* ================= PASSWORD ================= */
+
+.password-wrapper {
+  position: relative;
+}
+
+.eye {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+
+  cursor: pointer;
+  font-size: 18px;
+
+  transition: transform 0.3s ease;
+}
+
+.eye:hover {
+  transform: scale(1.2);
+}
+
+
+/* ================= BUTTONS ================= */
+
+.login-btn {
+  height: 40px;
+
+  background: #6ef087;
+
+  border: none;
+  border-radius: 25px;
+
+  margin: 18px auto;
+
+  display: block;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  padding: 0 30px;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ================= FOOTER ================= */
+
+.footer-text {
+  text-align: center;
+  font-size: 14px;
+  color: #3d3dff;
+}
+
+
+/* ================= OR ================= */
+
+.or {
+  display: flex;
+  align-items: center;
+
+  margin: 20px 0;
+
+  font-size: 14px;
+}
+
+.or span {
+  flex: 1;
+  height: 1px;
+
+  background: #000;
+
+  margin: 0 10px;
+}
+
+
+/* ================= GOOGLE ================= */
+
+.google-btn {
+  width: 100%;
+  height: 40px;
+
+  background: #2b2323;
+  color: white;
+
+  border: none;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  transition: transform 0.25s ease;
+}
+
+.google-btn:hover {
+  transform: translateY(-2px);
+}
+
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardFloatIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

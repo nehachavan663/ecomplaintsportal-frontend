@@ -1,0 +1,316 @@
+/* ================= WRAPPER ================= */
+
+.home-page {
+  font-family: "Segoe UI", sans-serif;
+  background: #f3f6f4;
+  min-height: 100vh;
+}
+
+
+/* ================= NAVBAR ================= */
+
+.home-page .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px 50px;
+
+  background: linear-gradient(135deg, #6f8f7c, #8fb3a0);
+  color: white;
+}
+
+
+/* FIX NAV ALIGNMENT */
+.home-page .navbar nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+
+.home-page .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 22px;
+  font-weight: bold;
+}
+
+
+.home-page .logo-icon {
+  font-size: 22px;
+}
+
+
+.home-page .navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+
+/* NAV BUTTONS */
+
+.home-page .nav-link {
+  background: transparent;
+  border: none;
+
+  color: white;
+  font-size: 16px;
+
+  cursor: pointer;
+  padding: 6px 10px;
+}
+
+
+.home-page .nav-link:hover {
+  text-decoration: underline;
+}
+
+
+.home-page .nav-btn {
+  background: white;
+  color: #6f8f7c;
+
+  border: none;
+
+  padding: 8px 18px;
+  border-radius: 20px;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+.home-page .nav-btn:hover {
+  background: #f0f0f0;
+}
+
+
+/* ================= HERO ================= */
+
+.home-page .hero {
+  background: linear-gradient(135deg, #6f8f7c, #a9c3b4);
+  padding: 120px 60px;
+}
+
+
+.home-page .hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 60px;
+}
+
+
+.home-page .hero-left h1 {
+  font-size: 42px;
+  color: white;
+}
+
+
+.home-page .hero-sub {
+  color: #f0f5f2;
+  margin-bottom: 20px;
+}
+
+
+.home-page .hero-points {
+  color: white;
+  list-style: none;
+  padding: 0;
+}
+
+
+.home-page .hero-points li {
+  margin-bottom: 8px;
+}
+
+
+.home-page .hero-buttons {
+  margin-top: 20px;
+}
+
+
+.home-page .hero-buttons button {
+  padding: 12px 24px;
+
+  border: none;
+  border-radius: 10px;
+
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+
+.home-page .primary-btn {
+  background: #2f6fde;
+  color: white;
+}
+
+
+.home-page .primary-btn:hover {
+  background: #2558b8;
+}
+
+
+.home-page .secondary-btn {
+  background: #38b764;
+  color: white;
+}
+
+
+.home-page .secondary-btn:hover {
+  background: #2fa158;
+}
+
+
+/* IMAGE */
+
+.home-page .hero-image {
+  width: 420px;
+  animation: home-float 4s ease-in-out infinite;
+}
+
+
+@keyframes home-float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+
+/* ================= ABOUT ================= */
+
+.home-page .about {
+  padding: 80px 50px;
+  text-align: center;
+  background: #ffffff;
+}
+
+
+.home-page .about h2 {
+  font-size: 32px;
+}
+
+
+.home-page .card-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+
+  margin-top: 40px;
+}
+
+
+.home-page .card {
+  background: white;
+
+  padding: 30px;
+  border-radius: 20px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+  transition: 0.3s;
+}
+
+
+.home-page .card:hover {
+  transform: translateY(-10px);
+}
+
+
+.home-page .card-icon {
+  font-size: 38px;
+  color: #38b764;
+  margin-bottom: 10px;
+}
+
+
+/* ================= FOOTER ================= */
+
+.home-page .footer {
+  background: linear-gradient(135deg, #6f8f7c, #8fb3a0);
+
+  color: white;
+
+  padding: 40px 50px 15px;
+}
+
+
+.home-page .footer-container {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 30px;
+}
+
+
+.home-page .footer-section h4 {
+  margin-bottom: 10px;
+}
+
+
+.home-page .social-icons a {
+  color: white;
+  margin-right: 15px;
+
+  text-decoration: none;
+}
+
+
+.home-page .social-icons a:hover {
+  text-decoration: underline;
+}
+
+
+.home-page .footer-bottom {
+  text-align: center;
+
+  margin-top: 25px;
+  padding-top: 10px;
+
+  border-top: 1px solid rgba(255,255,255,0.3);
+
+  font-size: 13px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+  .home-page .hero-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .home-page .hero-image {
+    width: 300px;
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .home-page .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 20px;
+  }
+
+  .home-page .navbar nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
