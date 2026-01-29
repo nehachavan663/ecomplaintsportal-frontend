@@ -14,7 +14,6 @@ import Home from "./components/Home/Home";
 // Profile
 import Profile from "./components/Profile/Profile";
 
-// STDLR (Login / Register)
 import Login from "./components/stdlr/login";
 import Register from "./components/stdlr/register";
 
