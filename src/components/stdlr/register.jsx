@@ -10,7 +10,7 @@ function Registration() {
 
         <div className="title-pill">Registration</div>
 
-        <label className="label">Username / Email</label>
+        <label className="label">Username / Email id</label>
         <input type="text" className="input" />
 
         <label className="label">Enter Password</label>
