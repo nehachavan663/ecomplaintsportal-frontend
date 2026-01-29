@@ -8,7 +8,7 @@ function Login() {
     <div className="login-page">
       <div className="login-card">
 
-        <div className="title-pill">Login</div>
+        <div className="title-pill">Ecomplaintsportal</div>
 
         <label className="label">Username / Email</label>
         <input type="text" className="input" />
