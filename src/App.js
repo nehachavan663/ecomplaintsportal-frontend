@@ -2,21 +2,21 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Complaint Pages
-import ComplaintForm from "../../complaint/src/components/Complaint/ComplaintForm";
-import TrackComplaintStatus from "../../complaint/src/components/Complaint/TrackComplaintStatus";
+import ComplaintForm from "./components/Complaint/ComplaintForm";
+import TrackComplaintStatus from "./components/Complaint/TrackComplaintStatus";
 
 // Dashboard
-import Dashboard from "../../complaint/src/components/Dashboard/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 // Home
-import Home from "../../complaint/src/components/Home/Home";
+import Home from "./components/Home/Home";
 
 // Profile
-import Profile from "../../complaint/src/components/Profile/Profile";
+import Profile from "./components/Profile/Profile";
 
 // STDLR (Login / Register)
-import Login from "../../complaint/src/components/stdlr/login";
-import Register from "../../complaint/src/components/stdlr/register";
+import Login from "./components/stdlr/login";
+import Register from "./components/stdlr/register";
 
 // CSS
 import "./App.css";
