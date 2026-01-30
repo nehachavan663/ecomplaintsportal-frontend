@@ -1,6 +1,6 @@
 import React from "react";
 import "./TrackComplaintStatus.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 const complaints = [
   {
     id: "CMP-1023",
@@ -24,6 +24,7 @@ const complaints = [
 
 const TrackComplaintStatus = () => {
   return (
+    <HomeLayout>
     <div className="page-bg">
       <div className="track-container">
         <div className="track-card">
@@ -67,6 +68,7 @@ const TrackComplaintStatus = () => {
         </div>
       </div>
     </div>
+    </HomeLayout>
   );
 };
 

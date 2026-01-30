@@ -2,33 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import heroImage from "./Images/hero.png";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 import {
   FaFileAlt,
   FaSearch,
   FaUserShield,
   FaBell,
-  FaRegFileAlt,
 } from "react-icons/fa";
 
 function Home() {
   return (
+    <HomeLayout>
     <div className="home-page">
-
-      {/* NAVBAR */}
-      <header className="navbar">
-        <div className="logo">
-          <FaRegFileAlt className="logo-icon" />
-          <span>ecomplaintsportal.com</span>
-        </div>
-
-        <nav>
-          <Link to="/">Home</Link>
-          <a href="#about">About</a>
-          <Link to="/login" className="nav-link">Login</Link>
-          <Link to="/register" className="nav-btn">Register</Link>
-        </nav>
-      </header>
 
       {/* HERO */}
       <section className="hero">
@@ -78,6 +63,7 @@ function Home() {
         <h2>About the System</h2>
 
         <div className="card-grid">
+
           <div className="card">
             <FaFileAlt className="card-icon" />
             <h3>Register Complaints</h3>
@@ -101,46 +87,12 @@ function Home() {
             <h3>Notifications</h3>
             <p>Instant status updates.</p>
           </div>
+
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="footer">
-        <div className="footer-container">
-
-          <div className="footer-section">
-            <h4>Online Complaint System</h4>
-            <p>Simple & transparent complaint handling platform.</p>
-          </div>
-
-          <div className="footer-section">
-            <h4>Quick Access</h4>
-            <ul className="footer-links">
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Help</a></li>
-            </ul>
-          </div>
-
-          <div className="footer-section">
-            <h4>Follow Us</h4>
-            <div className="social-icons">
-              <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-              <a href="https://facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer">Twitter</a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-            </div>
-          </div>
-
-        </div>
-
-        <div className="footer-bottom">
-          © 2026 Online Complaint Management System
-        </div>
-      </footer>
-
     </div>
+    </HomeLayout>
   );
 }
 

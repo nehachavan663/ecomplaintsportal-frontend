@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./stdlr.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 function Registration() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
+    <HomeLayout>
     <div className="login-page">
       <div className="login-card">
 
@@ -55,6 +56,7 @@ function Registration() {
 
       </div>
     </div>
+    </HomeLayout>
   );
 }
 
