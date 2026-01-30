@@ -337,3 +337,126 @@
   background: linear-gradient(135deg, #9cffc7, #2ecc71);
   color: #065f2c;
 }
+
+/* ================= RESPONSIVE ================= */
+
+/* Small laptops & large tablets */
+@media (max-width: 1024px) {
+  .profile-page .container {
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .profile-page .profile-card {
+    width: 240px;
+  }
+
+  .profile-page .card input {
+    width: 70%;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .profile-page .navbar {
+    padding: 12px 20px;
+  }
+
+  .profile-page .navbar ul {
+    gap: 16px;
+    font-size: 14px;
+  }
+
+  .profile-page .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-page .profile-card {
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .profile-page .content {
+    width: 100%;
+  }
+
+  .profile-page .card,
+  .profile-page .complaint-summary {
+    padding: 20px;
+  }
+
+  .profile-page .card p {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .profile-page .card input {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .profile-page .status-row {
+    justify-content: center;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 480px) {
+  .profile-page .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .profile-page .menu {
+    font-size: 22px;
+  }
+
+  .profile-page .navbar ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .profile-page .container {
+    padding: 16px;
+  }
+
+  .profile-page .avatar img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .profile-page .profile-card h2 {
+    font-size: 18px;
+  }
+
+  .profile-page .edit-btn,
+  .profile-page .logout-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .profile-page .card h3,
+  .profile-page .complaint-summary h3 {
+    font-size: 16px;
+  }
+
+  .profile-page .status-badge {
+    min-width: 120px;
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .profile-page .status-badge {
+    width: 100%;
+  }
+
+  .profile-page .profile-card {
+    padding: 20px;
+  }
+}
