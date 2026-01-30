@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./ComplaintForm.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 const complaintCategoryMap = {
   Hostel: [
     "Electricity Issue",
@@ -74,6 +74,7 @@ const ComplaintForm = () => {
   const [category, setCategory] = useState("");
 
   return (
+    <HomeLayout>
     <div className="page-bg">
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
         <div className="complaint-card">
@@ -169,6 +170,7 @@ const ComplaintForm = () => {
         </div>
       </div>
     </div>
+    </HomeLayout>
   );
 };
 

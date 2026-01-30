@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 function Profile() {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -35,18 +35,9 @@ function Profile() {
   };
 
   return (
+    <HomeLayout>
     <div className="profile-page">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="menu">&#9776;</div>
-        <ul>
-          <li className="active">Home</li>
-          <li>About</li>
-          <li>Contact</li>
-          <li>Login</li>
-        </ul>
-      </nav>
-
+   
       <div className="container">
         {/* Profile Card */}
         <div className="profile-card">
@@ -204,6 +195,7 @@ function Profile() {
         </div>
       </div>
     </div>
+    </HomeLayout>
   );
 }
 
