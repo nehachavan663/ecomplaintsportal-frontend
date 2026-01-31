@@ -37,14 +37,6 @@
     0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-/* 3D Hover */
-
-.login-card:hover {
-  transform: rotateX(6deg) rotateY(-6deg) translateY(-6px);
-}
-
-
 /* ================= TITLE ================= */
 
 .title-pill {
@@ -238,5 +230,108 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* -------- Small devices (phones) -------- */
+@media (max-width: 480px) {
+  .login-page {
+    padding: 15px;
+  }
+
+  .login-card {
+    width: 100%;
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .title-pill {
+    font-size: 22px;
+    padding: 8px 0;
+  }
+
+  .label {
+    font-size: 16px;
+  }
+
+  .input {
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .eye {
+    top: 7px;
+    font-size: 16px;
+  }
+
+  .login-btn {
+    height: 38px;
+    font-size: 16px;
+    width: 100%;
+  }
+
+  .google-btn {
+    height: 38px;
+    font-size: 15px;
+  }
+
+  .footer-text {
+    font-size: 13px;
+  }
+}
+
+
+/* -------- Medium devices (tablets) -------- */
+@media (min-width: 481px) and (max-width: 768px) {
+  .login-card {
+    width: 420px;
+    padding: 22px;
+  }
+
+  .title-pill {
+    font-size: 24px;
+  }
+
+  .label {
+    font-size: 17px;
+  }
+
+  .input {
+    height: 38px;
+  }
+
+  .login-btn {
+    font-size: 17px;
+  }
+}
+
+
+/* -------- Large devices (laptops) -------- */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .login-card {
+    width: 380px;
+  }
+}
+
+
+/* -------- Extra large screens -------- */
+@media (min-width: 1201px) {
+  .login-card {
+    width: 400px;
+  }
+}
+
+
+/* -------- Touch optimization -------- */
+@media (hover: none) {
+  .login-btn:hover,
+  .google-btn:hover {
+    transform: none;
+  }
+
+  .eye:hover {
+    transform: none;
   }
 }
