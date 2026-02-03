@@ -7,6 +7,9 @@
   position: relative;
 }
 
+  padding: 15px 50px;
+ background: #bfe4d4;
+  color: #2b3830;
 .logo {
   color: #fff;
   font-size: 18px;
@@ -31,6 +34,10 @@
   border-radius: 20px;
 }
 
+.navbar a {
+  color: rgb(44, 51, 48);
+  text-decoration: none;
+  font-size: 20px;
 /* Hamburger */
 .hamburger {
   display: none;
@@ -70,6 +77,11 @@
   text-align: center;
 }
 
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 25px 20px;
 .mobile-nav li {
   padding: 14px 0;
 }
