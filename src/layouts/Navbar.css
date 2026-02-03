@@ -1,54 +1,80 @@
-/* ================= NAVBAR ================= */
-
 .navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 20px;
+  background-color: #2f4f4f;
+  position: relative;
+}
 
   padding: 15px 50px;
  background: #bfe4d4;
   color: #2b3830;
+.logo {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.navbar nav {
+/* Desktop menu */
+.nav-links {
   display: flex;
-  align-items: center;
+  list-style: none;
   gap: 20px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 22px;
-  font-weight: bold;
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
 }
 
-.logo-icon {
-  font-size: 22px;
+.register-btn {
+  background: #2ecc71;
+  padding: 6px 14px;
+  border-radius: 20px;
 }
 
 .navbar a {
   color: rgb(44, 51, 48);
   text-decoration: none;
   font-size: 20px;
-}
-
-.nav-link {
-  color: white;
-}
-
-.nav-btn {
-  background: rgb(46, 213, 113);
-  color: #1f3d2b;
-  padding: 8px 18px;
-  border-radius: 20px;
-  font-weight: 600;
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
   cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+/* Animation */
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile menu */
+.mobile-nav {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background-color: #2f4f4f;
+  list-style: none;
+  text-align: center;
 }
 
 @media (max-width: 700px) {
@@ -56,5 +82,23 @@
     flex-direction: column;
     gap: 15px;
     padding: 25px 20px;
+.mobile-nav li {
+  padding: 14px 0;
+}
+
+.mobile-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
   }
 }
