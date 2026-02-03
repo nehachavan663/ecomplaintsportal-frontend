@@ -1,24 +1,54 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaRegFileAlt } from "react-icons/fa";
+import { useState } from "react";
 import "./Navbar.css";
 
-function Navbar() {
+const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <header className="navbar">
-      <div className="logo">
-        <FaRegFileAlt className="logo-icon" />
-        <span>ecomplaintsportal.com</span>
+    <nav className="navbar">
+      <div className="nav-left">
+        <span className="logo">ecomplaintsportal.com</span>
       </div>
 
-      <nav>
-        <Link to="/">Home</Link>
-        <a href="#about">About</a>
-        <Link to="/login" className="nav-link">Login</Link>
-        <Link to="/register" className="nav-btn">Register</Link>
-      </nav>
-    </header>
+      {/* Desktop menu */}
+      <ul className="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register" className="register-btn">Register</a></li>
+      </ul>
+
+      {/* Hamburger icon (mobile only) */}
+      <div
+        className={`hamburger ${isMobileMenuOpen ? "open" : ""}`}
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        aria-label="Toggle navigation menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <ul className="mobile-nav">
+          <li onClick={() => setIsMobileMenuOpen(false)}>
+            <a href="/">Home</a>
+          </li>
+          <li onClick={() => setIsMobileMenuOpen(false)}>
+            <a href="/about">About</a>
+          </li>
+          <li onClick={() => setIsMobileMenuOpen(false)}>
+            <a href="/login">Login</a>
+          </li>
+          <li onClick={() => setIsMobileMenuOpen(false)}>
+            <a href="/register">Register</a>
+          </li>
+        </ul>
+      )}
+    </nav>
   );
-}
+};
 
 export default Navbar;
