@@ -1,7 +1,8 @@
 import "./Dashboard.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 function Dashboard() {
   return (
+   
     <div className="dashboard-page">
       {/* Sidebar */}
       <aside className="sidebar">
@@ -73,6 +74,7 @@ function Dashboard() {
         </div>
       </main>
     </div>
+
   );
 }
 
