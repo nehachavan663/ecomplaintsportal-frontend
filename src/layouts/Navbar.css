@@ -1,15 +1,17 @@
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 20px;
-  background-color: #2f4f4f;
+
+  padding: 15px 50px;
+  background: #bfe4d4;
+  color: #2b3830;
+
   position: relative;
 }
 
-  padding: 15px 50px;
- background: #bfe4d4;
-  color: #2b3830;
+/* Logo */
 .logo {
   color: #fff;
   font-size: 18px;
@@ -28,16 +30,20 @@
   text-decoration: none;
 }
 
+/* Register button */
 .register-btn {
   background: #2ecc71;
   padding: 6px 14px;
   border-radius: 20px;
 }
 
+/* Navbar links */
 .navbar a {
   color: rgb(44, 51, 48);
   text-decoration: none;
   font-size: 20px;
+}
+
 /* Hamburger */
 .hamburger {
   display: none;
@@ -77,11 +83,6 @@
   text-align: center;
 }
 
-@media (max-width: 700px) {
-  .navbar {
-    flex-direction: column;
-    gap: 15px;
-    padding: 25px 20px;
 .mobile-nav li {
   padding: 14px 0;
 }
@@ -92,8 +93,18 @@
   font-size: 16px;
 }
 
+/* Small screens */
+@media (max-width: 700px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 25px 20px;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+
   .nav-links {
     display: none;
   }
@@ -101,4 +112,4 @@
   .hamburger {
     display: flex;
   }
-}
+} 
