@@ -1,0 +1,182 @@
+/* PAGE BACKGROUND */
+.mc-page {
+  min-height: 100vh;
+  background: rgba(240, 253, 244, 1);
+}
+
+
+/* MAIN CARD */
+.main-card {
+  border-radius: 40px;
+  background: white;
+  padding: 5px;
+}
+
+
+/* FILTER BAR */
+.filter-bar {
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+
+/* GRID FOR FILTER (RESPONSIVE) */
+.filter-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 120px;
+  gap: 12px;
+}
+
+
+/* MOBILE FILTER */
+@media (max-width: 768px) {
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-grid input,
+  .filter-grid select,
+  .filter-grid button {
+    width: 100%;
+  }
+
+}
+
+
+/* TABLE */
+.table th,
+.table td {
+  vertical-align: middle;
+  font-size: 14px;
+  padding: 10px;
+  white-space: nowrap;
+}
+
+.table thead th {
+  background: #000000;
+  color: rgb(208, 194, 194);
+}
+
+
+/* SCROLL */
+.table-responsive {
+  overflow-x: auto;
+}
+
+table {
+  min-width: 750px;
+}
+
+
+/* STATUS */
+.status-select {
+  font-weight: bold;
+  text-align: center;
+  border-radius: 20px;
+  border: none;
+  min-width: 120px;
+}
+
+.status-pending {
+  background: #ffe2e2 !important;
+  color: #8b0000 !important;
+}
+
+.status-progress {
+  background: #fff7cc !important;
+  color: #856404 !important;
+}
+
+.status-resolved {
+  background: #d1ffe3 !important;
+  color: #198754 !important;
+}
+
+
+/* BUTTONS */
+.btn {
+  font-size: 13px;
+  margin: 2px;
+}
+
+
+/* ACTION COLUMN */
+td:last-child {
+  min-width: 180px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+
+/* MODAL */
+.custom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.custom-modal {
+  background: white;
+  width: 95%;
+  max-width: 500px;
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  border-radius: 15px;
+}
+
+
+/* REGISTER CARD */
+.register-card {
+  padding: 20px;
+}
+
+.register-card label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+}
+
+.register-card input,
+.register-card textarea {
+  margin-bottom: 10px;
+}
+
+
+/* MOBILE */
+@media (max-width: 576px) {
+
+  table {
+    min-width: 600px;
+  }
+
+  td:last-child {
+    flex-direction: column;
+  }
+
+}
+/* PROOF IMAGE PREVIEW */
+
+.proof-box {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.proof-img {
+  max-width: 100%;
+  max-height: 250px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  object-fit: contain;
+}

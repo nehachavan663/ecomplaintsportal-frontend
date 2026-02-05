@@ -16,7 +16,7 @@ import Profile from "./components/Profile/Profile";
 
 import Login from "./components/stdlr/login";
 import Register from "./components/stdlr/register";
-
+import ManageComplaint from "./Admin/ManageComplaint";
 // CSS
 import "./App.css";
 
@@ -53,9 +53,8 @@ function App() {
               </h2>
             }
           />
-
+         <Route path="/admin/manage-complaints" element={<ManageComplaint />} />
         </Routes>
-
       </div>
     </Router>
   );
