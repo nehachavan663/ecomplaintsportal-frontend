@@ -25,6 +25,7 @@ import "./App.css";
 import AdminLayout from "./Admin/AdminLayout";
 import AdminDashboard from "./Admin/AdminDashboard";
 import ManageComplaint from "./Admin/ManageComplaint";
+import Reports from "./Admin/Reports";
 
 function App() {
   return (
@@ -57,6 +58,8 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
 
             <Route path="manage-complaints" element={<ManageComplaint />} />
+
+            <Route path="reports" element={<Reports />} />
 
           </Route>
 

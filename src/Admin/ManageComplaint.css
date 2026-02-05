@@ -1,13 +1,53 @@
+/* ===============================
+   PAGE
+================================ */
+.mc-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  padding-top: 20px;
+}
+
+
+/* ===============================
+   TOP HEADER CARD
+================================ */
+.page-header {
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+
+  background: white;
+  padding: 18px 24px;
+
+  border-radius: 18px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  animation: fadeDown 0.6s ease;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-weight: 690;
+  color: #065f25;
+  letter-spacing: 0.5px;
+}
+
 
 /* ===============================
    MAIN CARD
 ================================ */
 .main-card {
-  border-radius: 25px;
-  background: white;
-  padding: 20px;
+  border-radius: 22px;
+  background: #ffffff;
+  padding: 22px;
   border: none;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+  animation: fadeUp 0.7s ease;
 }
 
 
@@ -18,6 +58,8 @@
   border-radius: 14px;
   background: #f8fafc;
   border: 1px solid #e5e7eb;
+
+  animation: fadeUp 0.8s ease;
 }
 
 
@@ -30,16 +72,9 @@
   gap: 12px;
 }
 
-
 @media (max-width: 768px) {
   .filter-grid {
     grid-template-columns: 1fr;
-  }
-
-  .filter-grid input,
-  .filter-grid select,
-  .filter-grid button {
-    width: 100%;
   }
 }
 
@@ -49,7 +84,7 @@
 ================================ */
 .table-responsive {
   overflow-x: auto;
-  border-radius: 18px;
+  border-radius: 16px;
 }
 
 
@@ -69,15 +104,16 @@ table {
    HEADER
 ================================ */
 .custom-table-head th {
-  background: rgba(254, 252, 232, 1);
-  color: rgba(146, 64, 14, 1);
+  background: #fcfae0;
+  color: #92400e;
+
   font-weight: 600;
   font-size: 15px;
-  padding: 16px;
-  text-align: center;
-  border: none;
 
-  white-space: nowrap;
+  padding: 15px;
+  text-align: center;
+
+  border: none;
 }
 
 
@@ -85,7 +121,14 @@ table {
    BODY ROW
 ================================ */
 .table tbody tr {
-  background: rgb(240, 253, 247);
+  background: #ecfdf5 !important;
+
+  transition: all 0.25s ease;
+}
+
+.table tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 
@@ -93,38 +136,16 @@ table {
    BODY CELLS
 ================================ */
 .table td {
-  background: transparent;
+  background: transparent !important;
 
   vertical-align: middle;
-
   font-size: 14px;
-
-  padding: 16px;
+  padding: 15px;
 
   text-align: center;
-
-  border: none;   /* REMOVE LINES */
+  border: none;
 
   white-space: nowrap;
-}
-
-
-/* ===============================
-   REMOVE ALL HOVER / ACTIVE EFFECTS
-================================ */
-.table tbody tr:hover,
-.table tbody tr:focus,
-.table tbody tr:active,
-.table tbody tr:focus-within {
-  background: rgba(236, 253, 245, 1) !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.table td:focus,
-.table td:active {
-  outline: none !important;
-  background: transparent !important;
 }
 
 
@@ -133,18 +154,21 @@ table {
 ================================ */
 .status-select {
   font-weight: 600;
-
   text-align: center;
 
   border-radius: 999px;
-
   border: none;
 
   min-width: 130px;
-
   padding: 6px 12px;
 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  background: white;
+
+  transition: all 0.2s ease;
+}
+
+.status-select:hover {
+  transform: scale(1.05);
 }
 
 
@@ -169,15 +193,41 @@ table {
    BUTTONS
 ================================ */
 .btn {
-  font-size: 13px;
-  padding: 5px 12px;
-  border-radius: 8px;
-  margin: 2px;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  padding: 7px 18px;
+
+  border-radius: 999px;
+
+  margin: 0;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  min-width: 80px;
+
+  transition: all 0.2s ease !important;
 }
 
 .btn:hover {
-  transform: scale(1.05);
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+
+/* ===============================
+   RESET BUTTON (GREEN)
+================================ */
+.filter-bar .btn {
+  background: #38e778 !important;
+  color: rgb(31, 31, 31) !important;
+
+  font-weight: 600;
+  border: none !important;
+}
+
+.filter-bar .btn:hover {
+  background: #16a34a !important;
 }
 
 
@@ -185,48 +235,113 @@ table {
    ACTION COLUMN
 ================================ */
 td:last-child {
-  min-width: 210px;
+  min-width: 200px;
 
   display: flex;
-
   justify-content: center;
+  align-items: center;
 
-  gap: 8px;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
 
-  flex-wrap: wrap;
+
+/* View */
+.btn-info {
+  background: #4da3e8 !important;
+  color: white !important;
+}
+
+.btn-info:hover {
+  background: #2f8bdc !important;
+}
+
+
+/* Response */
+.btn-warning {
+  background: #f6d44a !important;
+  color: black !important;
+}
+
+.btn-warning:hover {
+  background: #f4c430 !important;
+}
+
+
+/* Remove */
+.btn-danger {
+  background: #e4574f !important;
+  color: white !important;
+}
+
+.btn-danger:hover {
+  background: #d63c33 !important;
 }
 
 
 /* ===============================
-   MODAL
+   MODAL OVERLAY
 ================================ */
 .custom-modal-overlay {
   position: fixed;
   inset: 0;
 
-  background: rgba(0,0,0,0.6);
+  background: rgba(15, 23, 42, 0.6);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   z-index: 9999;
+
+  animation: fadeIn 0.3s ease;
 }
 
 
+/* ===============================
+   MODAL BOX
+================================ */
 .custom-modal {
-  background: white;
+  background: #ecfdf5;
 
   width: 95%;
   max-width: 520px;
 
   max-height: 90vh;
-
   overflow-y: auto;
 
-  border-radius: 18px;
+  border-radius: 20px;
 
-  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+
+  animation: scaleUp 0.3s ease;
+}
+
+
+/* ===============================
+   MODAL HEADER
+================================ */
+.custom-modal .modal-header {
+  background: #d1fae5;
+
+  padding: 16px 20px;
+
+  border-bottom: 1px solid #bbf7d0;
+
+  border-radius: 20px 20px 0 0;
+}
+
+.custom-modal .modal-header h5 {
+  font-weight: 600;
+  color: #065f46;
+}
+
+
+/* ===============================
+   MODAL BODY
+================================ */
+.custom-modal .modal-body {
+  padding: 20px;
 }
 
 
@@ -234,33 +349,63 @@ td:last-child {
    REGISTER CARD
 ================================ */
 .register-card {
+  background: white;
+
+  border-radius: 16px;
+
   padding: 20px;
-}
 
-.register-card label {
-  font-weight: 600;
-  margin-top: 10px;
-  display: block;
-}
-
-.register-card input,
-.register-card textarea {
-  margin-bottom: 10px;
+  box-shadow: inset 0 0 0 1px #d1fae5;
 }
 
 
 /* ===============================
-   MOBILE
+   FORM LABELS
 ================================ */
-@media (max-width: 576px) {
+.register-card label {
+  font-weight: 600;
+  font-size: 14px;
 
-  table {
-    min-width: 650px;
-  }
+  color: #065f46;
 
-  td:last-child {
-    flex-direction: column;
-  }
+  margin-top: 12px;
+  display: block;
+}
+
+
+/* ===============================
+   FORM INPUTS
+================================ */
+.register-card input,
+.register-card textarea {
+  background: #f0fdf4;
+
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+
+  padding: 8px 12px;
+
+  font-size: 14px;
+
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.register-card input:focus,
+.register-card textarea:focus {
+  border-color: #34d399;
+  box-shadow: none;
+  outline: none;
+}
+
+
+/* Remove Disabled Gray */
+.register-card input:disabled,
+.register-card textarea:disabled {
+  background: #fbfffb !important;
+  color: hsl(0, 9%, 22%) !important;
+  opacity: 1 !important;
+  border: 1px solid #dbfcdb ;   
 }
 
 
@@ -268,17 +413,59 @@ td:last-child {
    PROOF IMAGE
 ================================ */
 .proof-box {
-  margin-top: 10px;
+  margin-top: 12px;
   text-align: center;
 }
 
 .proof-img {
   max-width: 100%;
-  max-height: 250px;
+  max-height: 220px;
 
-  border-radius: 10px;
-
-  border: 1px solid #ddd;
+  border-radius: 12px;
+  border: 1px solid #bbf7d0;
 
   object-fit: contain;
+}
+
+
+/* ===============================
+   ANIMATIONS
+================================ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
