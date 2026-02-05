@@ -5,7 +5,7 @@ import "./AdminDashboard.css";
 import {
   FaTachometerAlt,
   FaClipboardList,
-  FaBell,
+  FaChartBar,
   FaUser,
   FaSignOutAlt,
 } from "react-icons/fa";
@@ -18,68 +18,70 @@ const AdminLayout = () => {
 
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "show" : ""}`}>
-        <h2>ecomplaintsportal</h2><br/>
+        <h2>ecomplaintsportal</h2>
 
         <ul>
-
           <li>
             <Link to="/admin/dashboard" className="nav-link">
               <FaTachometerAlt />
               <span>Dashboard</span>
             </Link>
-          </li><br/>
+          </li>
 
           <li>
             <Link to="/admin/manage-complaints" className="nav-link">
               <FaClipboardList />
               <span>Manage Complaints</span>
             </Link>
-          </li><br/>
+          </li>
 
           <li>
             <Link to="/admin/reports" className="nav-link">
-              <FaBell />
+              <FaChartBar />
               <span>Reports</span>
             </Link>
-          </li><br/>
+          </li>
 
-          <li>
+          <li className="nav-link">
             <FaUser />
             <span>Profile</span>
-          </li><br/>
+          </li>
 
-          <li>
+          <li className="nav-link">
             <FaSignOutAlt />
             <span>Logout</span>
-          </li><br/>
-
+          </li>
         </ul>
       </aside>
 
-      {open && <div className="overlay" onClick={() => setOpen(false)}></div>}
+      {open && <div className="overlay" onClick={() => setOpen(false)} />}
 
-      {/* Main Area */}
+      {/* Main */}
       <main className="main">
 
-        {/* Topbar */}
-        <header className="header">
+        {/* Header */}
+       <header className="header">
 
-          <div className="header-left">
-            <div className="menu-btn" onClick={() => setOpen(true)}>☰</div>
-            <h3>Admin Panel</h3>
-          </div>
+  <div className="header-left">
+    <div className="menu-btn" onClick={() => setOpen(true)}>☰</div>
 
-          <span className="admin-badge">Administrator</span>
+    <span className="header-icon">
+      <FaTachometerAlt />
+    </span>
 
-        </header>
+    <h3>Admin Dashboard</h3>
+  </div>
 
-        {/* Page Content */}
+  <span className="admin-badge">Administrator</span>
+
+</header>
+
+
         <div className="admin-content">
           <Outlet />
         </div>
 
       </main>
-
     </div>
   );
 };

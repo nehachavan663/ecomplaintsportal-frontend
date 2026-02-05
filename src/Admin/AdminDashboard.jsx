@@ -18,13 +18,7 @@ import {
   Legend
 } from "chart.js";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const data = {
   labels: ["Pending", "In Progress", "Resolved"],
@@ -40,8 +34,6 @@ const data = {
 const AdminDashboard = () => {
   return (
     <>
-
-      {/* Cards */}
       <div className="cards">
 
         <div className="card">
@@ -70,24 +62,14 @@ const AdminDashboard = () => {
 
       </div>
 
-      {/* Chart */}
       <div className="chart">
-        <Bar
-          data={data}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-          }}
-        />
+        <Bar data={data} options={{ responsive: true, maintainAspectRatio: false }} />
       </div>
 
-      {/* Table */}
       <div className="table-box">
-
         <h3>Recent Complaints</h3>
 
         <table>
-
           <thead>
             <tr>
               <th>ID</th>
@@ -98,7 +80,6 @@ const AdminDashboard = () => {
           </thead>
 
           <tbody>
-
             <tr>
               <td>379</td>
               <td>John</td>
@@ -112,13 +93,10 @@ const AdminDashboard = () => {
               <td>Hostel</td>
               <td className="badge resolved">Resolved</td>
             </tr>
-
           </tbody>
-
         </table>
 
       </div>
-
     </>
   );
 };
