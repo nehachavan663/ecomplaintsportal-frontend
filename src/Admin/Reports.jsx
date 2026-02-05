@@ -1,8 +1,17 @@
+// React hooks for state management and lifecycle
 import { useState, useEffect } from "react";
+
+// Component-specific CSS
 import "./Reports.css";
+
+// Library used to export data to Excel
 import * as XLSX from "xlsx";
 
-// Complaint Type → Category mapping
+/* =====================================================
+   Complaint Type → Category Mapping
+   Used to automatically assign a category
+   based on the selected complaint type
+===================================================== */
 const complaintCategoryMap = {
   "Electrical Issue": "Electrical & Power Issues",
   "Water Supply Issue": "Water Supply & Sanitation Issues",
@@ -25,6 +34,11 @@ const complaintCategoryMap = {
 };
 
 const Reports = () => {
+
+  /* =====================================================
+     Filter State
+     Stores values selected in filter dropdowns
+  ===================================================== */
   const [filters, setFilters] = useState({
     status: "",
     department: "",
@@ -32,10 +46,16 @@ const Reports = () => {
     reportType: ""
   });
 
-  const [allReports, setAllReports] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isResetClicked, setIsResetClicked] = useState(false);
+  /* =====================================================
+     Report Data State
+  ===================================================== */
+  const [allReports, setAllReports] = useState([]); // full data
+  const [loading, setLoading] = useState(true);     // loading indicator
+  const [isResetClicked, setIsResetClicked] = useState(false); // reset flag
 
+  /* =====================================================
+     Fetch / Mock Data on Component Mount
+  ===================================================== */
   useEffect(() => {
     setTimeout(() => {
       const data = [
@@ -77,22 +97,32 @@ const Reports = () => {
         }
       ].map(item => ({
         ...item,
+        // Automatically add category using mapping
         category: complaintCategoryMap[item.complaintType]
       }));
 
       setAllReports(data);
       setLoading(false);
-    }, 800);
+    }, 800); // simulate API delay
   }, []);
 
+  /* =====================================================
+     Clear reset flag when user interacts with filters
+  ===================================================== */
   const clearReset = () => {
     if (isResetClicked) setIsResetClicked(false);
   };
 
+  /* =====================================================
+     Handle filter dropdown changes
+  ===================================================== */
   const handleChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
+  /* =====================================================
+     Reset all filters
+  ===================================================== */
   const resetFilters = () => {
     setFilters({
       status: "",
@@ -103,6 +133,9 @@ const Reports = () => {
     setIsResetClicked(true);
   };
 
+  /* =====================================================
+     Filter reports based on selected filters
+  ===================================================== */
   const today = new Date();
 
   const filteredReports = isResetClicked
@@ -112,6 +145,7 @@ const Reports = () => {
         if (filters.status && r.status !== filters.status) return false;
         if (filters.category && r.category !== filters.category) return false;
 
+        // Filter by report type (daily / monthly / yearly)
         if (filters.reportType && r.startDate) {
           const start = new Date(r.startDate);
 
@@ -135,14 +169,18 @@ const Reports = () => {
         return true;
       });
 
+  /* =====================================================
+     Helper functions for dates
+  ===================================================== */
   const getStartDate = (r) =>
     r.status === "Pending" ? "Not Started" : r.startDate || "-";
 
   const getEndDate = (r) =>
     r.status === "Resolved" ? r.completedDate || "-" : "-";
 
-  /* -------- EXPORT FUNCTIONS -------- */
-
+  /* =====================================================
+     Export to Excel
+  ===================================================== */
   const downloadExcel = () => {
     if (!filteredReports.length) return;
 
@@ -161,6 +199,9 @@ const Reports = () => {
     XLSX.writeFile(wb, "eComplaints_Report.xlsx");
   };
 
+  /* =====================================================
+     Export to Word
+  ===================================================== */
   const downloadWord = () => {
     if (!filteredReports.length) return;
 
@@ -203,16 +244,24 @@ const Reports = () => {
     URL.revokeObjectURL(url);
   };
 
+  /* =====================================================
+     Print Report
+  ===================================================== */
   const printReport = () => {
     if (!filteredReports.length) return;
     window.print();
   };
 
+  /* =====================================================
+     JSX UI
+  ===================================================== */
   return (
     <div className="reports-container">
       <h2>eComplaints Report</h2>
 
+      {/* Filters Section */}
       <div className="filters">
+        {/* Status Filter */}
         <select name="status" value={filters.status} onFocus={clearReset} onChange={handleChange}>
           <option value="">All Status</option>
           <option value="Pending">Pending</option>
@@ -221,83 +270,58 @@ const Reports = () => {
         </select>
 
         <select
-  name="department"
-  value={filters.department}
-  onChange={handleChange}
->
-  <option value="">All Departments</option>
+          name="department"
+          value={filters.department}
+          onChange={handleChange}
+        >
+        <option value="">All Departments</option>
 
-  {/* Infrastructure & Maintenance */}
-  <option value="Maintenance Department">Maintenance Department</option>
-  <option value="Civil Works / Infrastructure Department">
-    Civil Works / Infrastructure Department
-  </option>
-  <option value="Electrical Department">Electrical Department</option>
-  <option value="Campus Maintenance">Campus Maintenance</option>
-  <option value="Hostel Maintenance">Hostel Maintenance</option>
+        {/* Infrastructure & Maintenance */}
+        <option value="Maintenance Department">Maintenance Department</option>
+        <option value="Civil Works / Infrastructure Department">
+            Civil Works / Infrastructure Department
+        </option>
+        <option value="Electrical Department">Electrical Department</option>
+        <option value="Campus Maintenance">Campus Maintenance</option>
+        <option value="Hostel Maintenance">Hostel Maintenance</option>
 
-  {/* Cleanliness */}
-  <option value="Housekeeping Department">Housekeeping Department</option>
-  <option value="Sanitation Department">Sanitation Department</option>
+        {/* Cleanliness */}
+        <option value="Housekeeping Department">Housekeeping Department</option>
+        <option value="Sanitation Department">Sanitation Department</option>
 
-  {/* Safety */}
-  <option value="Campus Security">Campus Security</option>
-  <option value="Fire & Safety Department">Fire & Safety Department</option>
+        {/* Safety */}
+        <option value="Campus Security">Campus Security</option>
+        <option value="Fire & Safety Department">Fire & Safety Department</option>
 
-  {/* General */}
-  <option value="General Complaints Desk">General Complaints Desk</option>
+        {/* General */}
+        <option value="General Complaints Desk">General Complaints Desk</option>
 
-</select>
-
-
-        <select
-  name="category"
-  value={filters.category}
-  onChange={handleChange}
->
-  <option value="">All Categories</option>
-  <option value="Infrastructure & Facilities Issues">
-    Infrastructure & Facilities Issues
-  </option>
-  <option value="Electrical & Power Issues">
-    Electrical & Power Issues
-  </option>
-  <option value="Water Supply & Sanitation Issues">
-    Water Supply & Sanitation Issues
-  </option>
-  <option value="Cleanliness & Hygiene Issues">
-    Cleanliness & Hygiene Issues
-  </option>
-  <option value="Hostel & Accommodation Issues">
-    Hostel & Accommodation Issues
-  </option>
-  <option value="Classroom & Academic Space Issues">
-    Classroom & Academic Space Issues
-  </option>
-  <option value="Laboratory Issues">
-    Laboratory Issues
-  </option>
-  <option value="Library Issues">
-    Library Issues
-  </option>
-  <option value="IT, Network & Digital Services Issues">
-    IT, Network & Digital Services Issues
-  </option>
-  <option value="Campus Safety & Security Issues">
-    Campus Safety & Security Issues
-  </option>
-  <option value="Garden, Roads & Outdoor Facilities Issues">
-    Garden, Roads & Outdoor Facilities Issues
-  </option>
-  <option value="Administrative Issues">
-    Administrative Issues
-  </option>
-  <option value="Miscellaneous / Other Complaints">
-    Miscellaneous / Other Complaints
-  </option>
-</select>
+        </select>
 
 
+       <select
+        name="category"
+        value={filters.category}
+        onChange={handleChange}
+      >
+      <option value="">All Categories</option>
+      <option value="Infrastructure & Facilities Issues"> Infrastructure & Facilities Issues </option>
+      <option value="Electrical & Power Issues"> Electrical & Power Issues </option>
+      <option value="Water Supply & Sanitation Issues"> Water Supply & Sanitation Issues </option>
+      <option value="Cleanliness & Hygiene Issues"> Cleanliness & Hygiene Issues </option>
+      <option value="Hostel & Accommodation Issues">  Hostel & Accommodation Issues </option>
+      <option value="Classroom & Academic Space Issues">  Classroom & Academic Space Issues </option>
+      <option value="Laboratory Issues"> Laboratory Issues </option>
+      <option value="Library Issues"> Library Issues </option>
+      <option value="IT, Network & Digital Services Issues"> IT, Network & Digital Services Issues </option>
+      <option value="Campus Safety & Security Issues"> Campus Safety & Security Issues </option>
+      <option value="Garden, Roads & Outdoor Facilities Issues"> Garden, Roads & Outdoor Facilities Issues </option>
+      <option value="Administrative Issues">  Administrative Issues </option>
+      <option value="Miscellaneous / Other Complaints">  Miscellaneous / Other Complaints </option> 
+    </select>
+
+
+        {/* Time Filter */}
         <select name="reportType" value={filters.reportType} onFocus={clearReset} onChange={handleChange}>
           <option value="">All Time</option>
           <option value="daily">Daily</option>
@@ -308,6 +332,7 @@ const Reports = () => {
         <button onClick={resetFilters}>Reset</button>
       </div>
 
+      {/* Table Section */}
       <div className="table-wrapper">
         <table>
           <thead>
@@ -322,9 +347,7 @@ const Reports = () => {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="6">Loading report...</td>
-              </tr>
+              <tr><td colSpan="6">Loading report...</td></tr>
             ) : filteredReports.length ? (
               filteredReports.map(r => (
                 <tr key={r.id}>
@@ -337,24 +360,17 @@ const Reports = () => {
                 </tr>
               ))
             ) : (
-              <tr>
-                <td colSpan="6">No matching complaints found</td>
-              </tr>
+              <tr><td colSpan="6">No matching complaints found</td></tr>
             )}
           </tbody>
         </table>
       </div>
 
+      {/* Action Buttons */}
       <div className="actions">
-        <button disabled={!filteredReports.length} onClick={downloadExcel}>
-          Download Excel
-        </button>
-        <button disabled={!filteredReports.length} onClick={downloadWord}>
-          Download Word
-        </button>
-        <button disabled={!filteredReports.length} onClick={printReport}>
-          Print
-        </button>
+        <button disabled={!filteredReports.length} onClick={downloadExcel}>Download Excel</button>
+        <button disabled={!filteredReports.length} onClick={downloadWord}>Download Word</button>
+        <button disabled={!filteredReports.length} onClick={printReport}>Print</button>
       </div>
     </div>
   );
