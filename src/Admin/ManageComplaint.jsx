@@ -122,7 +122,10 @@ const ManageComplaint = () => {
 
   return (
     <div className="mc-page">
-
+      {/* PAGE HEADER */}
+<div className="page-header">
+  <h2>Manage Complaints</h2>
+</div>
       <div className="container py-4">
 
 
@@ -322,33 +325,33 @@ const ManageComplaint = () => {
                 <div className="register-card">
 
                   <label>User</label>
-                  <input className="form-control" value={viewData.user} disabled />
+                  <input className="form-control" value={viewData.user}  disabled />
 
                   <label>Title</label>
-                  <input className="form-control" value={viewData.title} disabled />
+                  <input className="form-control" value={viewData.title}  disabled />
 
                   <label>Date</label>
                   <input className="form-control" value={viewData.date} disabled />
 
                   <label>Area</label>
-                  <input className="form-control" value={viewData.area} disabled />
+                  <input className="form-control" value={viewData.area}  disabled  />
 
                   <label>Category</label>
-                  <input className="form-control" value={viewData.category} disabled />
+                  <input className="form-control" value={viewData.category}  disabled />
 
                   <label>Description</label>
                   <textarea
                     className="form-control"
                     rows="3"
                     value={viewData.description}
-                    disabled
+                    disabled 
                   />
 
                   <label>Department</label>
-                  <input className="form-control" value={viewData.department} disabled />
+                  <input className="form-control" value={viewData.department}  disabled />
 
                   <label>Status</label>
-                  <input className="form-control" value={viewData.status} disabled />
+                  <input className="form-control" value={viewData.status}  disabled />
 
                   <label>Remarks</label>
                   <input className="form-control" value={viewData.remarks} disabled />

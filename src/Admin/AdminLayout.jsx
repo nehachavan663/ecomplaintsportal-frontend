@@ -37,8 +37,10 @@ const AdminLayout = () => {
           </li><br/>
 
           <li>
-            <FaBell />
-            <span>Reports</span>
+            <Link to="/admin/reports" className="nav-link">
+              <FaBell />
+              <span>Reports</span>
+            </Link>
           </li><br/>
 
           <li>

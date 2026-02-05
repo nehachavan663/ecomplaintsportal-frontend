@@ -3,7 +3,37 @@
 ================================ */
 .mc-page {
   min-height: 100vh;
-  background: #f0fdf4;
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  padding-top: 20px;
+}
+
+
+/* ===============================
+   TOP HEADER CARD
+================================ */
+.page-header {
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+
+  background: white;
+  padding: 18px 24px;
+
+  border-radius: 18px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  animation: fadeDown 0.6s ease;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-weight: 690;
+  color: #065f25;
+  letter-spacing: 0.5px;
 }
 
 
@@ -16,6 +46,8 @@
   padding: 22px;
   border: none;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+  animation: fadeUp 0.7s ease;
 }
 
 
@@ -26,6 +58,8 @@
   border-radius: 14px;
   background: #f8fafc;
   border: 1px solid #e5e7eb;
+
+  animation: fadeUp 0.8s ease;
 }
 
 
@@ -70,13 +104,13 @@ table {
    HEADER
 ================================ */
 .custom-table-head th {
-  background: #fefce8;
+  background: #fcfae0;
   color: #92400e;
 
   font-weight: 600;
   font-size: 15px;
 
-  padding: 16px;
+  padding: 15px;
   text-align: center;
 
   border: none;
@@ -88,23 +122,13 @@ table {
 ================================ */
 .table tbody tr {
   background: #ecfdf5 !important;
+
+  transition: all 0.25s ease;
 }
 
-
-/* ===============================
-   REMOVE BOOTSTRAP HOVER
-================================ */
-.table-hover tbody tr:hover,
-.table-hover tbody tr:focus,
-.table-hover tbody tr:active,
-.table-hover tbody tr:focus-within,
-.table tbody tr:hover,
-.table tbody tr:focus,
-.table tbody tr:active,
-.table tbody tr:focus-within {
-  background: #ecfdf5 !important;
-  box-shadow: none !important;
-  outline: none !important;
+.table tbody tr:hover {
+  transform: scale(1.01);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 
@@ -139,6 +163,12 @@ table {
   padding: 6px 12px;
 
   background: white;
+
+  transition: all 0.2s ease;
+}
+
+.status-select:hover {
+  transform: scale(1.05);
 }
 
 
@@ -160,24 +190,44 @@ table {
 
 
 /* ===============================
-   BUTTONS (NO ANIMATION)
+   BUTTONS
 ================================ */
 .btn {
-  font-size: 13px;
-  padding: 6px 14px;
+  font-size: 14px;
+  padding: 7px 18px;
 
-  border-radius: 8px;
-  margin: 2px;
+  border-radius: 999px;
 
-  transition: none !important;
-  transform: none !important;
+  margin: 0;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  min-width: 80px;
+
+  transition: all 0.2s ease !important;
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active {
+.btn:hover {
   transform: none !important;
   box-shadow: none !important;
+}
+
+
+/* ===============================
+   RESET BUTTON (GREEN)
+================================ */
+.filter-bar .btn {
+  background: #38e778 !important;
+  color: rgb(31, 31, 31) !important;
+
+  font-weight: 600;
+  border: none !important;
+}
+
+.filter-bar .btn:hover {
+  background: #16a34a !important;
 }
 
 
@@ -185,13 +235,47 @@ table {
    ACTION COLUMN
 ================================ */
 td:last-child {
-  min-width: 210px;
+  min-width: 200px;
 
   display: flex;
   justify-content: center;
+  align-items: center;
 
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+
+/* View */
+.btn-info {
+  background: #4da3e8 !important;
+  color: white !important;
+}
+
+.btn-info:hover {
+  background: #2f8bdc !important;
+}
+
+
+/* Response */
+.btn-warning {
+  background: #f6d44a !important;
+  color: black !important;
+}
+
+.btn-warning:hover {
+  background: #f4c430 !important;
+}
+
+
+/* Remove */
+.btn-danger {
+  background: #e4574f !important;
+  color: white !important;
+}
+
+.btn-danger:hover {
+  background: #d63c33 !important;
 }
 
 
@@ -209,6 +293,8 @@ td:last-child {
   align-items: center;
 
   z-index: 9999;
+
+  animation: fadeIn 0.3s ease;
 }
 
 
@@ -227,6 +313,8 @@ td:last-child {
   border-radius: 20px;
 
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+
+  animation: scaleUp 0.3s ease;
 }
 
 
@@ -311,18 +399,13 @@ td:last-child {
 }
 
 
-/* ===============================
-   MOBILE
-================================ */
-@media (max-width: 576px) {
-
-  table {
-    min-width: 650px;
-  }
-
-  td:last-child {
-    flex-direction: column;
-  }
+/* Remove Disabled Gray */
+.register-card input:disabled,
+.register-card textarea:disabled {
+  background: #fbfffb !important;
+  color: hsl(0, 9%, 22%) !important;
+  opacity: 1 !important;
+  border: 1px solid #dbfcdb ;
 }
 
 
@@ -342,4 +425,47 @@ td:last-child {
   border: 1px solid #bbf7d0;
 
   object-fit: contain;
+}
+
+
+/* ===============================
+   ANIMATIONS
+================================ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

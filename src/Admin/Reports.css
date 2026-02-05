@@ -1,0 +1,300 @@
+/* =====================
+   Page Background
+===================== */
+.reports-container {
+  min-height: 100vh;
+  padding: 30px;
+  background: linear-gradient(180deg, #eafaf2, #f4fff9);
+}
+
+.reports-container h2 {
+  color: #1f3d32;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+/* =====================
+   Filters Card
+===================== */
+.filters {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 30px rgba(31, 61, 50, 0.12);
+  animation: fadeDown 0.4s ease;
+}
+
+.filters input,
+.filters select {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #d8eee4;
+  font-size: 14px;
+  background-color: #f9fffc;
+}
+
+.filters input:focus,
+.filters select:focus {
+  outline: none;
+  border-color: #7edbb0;
+  box-shadow: 0 0 0 3px rgba(126, 219, 176, 0.3);
+}
+
+.filters button {
+  background: linear-gradient(135deg, #8ef0c3, #6dd6aa);
+  color: #1f3d32;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filters button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(109, 214, 170, 0.45);
+}
+
+/* =====================
+   Table Card
+===================== */
+.table-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(31, 61, 50, 0.15);
+  animation: fadeUp 0.45s ease;
+}
+
+/* =====================
+   Table
+===================== */
+/* Table wrapper */
+.table-wrapper {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+/* Main table */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+/* Table header */
+thead th {
+  background-color: #fde5ae;
+  color: #000000b0;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Table body cells */
+tbody td {
+  padding: 12px 14px;
+  color: #374151;
+  border-bottom: 1px solid #a89c9c;
+}
+
+/* Remove last row border */
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Row hover effect */
+tbody tr:hover {
+  background-color: #ebfcf5;
+  transition: background-color 0.2s ease;
+}
+
+/* Center text where needed */
+td,
+th {
+  vertical-align: middle;
+}
+
+/* Smooth rounded corners */
+table thead th:first-child {
+  border-top-left-radius: 10px;
+}
+
+table thead th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Loading / empty message row */
+tbody td[colspan] {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}
+
+/* Print friendly */
+@media print {
+  table {
+    border: 1px solid #000;
+  }
+
+  thead th,
+  tbody td {
+    border: 1px solid #000;
+  }
+
+  tbody tr:hover {
+    background-color: transparent;
+  }
+}
+
+
+/* =====================
+   Status Badges
+===================== */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Resolved */
+.status-badge.resolved {
+  background: #d9fbe8;
+  color: #1b7a4b;
+  box-shadow: 0 4px 12px rgba(27, 122, 75, 0.2);
+}
+
+/* Pending */
+.status-badge.pending {
+  background: #ffe1e1;
+  color: #b91c1c;
+  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.2);
+}
+
+/* In Progress */
+.status-badge.inprogress {
+  background: #f4df8c;
+  color: #92400e;
+  box-shadow: 0 4px 12px rgba(146, 64, 14, 0.2);
+}
+
+/* =====================
+   No Data
+===================== */
+.no-data {
+  padding: 22px;
+  color: #6b9083;
+  font-style: italic;
+}
+
+/* =====================
+   Action Buttons
+===================== */
+.actions {
+  margin-top: 26px;
+  display: flex;
+  gap: 14px;
+}
+
+/* Base button */
+.actions button {
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* PDF */
+.actions button:nth-child(1) {
+  background: linear-gradient(135deg, #ff6b6b, #e63946);
+}
+
+/* Excel */
+.actions button:nth-child(2) {
+  background: linear-gradient(135deg, #51cf66, #2f9e44);
+}
+
+/* Print */
+.actions button:nth-child(3) {
+  background: linear-gradient(135deg, #adb5bd, #868e96);
+}
+
+.actions button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* =====================
+   Animations
+===================== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================
+   Responsive
+===================== */
+@media (max-width: 768px) {
+  .filters,
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  tbody tr:hover {
+    transform: none;
+  }
+}
+
+/* =====================
+   Print
+===================== */
+@media print {
+  .filters,
+  .actions {
+    display: none;
+  }
+
+  .reports-container {
+    background: #ffffff;
+    padding: 0;
+  }
+}
