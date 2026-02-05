@@ -70,7 +70,10 @@ const TrackComplaintStatus = () => {
                         </span>
                       </td>
 
-                      <td>{c.response}</td>
+                      {/* FIXED COLUMN */}
+                      <td className="admin-response">
+                        {c.response}
+                      </td>
 
                     </tr>
                   ))}

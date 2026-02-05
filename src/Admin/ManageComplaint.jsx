@@ -10,7 +10,7 @@ const ManageComplaint = () => {
       user: "John",
       title: "Water Leakage",
       status: "Pending",
-      department: "Civil",
+      department: "Civil", 
       remarks: "Working",
       date: "02-02-26",
       description: "Pipe leaking in Block A",
@@ -187,7 +187,7 @@ const ManageComplaint = () => {
 
             <table className="table table-bordered text-center align-middle">
 
-              <thead className="table-dark">
+            <thead className="custom-table-head">
                 <tr>
                   <th>User</th>
                   <th>Complaint</th>
