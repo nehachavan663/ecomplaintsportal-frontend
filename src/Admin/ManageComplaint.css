@@ -1,27 +1,29 @@
-/* PAGE BACKGROUND */
-.mc-page {
-  min-height: 100vh;
-  background: rgba(240, 253, 244, 1);
-}
 
-
-/* MAIN CARD */
+/* ===============================
+   MAIN CARD
+================================ */
 .main-card {
-  border-radius: 40px;
+  border-radius: 25px;
   background: white;
-  padding: 5px;
+  padding: 20px;
+  border: none;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
 }
 
 
-/* FILTER BAR */
+/* ===============================
+   FILTER BAR
+================================ */
 .filter-bar {
-  border-radius: 12px;
+  border-radius: 14px;
   background: #f8fafc;
   border: 1px solid #e5e7eb;
 }
 
 
-/* GRID FOR FILTER (RESPONSIVE) */
+/* ===============================
+   FILTER GRID
+================================ */
 .filter-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 120px;
@@ -29,9 +31,7 @@
 }
 
 
-/* MOBILE FILTER */
 @media (max-width: 768px) {
-
   .filter-grid {
     grid-template-columns: 1fr;
   }
@@ -41,81 +41,169 @@
   .filter-grid button {
     width: 100%;
   }
-
 }
 
 
-/* TABLE */
-.table th,
-.table td {
-  vertical-align: middle;
-  font-size: 14px;
-  padding: 10px;
+/* ===============================
+   TABLE CONTAINER
+================================ */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 18px;
+}
+
+
+/* ===============================
+   TABLE CORE
+================================ */
+table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+.custom-table-head th {
+  background: rgba(254, 252, 232, 1);
+  color: rgba(146, 64, 14, 1);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 16px;
+  text-align: center;
+  border: none;
+
   white-space: nowrap;
 }
 
-.table thead th {
-  background: #000000;
-  color: rgb(208, 194, 194);
+
+/* ===============================
+   BODY ROW
+================================ */
+.table tbody tr {
+  background: rgb(240, 253, 247);
 }
 
 
-/* SCROLL */
-.table-responsive {
-  overflow-x: auto;
-}
+/* ===============================
+   BODY CELLS
+================================ */
+.table td {
+  background: transparent;
 
-table {
-  min-width: 750px;
-}
+  vertical-align: middle;
 
+  font-size: 14px;
 
-/* STATUS */
-.status-select {
-  font-weight: bold;
+  padding: 16px;
+
   text-align: center;
-  border-radius: 20px;
-  border: none;
-  min-width: 120px;
+
+  border: none;   /* REMOVE LINES */
+
+  white-space: nowrap;
 }
 
+
+/* ===============================
+   REMOVE ALL HOVER / ACTIVE EFFECTS
+================================ */
+.table tbody tr:hover,
+.table tbody tr:focus,
+.table tbody tr:active,
+.table tbody tr:focus-within {
+  background: rgba(236, 253, 245, 1) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.table td:focus,
+.table td:active {
+  outline: none !important;
+  background: transparent !important;
+}
+
+
+/* ===============================
+   STATUS SELECT
+================================ */
+.status-select {
+  font-weight: 600;
+
+  text-align: center;
+
+  border-radius: 999px;
+
+  border: none;
+
+  min-width: 130px;
+
+  padding: 6px 12px;
+
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+
+/* STATUS COLORS */
 .status-pending {
-  background: #ffe2e2 !important;
-  color: #8b0000 !important;
+  background: #fee2e2 !important;
+  color: #991b1b !important;
 }
 
 .status-progress {
-  background: #fff7cc !important;
-  color: #856404 !important;
+  background: #fef3c7 !important;
+  color: #92400e !important;
 }
 
 .status-resolved {
-  background: #d1ffe3 !important;
-  color: #198754 !important;
+  background: #d1fae5 !important;
+  color: #166534 !important;
 }
 
 
-/* BUTTONS */
+/* ===============================
+   BUTTONS
+================================ */
 .btn {
   font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 8px;
   margin: 2px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
 }
 
 
-/* ACTION COLUMN */
+/* ===============================
+   ACTION COLUMN
+================================ */
 td:last-child {
-  min-width: 180px;
+  min-width: 210px;
+
   display: flex;
+
   justify-content: center;
-  gap: 6px;
+
+  gap: 8px;
+
   flex-wrap: wrap;
 }
 
 
-/* MODAL */
+/* ===============================
+   MODAL
+================================ */
 .custom-modal-overlay {
   position: fixed;
   inset: 0;
+
   background: rgba(0,0,0,0.6);
 
   display: flex;
@@ -125,19 +213,26 @@ td:last-child {
   z-index: 9999;
 }
 
+
 .custom-modal {
   background: white;
+
   width: 95%;
-  max-width: 500px;
+  max-width: 520px;
+
   max-height: 90vh;
 
   overflow-y: auto;
 
-  border-radius: 15px;
+  border-radius: 18px;
+
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
 }
 
 
-/* REGISTER CARD */
+/* ===============================
+   REGISTER CARD
+================================ */
 .register-card {
   padding: 20px;
 }
@@ -154,20 +249,24 @@ td:last-child {
 }
 
 
-/* MOBILE */
+/* ===============================
+   MOBILE
+================================ */
 @media (max-width: 576px) {
 
   table {
-    min-width: 600px;
+    min-width: 650px;
   }
 
   td:last-child {
     flex-direction: column;
   }
-
 }
-/* PROOF IMAGE PREVIEW */
 
+
+/* ===============================
+   PROOF IMAGE
+================================ */
 .proof-box {
   margin-top: 10px;
   text-align: center;
@@ -176,7 +275,10 @@ td:last-child {
 .proof-img {
   max-width: 100%;
   max-height: 250px;
+
   border-radius: 10px;
+
   border: 1px solid #ddd;
+
   object-fit: contain;
 }

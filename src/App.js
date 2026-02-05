@@ -14,11 +14,17 @@ import Home from "./components/Home/Home";
 // Profile
 import Profile from "./components/Profile/Profile";
 
+// Auth
 import Login from "./components/stdlr/login";
 import Register from "./components/stdlr/register";
-import ManageComplaint from "./Admin/ManageComplaint";
+
 // CSS
 import "./App.css";
+
+// Admin
+import AdminLayout from "./Admin/AdminLayout";
+import AdminDashboard from "./Admin/AdminDashboard";
+import ManageComplaint from "./Admin/ManageComplaint";
 
 function App() {
   return (
@@ -27,24 +33,36 @@ function App() {
 
         <Routes>
 
-          {/* Home Page */}
+          {/* Home */}
           <Route path="/" element={<Home />} />
 
-          {/* Complaint Pages */}
+          {/* Complaint */}
           <Route path="/complaint" element={<ComplaintForm />} />
           <Route path="/track" element={<TrackComplaintStatus />} />
 
-          {/* Dashboard */}
+          {/* Student Dashboard */}
           <Route path="/dashboard" element={<Dashboard />} />
 
           {/* Profile */}
           <Route path="/profile" element={<Profile />} />
 
-          {/* Auth Pages */}
+          {/* Auth */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* 404 Page (Optional) */}
+          {/* ================= ADMIN ROUTES ================= */}
+
+          <Route path="/admin" element={<AdminLayout />}>
+
+            <Route path="dashboard" element={<AdminDashboard />} />
+
+            <Route path="manage-complaints" element={<ManageComplaint />} />
+
+          </Route>
+
+          {/* =============================================== */}
+
+          {/* 404 */}
           <Route
             path="*"
             element={
@@ -53,8 +71,9 @@ function App() {
               </h2>
             }
           />
-         <Route path="/admin/manage-complaints" element={<ManageComplaint />} />
+
         </Routes>
+
       </div>
     </Router>
   );
