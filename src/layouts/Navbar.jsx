@@ -1,54 +1,50 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
-
+import { FaHome, FaInfoCircle, FaSignInAlt, FaUserPlus } from "react-icons/fa";
 
 const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <nav className="navbar">
-      <div className="nav-left">
+    <>
+      <nav className="navbar">
+
         <span className="logo">ecomplaintsportal.com</span>
-      </div>
 
-      {/* Desktop menu */}
-      <ul className="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register" className="register-btn">Register</a></li>
-      </ul>
-
-      {/* Hamburger icon (mobile only) */}
-      <div
-        className={`hamburger ${isMobileMenuOpen ? "open" : ""}`}
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        aria-label="Toggle navigation menu"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-
-      {/* Mobile menu */}
-      {isMobileMenuOpen && (
-        <ul className="mobile-nav">
-          <li onClick={() => setIsMobileMenuOpen(false)}>
-            <a href="/">Home</a>
-          </li>
-          <li onClick={() => setIsMobileMenuOpen(false)}>
-            <a href="/about">About</a>
-          </li>
-          <li onClick={() => setIsMobileMenuOpen(false)}>
-            <a href="/login">Login</a>
-          </li>
-          <li onClick={() => setIsMobileMenuOpen(false)}>
-            <a href="/register">Register</a>
+        {/* Desktop */}
+        <ul className="nav-links">
+          <li><FaHome /><Link to="/">Home</Link></li>
+          <li><FaInfoCircle /><Link to="/about">About</Link></li>
+          <li><FaSignInAlt /><Link to="/login">Login</Link></li>
+          <li className="register-btn">
+            <FaUserPlus /><Link to="/register">Register</Link>
           </li>
         </ul>
-      )}
-    </nav>
+
+        {/* Hamburger */}
+        <div
+          className={`hamburger ${open ? "open" : ""}`}
+          onClick={() => setOpen(!open)}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+      </nav>
+
+      {/* Mobile menu */}
+      <div className={`mobile-nav ${open ? "show" : ""}`}>
+        <Link to="/" onClick={() => setOpen(false)}><FaHome /> Home</Link>
+        <Link to="/about" onClick={() => setOpen(false)}><FaInfoCircle /> About</Link>
+        <Link to="/login" onClick={() => setOpen(false)}><FaSignInAlt /> Login</Link>
+        <Link to="/register" onClick={() => setOpen(false)}><FaUserPlus /> Register</Link>
+      </div>
+
+      {/* Overlay */}
+      {open && <div className="overlay" onClick={() => setOpen(false)}></div>}
+    </>
   );
 };
 
