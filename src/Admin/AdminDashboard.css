@@ -7,7 +7,7 @@
 body {
   overflow-x: hidden;
   font-family: "Segoe UI", sans-serif;
-  background: #eef4f1;
+  background: linear-gradient(135deg, #eaf6f0, #f6fbf8);
 }
 
 /* ===================== LAYOUT ===================== */
@@ -22,12 +22,13 @@ body {
 
 .sidebar {
   width: 240px;
-  background: #bfe4d4;
+  background: linear-gradient(135deg, #bfe4d4, #a9d6c5);
   padding: 24px 18px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   transition: 0.3s;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.05);
 }
 
 .sidebar h2 {
@@ -35,6 +36,11 @@ body {
   font-weight: 600;
   margin-bottom: 24px;
   color: #1f3d2b;
+  animation: glowText 3s ease-in-out infinite;
+}
+
+@keyframes glowText {
+  50% { text-shadow: 0 0 8px rgba(56,183,100,0.4); }
 }
 
 .sidebar ul {
@@ -54,10 +60,12 @@ body {
   color: #1f3d2b;
   text-decoration: none;
   width: 100%;
+  transition: 0.25s;
 }
 
 .nav-link:hover {
   background: #a9d6c5;
+  transform: translateX(4px);
 }
 
 /* ===================== MAIN ===================== */
@@ -78,15 +86,38 @@ body {
   padding: 20px 24px;
   border-radius: 12px;
   margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
 }
+
+/* shine sweep */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.25),
+    transparent
+  );
+  animation: sweep 6s linear infinite;
+}
+
+@keyframes sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.header > * {
+  position: relative;
+  z-index: 1;
+}
+
 .header-icon {
-  display: flex;
-  align-items: center;
   font-size: 22px;
   color: #1f3d2b;
 }
-
-
 
 .header-left {
   display: flex;
@@ -105,6 +136,7 @@ body {
   padding: 8px 14px;
   border-radius: 10px;
   font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 /* ===================== CARDS ===================== */
@@ -121,12 +153,45 @@ body {
   padding: 18px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  transition: 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* glow border */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(45deg, #38b764, #2f6fde);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  background: #f7fffb;
 }
 
 .card-icon {
   font-size: 26px;
   margin-bottom: 6px;
+  transition: 0.3s;
+}
+
+.card:hover .card-icon {
+  transform: scale(1.2) rotate(8deg);
 }
 
 .orange { border-left: 5px solid #ff9f43; }
@@ -146,6 +211,7 @@ body {
   margin-bottom: 20px;
   height: 260px;
   width: 100%;
+  animation: fadeUp 0.8s ease;
 }
 
 /* ===================== TABLE ===================== */
@@ -155,10 +221,12 @@ body {
   padding: 18px;
   border-radius: 12px;
   overflow-x: auto;
+  animation: fadeUp 1s ease;
 }
 
-.table-box h3 {
-  margin-bottom: 12px;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 table {
@@ -173,6 +241,10 @@ th, td {
   text-align: left;
 }
 
+tbody tr:hover {
+  background: #f1fdf7;
+}
+
 .badge {
   padding: 12px 14px;
   border-radius: 10px;
@@ -183,16 +255,14 @@ th, td {
 .pending { background: #ff9f43; }
 .resolved { background: #38b764; }
 
-/* ===================== MOBILE RESPONSIVE ===================== */
+/* ===================== MOBILE ===================== */
 
-/* Tablet */
 @media (max-width: 1024px) {
   .cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
 
   .sidebar {
@@ -229,7 +299,6 @@ th, td {
   }
 }
 
-/* Hide hamburger on desktop */
 @media (min-width: 769px) {
   .menu-btn {
     display: none;

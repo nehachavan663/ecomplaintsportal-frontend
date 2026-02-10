@@ -1,28 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import heroImage from "./Images/hero.png";
 import HomeLayout from "../../layouts/HomeLayouts";
 import { FaFileAlt, FaSearch, FaUserShield, FaBell } from "react-icons/fa";
 
+// images
+import img1 from "./Images/hero.png";
+import img2 from "./Images/hero2.webp";
+import img3 from "./Images/image.png";
+
 function Home() {
+
+  const slides = [
+    "Easy Complaint Registration",
+    "Track Status in Real Time",
+    "Fast Admin Resolution",
+    "Transparent Student System"
+  ];
+
+  const images = [img1, img2, img3];
+
+  const [textIndex, setTextIndex] = useState(0);
+  const [imgIndex, setImgIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTextIndex(prev => (prev + 1) % slides.length);
+      setImgIndex(prev => (prev + 1) % images.length);
+    }, 2500);
+
+    return () => clearInterval(timer);
+  }, [slides.length, images.length]);
+
   return (
     <HomeLayout>
       <div className="home-page">
 
-        {/* HERO */}
         <section className="hero">
           <div className="hero-container">
 
             <div className="hero-left">
+
               <h1>
                 Online Complaint <br /> Management System
               </h1>
 
-              <p className="hero-sub">
-                A centralized platform to submit complaints, track status,
-                and get faster resolution in a transparent way.
-              </p>
+              <p className="hero-slider">{slides[textIndex]}</p>
 
               <ul className="hero-points">
                 <li>✔ Easy online complaint registration</li>
@@ -40,12 +63,13 @@ function Home() {
                   Track Status
                 </Link>
               </div>
+
             </div>
 
             <div className="hero-right">
               <img
-                src={heroImage}
-                alt="Complaint Management"
+                src={images[imgIndex]}
+                alt="hero"
                 className="hero-image"
               />
             </div>
@@ -54,7 +78,7 @@ function Home() {
         </section>
 
         {/* ABOUT */}
-        <section className="about" id="about">
+        <section className="about">
           <h2>About the System</h2>
 
           <div className="card-grid">
