@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 import "./ManageComplaint.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const ManageComplaint = () => {
-
   const [complaints, setComplaints] = useState([
     {
       id: 1,
       user: "John",
       title: "Water Leakage",
       status: "Pending",
-      department: "Civil", 
+      department: "Civil",
       remarks: "Working",
       date: "02-02-26",
-      description: "Pipe leaking in Block A",
       area: "Hostel A",
       category: "Plumbing",
+      description: "Pipe leaking in Block A",
       proof: "/images/img1.jpg"
     },
     {
@@ -26,9 +24,9 @@ const ManageComplaint = () => {
       department: "Electrical",
       remarks: "Under Review",
       date: "01-02-26",
-      description: "No electricity at night",
       area: "Main Block",
       category: "Electrical",
+      description: "No electricity at night",
       proof: "/images/img2.jpg"
     },
     {
@@ -39,353 +37,215 @@ const ManageComplaint = () => {
       department: "Civil",
       remarks: "Fixed",
       date: "31-01-26",
-      description: "Wall cracked",
       area: "Room B2",
       category: "Infrastructure",
+      description: "Wall cracked",
       proof: ""
     }
   ]);
 
   const [viewData, setViewData] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
-  /* FILTER */
+  /* FILTER STATES */
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [deptFilter, setDeptFilter] = useState("");
 
+  /* FILTER LOGIC */
+  const filteredComplaints = complaints.filter(c =>
+    (c.user.toLowerCase().includes(search.toLowerCase()) ||
+      c.title.toLowerCase().includes(search.toLowerCase())) &&
+    (statusFilter === "" || c.status === statusFilter) &&
+    (deptFilter === "" || c.department === deptFilter)
+  );
 
-  /* STATUS */
-  const handleStatus = (id, status) => {
-    setComplaints(
-      complaints.map(c =>
-        c.id === id ? { ...c, status } : c
-      )
+  /* STATUS CHANGE */
+  const updateStatus = (id, status) => {
+    setComplaints(prev =>
+      prev.map(c => (c.id === id ? { ...c, status } : c))
     );
   };
 
-
-  /* DEPARTMENT */
-  const handleDepartment = (id, dept) => {
-    setComplaints(
-      complaints.map(c =>
-        c.id === id ? { ...c, department: dept } : c
-      )
+  /* DEPARTMENT CHANGE */
+  const updateDepartment = (id, department) => {
+    setComplaints(prev =>
+      prev.map(c => (c.id === id ? { ...c, department } : c))
     );
   };
-
 
   /* RESPONSE */
-  const handleResponse = (id) => {
-    const msg = prompt("Enter Remarks:");
+  const handleResponse = id => {
+    const msg = prompt("Enter remarks:");
     if (!msg) return;
-
-    setComplaints(
-      complaints.map(c =>
-        c.id === id ? { ...c, remarks: msg } : c
-      )
+    setComplaints(prev =>
+      prev.map(c => (c.id === id ? { ...c, remarks: msg } : c))
     );
   };
-
 
   /* REMOVE */
-  const handleRemove = (id) => {
-    if (!window.confirm("Delete this complaint?")) return;
-
-    setComplaints(
-      complaints.filter(c => c.id !== id)
-    );
+  const handleRemove = id => {
+    if (!window.confirm("Are you sure you want to remove this complaint?")) return;
+    setComplaints(prev => prev.filter(c => c.id !== id));
   };
-
-
-  /* STATUS COLOR */
-  const getStatusClass = (status) => {
-    if (status === "Resolved") return "status-resolved";
-    if (status === "In Progress") return "status-progress";
-    if (status === "Pending") return "status-pending";
-  };
-
-
-  /* FILTER DATA */
-  const filteredData = complaints.filter(item => {
-    return (
-      (
-        item.title.toLowerCase().includes(search.toLowerCase()) ||
-        item.user.toLowerCase().includes(search.toLowerCase())
-      ) &&
-      (statusFilter === "" || item.status === statusFilter) &&
-      (deptFilter === "" || item.department === deptFilter)
-    );
-  });
-
-
 
   return (
     <div className="mc-page">
-      {/* PAGE HEADER */}
-<div className="page-header">
-  <h2>Manage Complaints</h2>
-</div>
-      <div className="container py-4">
 
+      <div className="page-title">
+        <h2>Manage Complaints</h2>
+      </div>
 
-        {/* FILTER BAR */}
-        <div className="filter-bar card shadow-sm mb-3 p-3">
+      {/* FILTER BAR */}
+      <div className="filter-bar">
+        <div className="filter-grid">
+          <input
+            placeholder="Search by User / Complaint..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
 
-          <div className="filter-grid">
+          <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+            <option value="">All Status</option>
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+          </select>
 
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by User / Title..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+          <select value={deptFilter} onChange={e => setDeptFilter(e.target.value)}>
+            <option value="">All Departments</option>
+            <option>Computer Science</option>
+            <option>Information Technology (IT)</option>
+            <option>Civil</option>
+            <option>Electrical</option>
+            <option>Mechanical</option>
+            <option>Electronics</option>
+          </select>
 
-            <select
-              className="form-select"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="">All Status</option>
-              <option>Pending</option>
-              <option>In Progress</option>
-              <option>Resolved</option>
-            </select>
-
-            <select
-              className="form-select"
-              value={deptFilter}
-              onChange={(e) => setDeptFilter(e.target.value)}
-            >
-              <option value="">All Departments</option>
-              <option>Computer Science</option>
-              <option>Electrical</option>
-              <option>Mechanical</option>
-              <option>Civil</option>
-              <option>Electronics</option>
-              <option>IT</option>
-            </select>
-
-            <button
-              className="btn btn-secondary"
-              onClick={() => {
-                setSearch("");
-                setStatusFilter("");
-                setDeptFilter("");
-              }}
-            >
-              Reset
-            </button>
-
-          </div>
-
-        </div>
-
-
-        {/* TABLE */}
-        <div className="card main-card shadow">
-
-          <div className="card-body table-responsive">
-
-            <table className="table table-bordered text-center align-middle">
-
-            <thead className="custom-table-head">
-                <tr>
-                  <th>User</th>
-                  <th>Complaint</th>
-                  <th>Status</th>
-                  <th>AssignDepartment</th>
-                  <th>Remarks</th>
-                  <th>Date</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-
-              <tbody>
-
-                {filteredData.length === 0 && (
-                  <tr>
-                    <td colSpan="7" className="text-muted py-3">
-                      No Records Found
-                    </td>
-                  </tr>
-                )}
-
-                {filteredData.map(item => (
-
-                  <tr key={item.id}>
-
-                    <td>{item.user}</td>
-                    <td>{item.title}</td>
-
-                    <td>
-                      <select
-                        className={`form-select form-select-sm status-select ${getStatusClass(item.status)}`}
-                        value={item.status}
-                        onChange={(e) =>
-                          handleStatus(item.id, e.target.value)
-                        }
-                      >
-                        <option>Pending</option>
-                        <option>In Progress</option>
-                        <option>Resolved</option>
-                      </select>
-                    </td>
-
-                    <td>
-                      <select
-                        className="form-select form-select-sm"
-                        value={item.department}
-                        onChange={(e) =>
-                          handleDepartment(item.id, e.target.value)
-                        }
-                      >
-                        <option value="">Select</option>
-                        <option>Computer Science</option>
-                        <option>Electrical</option>
-                        <option>Mechanical</option>
-                        <option>Civil</option>
-                        <option>Electronics</option>
-                        <option>IT</option>
-                      </select>
-                    </td>
-
-                    <td><i>{item.remarks}</i></td>
-
-                    <td>{item.date}</td>
-
-                    <td>
-
-                      <button
-                        className="btn btn-info btn-sm"
-                        onClick={() => {
-                          setViewData(item);
-                          setShowModal(true);
-                        }}
-                      >
-                        View
-                      </button>
-
-                      <button
-                        className="btn btn-warning btn-sm"
-                        onClick={() => handleResponse(item.id)}
-                      >
-                        Response
-                      </button>
-
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleRemove(item.id)}
-                      >
-                        Remove
-                      </button>
-
-                    </td>
-
-                  </tr>
-
-                ))}
-
-              </tbody>
-
-            </table>
-
-          </div>
-        </div>
-
-
-
-        {/* MODAL */}
-        {showModal && viewData && (
-
-          <div
-            className="custom-modal-overlay"
-            onClick={() => setShowModal(false)}
+          <button
+            className="reset-btn"
+            onClick={() => {
+              setSearch("");
+              setStatusFilter("");
+              setDeptFilter("");
+            }}
           >
+            Reset
+          </button>
+        </div>
+      </div>
 
-            <div
-              className="custom-modal"
-              onClick={(e) => e.stopPropagation()}
-            >
+      {/* TABLE */}
+      <div className="table-card">
+        <div className="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Complaint</th>
+                <th>Status</th>
+                <th>Department</th>
+                <th>Remarks</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-              <div className="modal-header">
-                <h5>Complaint Details</h5>
+            <tbody>
+              {filteredComplaints.map(c => (
+                <tr key={c.id}>
+                  <td>{c.user}</td>
+                  <td>{c.title}</td>
 
-                <button
-                  className="btn-close"
-                  onClick={() => setShowModal(false)}
-                ></button>
-              </div>
+                  <td>
+                    <select
+                      className={`status-select ${c.status.replace(" ", "-").toLowerCase()}`}
+                      value={c.status}
+                      onChange={e => updateStatus(c.id, e.target.value)}
+                    >
+                      <option>Pending</option>
+                      <option>In Progress</option>
+                      <option>Resolved</option>
+                    </select>
+                  </td>
 
+                  <td>
+                    <select
+                      className="dept-select"
+                      value={c.department}
+                      onChange={e => updateDepartment(c.id, e.target.value)}
+                    >
+                      <option>Computer Science</option>
+                      <option>Information Technology (IT)</option>
+                      <option>Civil</option>
+                      <option>Electrical</option>
+                      <option>Mechanical</option>
+                      <option>Electronics</option>
+                    </select>
+                  </td>
 
-              <div className="modal-body">
+                  <td><i>{c.remarks}</i></td>
+                  <td>{c.date}</td>
 
-                <div className="register-card">
+                  <td>
+                    <div className="action-buttons">
+                      <button className="view-btn" onClick={() => setViewData(c)}>View</button>
+                      <button className="response-btn" onClick={() => handleResponse(c.id)}>Response</button>
+                      <button className="remove-btn" onClick={() => handleRemove(c.id)}>Remove</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
 
-                  <label>User</label>
-                  <input className="form-control" value={viewData.user}  disabled />
+              {filteredComplaints.length === 0 && (
+                <tr>
+                  <td colSpan="7">No complaints found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-                  <label>Title</label>
-                  <input className="form-control" value={viewData.title}  disabled />
-
-                  <label>Date</label>
-                  <input className="form-control" value={viewData.date} disabled />
-
-                  <label>Area</label>
-                  <input className="form-control" value={viewData.area}  disabled  />
-
-                  <label>Category</label>
-                  <input className="form-control" value={viewData.category}  disabled />
-
-                  <label>Description</label>
-                  <textarea
-                    className="form-control"
-                    rows="3"
-                    value={viewData.description}
-                    disabled 
-                  />
-
-                  <label>Department</label>
-                  <input className="form-control" value={viewData.department}  disabled />
-
-                  <label>Status</label>
-                  <input className="form-control" value={viewData.status}  disabled />
-
-                  <label>Remarks</label>
-                  <input className="form-control" value={viewData.remarks} disabled />
-
-
-                  {/* PROOF IMAGE */}
-                  {viewData.proof && (
-
-                    <>
-                      <label>Proof</label>
-
-                      <div className="proof-box">
-
-                        <img
-                          src={viewData.proof}
-                          alt="Proof"
-                          className="proof-img"
-                        />
-
-                      </div>
-                    </>
-                  )}
-
-                </div>
-
-              </div>
-
+      {/* VIEW MODAL (UNCHANGED) */}
+      {viewData && (
+        <div className="modal-overlay" onClick={() => setViewData(null)}>
+          <div className="modal-box" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Complaint Details</h3>
+              <span className="close-btn" onClick={() => setViewData(null)}>×</span>
             </div>
 
+            <div className="modal-body">
+              {[
+                ["User", viewData.user],
+                ["Title", viewData.title],
+                ["Date", viewData.date],
+                ["Area", viewData.area],
+                ["Category", viewData.category],
+                ["Description", viewData.description],
+                ["Department", viewData.department],
+                ["Status", viewData.status],
+                ["Remarks", viewData.remarks]
+              ].map(([label, value]) => (
+                <div key={label} className="field">
+                  <label>{label}</label>
+                  <input value={value} disabled />
+                </div>
+              ))}
+              {viewData.proof && (
+  <div className="field">
+    <label>Proof</label>
+    <div className="proof-box">
+      <img src={viewData.proof} alt="Proof" />
+    </div>
+  </div>
+)}
+
+            </div>
           </div>
+        </div>
+      )}
 
-        )}
-
-      </div>
     </div>
   );
 };
