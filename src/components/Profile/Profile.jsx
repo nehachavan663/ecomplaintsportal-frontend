@@ -58,23 +58,24 @@ function Profile() {
 
           {!isEditing ? (
             <button className="edit-btn" onClick={() => setIsEditing(true)}>
-              Edit Profile
+              <i className="fa-solid fa-pen-to-square"></i> Edit Profile
             </button>
           ) : (
             <button className="edit-btn" onClick={handleSave}>
-              Save Profile
+              <i className="fa-solid fa-floppy-disk"></i> Save Profile
             </button>
           )}
 
-          <button className="logout-btn">Log Out</button>
+          <button className="logout-btn">
+            <i className="bi bi-box-arrow-right"></i> Log Out
+          </button>
         </div>
 
         {/* Right Content */}
         <div className="content">
           {/* Student Information */}
           <div className="card">
-            <h3>Student Information</h3>
-
+            <h2><i className="bi bi-person-lines-fill"></i> Student Information</h2>
             <p>
               <span>Full Name</span> :
               {isEditing ? (
@@ -134,7 +135,7 @@ function Profile() {
 
           {/* Contact Information */}
           <div className="card light">
-            <h3>Contact Information</h3>
+            <h2><i className="bi bi-envelope-at"></i> Contact Information</h2>
 
             <p>
               <span>Email</span> :
@@ -181,16 +182,27 @@ function Profile() {
 
           {/* Complaint Summary */}
           <div className="complaint-summary">
-            <h3>Complaint Summary</h3>
+            <h2><i className="bi bi-clipboard-data"></i> Complaint Summary</h2>
+
             <p className="total-complaints">Total Complaints: 12</p>
 
             <div className="status-row">
-              <div className="status-badge status-pending">Pending : 5</div>
-              <div className="status-badge status-progress">
-                In progress : 4
-              </div>
-              <div className="status-badge status-resolved">Resolved : 3</div>
-            </div>
+  <div className="status-badge status-pending">
+    <i className="fa-solid fa-clock"></i>
+    Pending
+  </div>
+
+  <div className="status-badge status-progress">
+    <i className="fa-solid fa-spinner"></i>
+    In Progress
+  </div>
+
+  <div className="status-badge status-resolved">
+    <i className="fa-solid fa-check-circle"></i>
+    Resolved
+  </div>
+</div>
+
           </div>
         </div>
       </div>
