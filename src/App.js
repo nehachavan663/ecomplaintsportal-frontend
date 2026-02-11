@@ -12,6 +12,12 @@ import Dashboard from "./components/Dashboard/Dashboard";
 // Home
 import Home from "./components/Home/Home";
 
+// Info Pages
+import About from "./components/pages/about";
+import Contact from "./components/pages/contact";
+import Help from "./components/pages/help";
+import Privacy from "./components/pages/privacy";
+
 // Profile
 import Profile from "./components/Profile/Profile";
 
@@ -37,6 +43,12 @@ function App() {
 
           {/* Home */}
           <Route path="/" element={<Home />} />
+
+          {/* Information Pages */}
+<Route path="/about" element={<About />} />
+<Route path="/contact" element={<Contact />} />
+<Route path="/help" element={<Help />} />
+<Route path="/privacy" element={<Privacy />} />
 
           {/* Complaint */}
           <Route path="/complaint" element={<ComplaintForm />} />
