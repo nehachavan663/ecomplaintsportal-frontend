@@ -1,0 +1,16 @@
+.section {
+  padding: 50px;
+  background: #f0fff4;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #d8f3dc;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}

@@ -1,0 +1,66 @@
+.section {
+  padding: 50px;
+  background: #f0fff4;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #d8f3dc;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.contact-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #d8f3dc;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+.contact-form:hover {
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  border: 1px solid #b7e4c7;
+  transition: 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #1b4332;
+  outline: none;
+}
+
+.contact-form button {
+  background: #1b4332;
+  color: white;
+  padding: 10px;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.contact-form button:hover {
+  background: #2d6a4f;
+ 
+}
+
+.icon {
+  color: #1b4332;
+  margin-right: 6px;
+}
