@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TrackComplaintStatus.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 
-const complaints = [
+const complaintsData = [
   {
     title: "Water Leakage",
     date: "02-02-2026",
@@ -27,41 +27,64 @@ const complaints = [
 ];
 
 const TrackComplaintStatus = () => {
+  const [search, setSearch] = useState("");
+
+  const filteredComplaints = complaintsData.filter((c) =>
+    `${c.title} ${c.department} ${c.status}`
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
   return (
     <HomeLayout>
       <div className="page-bg">
         <div className="track-container">
-          <div className="track-card">
 
-            {/* HEADER */}
-            <div className="track-header">
-              🔍 Track Complaint Status
+          {/* TOP TITLE */}
+          <div className="top-track-title animate-down">
+            <span className="track-icon">🧭</span>
+            <span>Track Complaint Status</span>
+          </div>
+
+          {/* HEADER */}
+          <div className="complaints-header animate-down">
+           <div className="header-left">
+            <h1>My Complaints</h1>
+                {/* The CSS now handles the single-line layout */}
+             <p>Monitor the real-time status of your requests</p>
             </div>
 
-            {/* TABLE */}
+            <div className="header-right">
+              <span className="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Search by title or dept..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* TABLE */}
+          <div className="track-card animate-up">
             <div className="table-wrapper">
               <table className="complaint-table">
-
                 <thead>
                   <tr>
-                    <th>Complaint Title</th>
-                    <th>Date</th>
-                    <th>Assigned Department</th>
-                    <th>Status</th>
+                    <th>📌 Complaint</th>
+                    <th>📅 Date</th>
+                    <th>🏢 Assign Department</th>
+                    <th>📊 Status</th>
                     <th>💬 Admin Response</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {complaints.map((c, index) => (
+                  {filteredComplaints.map((c, index) => (
                     <tr key={index}>
-
                       <td>{c.title}</td>
-
                       <td>{c.date}</td>
-
                       <td>{c.department}</td>
-
                       <td>
                         <span className={`status ${c.status}`}>
                           {c.status === "resolved" && "Resolved ✅"}
@@ -69,20 +92,19 @@ const TrackComplaintStatus = () => {
                           {c.status === "inprogress" && "In Progress 🔄"}
                         </span>
                       </td>
-
-                      {/* FIXED COLUMN */}
-                      <td className="admin-response">
-                        {c.response}
+                      <td>
+                        <div className="admin-response-card">
+                          {c.response}
+                        </div>
                       </td>
-
                     </tr>
                   ))}
                 </tbody>
 
               </table>
             </div>
-
           </div>
+
         </div>
       </div>
     </HomeLayout>

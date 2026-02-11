@@ -3,7 +3,7 @@ import "./ComplaintForm.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 
 const complaintCategoryMap = {
-  Hostel: [
+Hostel: [
     "Electricity Issue",
     "Water Supply Issue",
     "Cleanliness & Hygiene",
@@ -70,157 +70,154 @@ const complaintCategoryMap = {
   ],
 };
 
+
 const ComplaintForm = () => {
   const [area, setArea] = useState("");
   const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [fileDetails, setFileDetails] = useState({ name: "", size: "" });
+  const [loading, setLoading] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [date, setDate] = useState("");
+  // Helper to convert bytes to readable size
+  const formatBytes = (bytes) => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileDetails({ name: file.name, size: formatBytes(file.size) });
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      alert("Complaint Submitted Successfully ✅");
+    }, 2000);
+  };
 
   return (
     <HomeLayout>
-      <div className="page-bg">
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-          <div className="complaint-card">
-
-            {/* HEADER */}
-            <div className="form-header">
-              Complaint Registration Form
-            </div>
-
-            <p className="subtitle">
-              Please fill in the details below to register your complaint.
-            </p>
-
-
-            {/* ================= USER NAME ================= */}
-            <div className="mb-3">
-              <label className="form-label">
-                User Name <span className="required">*</span>
-              </label>
-
-              <input
-                type="text"
-                className="form-control custom-input"
-                placeholder="Enter Your Name"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-
-
-            {/* ================= DATE ================= */}
-            <div className="mb-3">
-              <label className="form-label">
-                Date <span className="required">*</span>
-              </label>
-
-              <input
-                type="date"
-                className="form-control custom-input"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
-
-
-            {/* ================= TITLE ================= */}
-            <div className="mb-3">
-              <label className="form-label">
-                Complaint Title <span className="required">*</span>
-              </label>
-
-              <input
-                className="form-control custom-input"
-                placeholder="Enter Complaint Title"
-              />
-            </div>
-
-
-            {/* ================= AREA ================= */}
-            <div className="mb-3">
-              <label className="form-label">
-                Complaint Area / Location <span className="required">*</span>
-              </label>
-
-              <select
-                className="form-select custom-input"
-                value={area}
-                onChange={(e) => {
-                  setArea(e.target.value);
-                  setCategory("");
-                }}
-              >
-                <option value="">Select your complaint Area / Location</option>
-                <option>Hostel</option>
-                <option>Classroom</option>
-                <option>College Campus</option>
-                <option>Library</option>
-                <option>Laboratory</option>
-                <option>Washroom</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-
-            {/* ================= CATEGORY ================= */}
-            <div className="mb-3">
-              <label className="form-label">
-                Complaint Category <span className="required">*</span>
-              </label>
-
-              <select
-                className="form-select custom-input"
-                disabled={!area}
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <option>
-                  {area ? "Select complaint category" : "Select area first"}
-                </option>
-
-                {area &&
-                  complaintCategoryMap[area].map((c) => (
-                    <option key={c}>{c}</option>
-                  ))}
-              </select>
-            </div>
-
-
-            {/* ================= DESCRIPTION ================= */}
-            <div className="mb-3">
-              <label className="form-label">
-                Complaint Description <span className="required">*</span>
-              </label>
-
-              <textarea
-                className="form-control custom-input"
-                rows="4"
-                placeholder="Enter Complaint Description"
-              />
-            </div>
-
-
-            {/* ================= UPLOAD ================= */}
-            <div className="mb-4">
-              <label className="form-label">Upload Image</label>
-
-              <p className="upload-subtext">
-                Please upload the image you want to share with us.
-              </p>
-
-              <div className="upload-box">
-                <input type="file" className="file-input" />
-                Choose Image or drop here
+      <div className="pro-page-wrapper">
+        <div className="pro-main-container">
+          
+          {/* LEFT SIDEBAR: STEPS & ANIMATED ILLUSTRATION */}
+          <div className="pro-info-sidebar">
+            <h2 className="pro-info-title">How it Works?</h2>
+            <p className="pro-info-desc">Our streamlined process ensures your concerns are addressed swiftly by the right team.</p>
+            
+            <div className="pro-steps">
+              <div className="pro-step-card step-1">
+                <div className="pro-icon-box"><img src="https://img.icons8.com/fluency/48/edit-property.png" alt="step1" /></div>
+                <div className="pro-step-text">
+                  <h4>Fill Details</h4>
+                  <p>Describe the issue and select location.</p>
+                </div>
+              </div>
+              <div className="pro-step-card step-2">
+                <div className="pro-icon-box"><img src="https://img.icons8.com/fluency/48/camera.png" alt="step2" /></div>
+                <div className="pro-step-text">
+                  <h4>Upload Evidence</h4>
+                  <p>Attach a photo for better clarity.</p>
+                </div>
+              </div>
+              <div className="pro-step-card step-3">
+                <div className="pro-icon-box"><img src="https://img.icons8.com/fluency/48/rocket.png" alt="step3" /></div>
+                <div className="pro-step-text">
+                  <h4>Track Progress</h4>
+                  <p>Receive real-time updates instantly.</p>
+                </div>
               </div>
             </div>
 
-
-            {/* ================= SUBMIT ================= */}
-            <div className="submit-wrapper">
-              <button className="submit-btn">Submit</button>
+            {/* SYNCED FLOATING UNIT */}
+            <div className="pro-illustration-container">
+              <div className="pro-floating-chip chip-secured">🛡 Secured</div>
+              <div className="pro-floating-chip chip-priority">✨ Priority</div>
+              <img src="imgae.png" alt="Support Illustration" className="pro-hero-img" />
             </div>
+          </div>
 
+          {/* RIGHT SIDE FORM */}
+          <div className="pro-form-section">
+            <div className="pro-heading-card">
+              <div className="pro-heading-icon">
+                 <img src="https://img.icons8.com/fluency/48/maintenance.png" alt="tools" />
+              </div>
+              <div className="pro-heading-text">
+                <h3>Complaint Registration</h3>
+                <p>Official Grievance Submission Portal</p>
+              </div>
+            </div>
+            
+            <form className="pro-form-wrapper" onSubmit={handleSubmit}>
+              <div className="pro-form-row">
+                <div className="pro-input-group">
+                  <label className="pro-label">👤 User Name *</label>
+                  <input className="pro-input" placeholder="Enter Full Name" required />
+                </div>
+                <div className="pro-input-group">
+                  <label className="pro-label">📅 Date *</label>
+                  <input type="date" className="pro-input" required />
+                </div>
+              </div>
+
+              <div className="pro-input-group">
+                <label className="pro-label">🏷️ Complaint Title *</label>
+                <input className="pro-input" placeholder="Short issue title" required />
+              </div>
+
+              <div className="pro-form-row">
+                <div className="pro-input-group">
+                  <label className="pro-label">📍 Area *</label>
+                  <select className="pro-select" value={area} onChange={(e) => {setArea(e.target.value); setCategory("");}} required>
+                    <option value="">Select location</option>
+                    {Object.keys(complaintCategoryMap).map(a => <option key={a} value={a}>{a}</option>)}
+                  </select>
+                </div>
+                <div className="pro-input-group">
+                  <label className="pro-label">📂 Category *</label>
+                  <select className="pro-select" disabled={!area} value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    <option value="">{area ? "Select category" : "Select area first"}</option>
+                    {area && complaintCategoryMap[area].map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+              </div>
+
+              <div className="pro-input-group">
+                <label className="pro-label">📝 Description *</label>
+                <textarea className="pro-textarea" rows="3" maxLength={300} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe details clearly..." required />
+                <div className="pro-char-limit">{description.length}/300</div>
+              </div>
+
+              <div className="pro-input-group">
+                <label className="pro-label">📸 Upload Image</label>
+                <label className="pro-upload-zone">
+                  <input type="file" className="pro-file-hidden" accept="image/*" onChange={handleFileChange} />
+                  <div className="pro-upload-content">
+                    {fileDetails.name ? (
+                      <div className="pro-file-info">
+                        <span className="pro-file-name">✅ {fileDetails.name}</span>
+                        <span className="pro-file-size">Size: {fileDetails.size}</span>
+                      </div>
+                    ) : (
+                      <span>Click or drag image here</span>
+                    )}
+                  </div>
+                </label>
+              </div>
+
+              <button type="submit" className={`pro-submit-btn ${loading ? "btn-loading" : ""}`} disabled={loading}>
+                {loading ? <div className="pro-spinner"></div> : "🚀 Submit Official Complaint"}
+              </button>
+            </form>
           </div>
         </div>
       </div>
