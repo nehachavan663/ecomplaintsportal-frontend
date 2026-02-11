@@ -23,6 +23,7 @@ import Profile from "./components/Profile/Profile";
 // Auth
 import Login from "./components/stdlr/login";
 import Register from "./components/stdlr/register";
+import ForgotPassword from "./components/stdlr/ForgotPassword";
 
 // CSS
 import "./App.css";
@@ -62,6 +63,8 @@ function App() {
           {/* Auth */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+
 
           {/* ================= ADMIN ROUTES ================= */}
 

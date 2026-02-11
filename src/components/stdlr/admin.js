@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-
+import bgImage from "./assets/bglogin.jpeg";
 function AdminLogin({ goBack }) {
   const [showPassword, setShowPassword] = useState(false);
+   const bgStyle = {
+   backgroundImage: `url(${bgImage})`,
+   backgroundSize: "cover",
+   backgroundPosition: "center",
+   backgroundRepeat: "no-repeat",
+   backgroundAttachment: "scroll"
+  };
 
   return (
-    <div className="login-page">
+    <div className="login-page" style={bgStyle}>
       <div className="login-card">
 
         <div className="title-pill">Admin Panel Login</div>
@@ -19,7 +26,6 @@ function AdminLogin({ goBack }) {
             type={showPassword ? "text" : "password"}
             className="input"
           />
-
           <span
             className="eye"
             onClick={() => setShowPassword(!showPassword)}
