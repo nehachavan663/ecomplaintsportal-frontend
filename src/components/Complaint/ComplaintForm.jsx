@@ -141,7 +141,7 @@ const ComplaintForm = () => {
             <div className="pro-illustration-container">
               <div className="pro-floating-chip chip-secured">🛡 Secured</div>
               <div className="pro-floating-chip chip-priority">✨ Priority</div>
-              <img src="imgae.png" alt="Support Illustration" className="pro-hero-img" />
+              <img src="imgae1.png" alt="Support Illustration" className="pro-hero-img" />
             </div>
           </div>
 
