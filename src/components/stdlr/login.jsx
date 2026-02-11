@@ -1,18 +1,31 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./stdlr.css";
-import HomeLayout from "../../layouts/HomeLayouts";
 import AdminLogin from "./admin";
+import HomeLayout from "../../layouts/HomeLayouts";
+import bgImage from "./assets/bglogin.jpeg";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+
+  const bgStyle = {
+  backgroundImage: `url(${bgImage})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  backgroundAttachment: "scroll"
+};
+
 
   return (
     <HomeLayout>
+    <>
       {isAdmin ? (
         <AdminLogin goBack={() => setIsAdmin(false)} />
       ) : (
-        <div className="login-page">
+        <div className="login-page" style={bgStyle}>
           <div className="login-card">
 
             <div className="title-pill">Ecomplaintsportal</div>
@@ -29,7 +42,6 @@ function Login() {
                 type={showPassword ? "text" : "password"}
                 className="input"
               />
-
               <span
                 className="eye"
                 onClick={() => setShowPassword(!showPassword)}
@@ -40,7 +52,6 @@ function Login() {
 
             <button className="login-btn">Login</button>
 
-            {/* Admin Option */}
             <button
               className="admin-btn"
               onClick={() => setIsAdmin(true)}
@@ -49,7 +60,14 @@ function Login() {
             </button>
 
             <p className="footer-text">
-              Forgot your password? <span>Create New Account</span>
+              <span onClick={() => navigate("/forgot-password")}>
+                Forgot Password?
+              </span>
+              <br />
+              Don't have an account?{" "}
+              <span onClick={() => navigate("/register")}>
+                Create New Account
+              </span>
             </p>
 
             <div className="or">
@@ -58,16 +76,16 @@ function Login() {
               <span></span>
             </div>
 
-           <button className="google-btn">Continue With 
-                  
-  <span className="google-icon">G</span> 
-</button>
+            <button className="google-btn">
+              <span className="google-icon">G</span>
+              Continue With Google
+            </button>
 
           </div>
         </div>
       )}
-    </HomeLayout>
-  );
+    </>
+    </HomeLayout>  );
 }
 
 export default Login;
