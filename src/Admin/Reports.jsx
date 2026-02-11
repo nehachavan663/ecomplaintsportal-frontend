@@ -7,6 +7,20 @@ import "./Reports.css";
 // Library used to export data to Excel
 import * as XLSX from "xlsx";
 
+import {
+  FaFilter,
+  FaBuilding,
+  FaTags,
+  FaClock,
+  FaSyncAlt,
+  FaCheckCircle,
+  FaHourglassHalf,
+  FaSpinner,
+  FaFileExcel,
+  FaFileWord,
+  FaPrint
+} from "react-icons/fa";
+
 /* =====================================================
    Complaint Type → Category Mapping
    Used to automatically assign a category
@@ -262,19 +276,20 @@ const Reports = () => {
       {/* Filters Section */}
       <div className="filters">
         {/* Status Filter */}
-        <select name="status" value={filters.status} onFocus={clearReset} onChange={handleChange}>
-          <option value="">All Status</option>
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Resolved">Resolved</option>
-        </select>
+        <div className="filter-item">
+    <FaFilter className="filter-icon" />
+    <select name="status" value={filters.status} onFocus={clearReset} onChange={handleChange}>
+      <option value="">All Status</option>
+      <option value="Pending">Pending</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Resolved">Resolved</option>
+    </select>
+  </div>
 
-        <select
-          name="department"
-          value={filters.department}
-          onChange={handleChange}
-        >
-        <option value="">All Departments</option>
+          <div className="filter-item">
+    <FaBuilding className="filter-icon" />
+    <select name="department" value={filters.department} onChange={handleChange}>
+      <option value="">All Departments</option>
 
         {/* Infrastructure & Maintenance */}
         <option value="Maintenance Department">Maintenance Department</option>
@@ -297,14 +312,14 @@ const Reports = () => {
         <option value="General Complaints Desk">General Complaints Desk</option>
 
         </select>
+      </div>
 
 
-       <select
-        name="category"
-        value={filters.category}
-        onChange={handleChange}
-      >
+    <div className="filter-item">
+    <FaTags className="filter-icon" />
+    <select name="category" value={filters.category} onChange={handleChange}>
       <option value="">All Categories</option>
+
       <option value="Infrastructure & Facilities Issues"> Infrastructure & Facilities Issues </option>
       <option value="Electrical & Power Issues"> Electrical & Power Issues </option>
       <option value="Water Supply & Sanitation Issues"> Water Supply & Sanitation Issues </option>
@@ -319,17 +334,24 @@ const Reports = () => {
       <option value="Administrative Issues">  Administrative Issues </option>
       <option value="Miscellaneous / Other Complaints">  Miscellaneous / Other Complaints </option> 
     </select>
+    </div>
 
 
         {/* Time Filter */}
-        <select name="reportType" value={filters.reportType} onFocus={clearReset} onChange={handleChange}>
-          <option value="">All Time</option>
+      <div className="filter-item">
+    <FaClock className="filter-icon" />
+    <select name="reportType" value={filters.reportType} onChange={handleChange}>
+      <option value="">All Time</option>
           <option value="daily">Daily</option>
           <option value="monthly">Monthly</option>
           <option value="yearly">Yearly</option>
         </select>
+      </div>
 
-        <button onClick={resetFilters}>Reset</button>
+        <button onClick={resetFilters} className="reset-btn">
+          <FaSyncAlt /> Reset
+        </button>
+
       </div>
 
       {/* Table Section */}
@@ -353,7 +375,21 @@ const Reports = () => {
                 <tr key={r.id}>
                   <td>{r.department}</td>
                   <td>{r.category}</td>
-                  <td>{r.status}</td>
+                  <td>
+  <span className={`status-badge ${
+    r.status === "Resolved"
+      ? "resolved"
+      : r.status === "Pending"
+      ? "pending"
+      : "inprogress"
+  }`}>
+    {r.status === "Resolved" && <FaCheckCircle />}
+    {r.status === "Pending" && <FaHourglassHalf />}
+    {r.status === "In Progress" && <FaSpinner className="spin" />}
+    <span>{r.status}</span>
+  </span>
+</td>
+
                   <td>{getStartDate(r)}</td>
                   <td>{getEndDate(r)}</td>
                   <td>{r.complaints}</td>
@@ -368,11 +404,19 @@ const Reports = () => {
 
       {/* Action Buttons */}
       <div className="actions">
-        <button disabled={!filteredReports.length} onClick={downloadExcel}>Download Excel</button>
-        <button disabled={!filteredReports.length} onClick={downloadWord}>Download Word</button>
-        <button disabled={!filteredReports.length} onClick={printReport}>Print</button>
-      </div>
-    </div>
+  <button disabled={!filteredReports.length} onClick={downloadExcel}>
+    <FaFileExcel /> Download Excel
+  </button>
+
+  <button disabled={!filteredReports.length} onClick={downloadWord}>
+    <FaFileWord /> Download Word
+  </button>
+
+  <button disabled={!filteredReports.length} onClick={printReport}>
+    <FaPrint /> Print
+  </button>
+  </div>
+  </div>
   );
 };
 

@@ -5,6 +5,7 @@
   min-height: 100vh;
   padding: 30px;
   background: linear-gradient(180deg, #eafaf2, #f4fff9);
+  animation: pageFade 0.6s ease-in-out;
 }
 
 .reports-container h2 {
@@ -24,8 +25,17 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 24px;
-  box-shadow: 0 12px 30px rgba(31, 61, 50, 0.12);
   animation: fadeDown 0.4s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08),
+              0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+@media (hover: hover) {
+  .filters:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12),
+                0 6px 14px rgba(0, 0, 0, 0.08);
+  }
 }
 
 .filters input,
@@ -40,8 +50,8 @@
 .filters input:focus,
 .filters select:focus {
   outline: none;
-  border-color: #7edbb0;
-  box-shadow: 0 0 0 3px rgba(126, 219, 176, 0.3);
+  border-color: #6dd6aa;
+  box-shadow: 0 0 0 3px rgba(109, 214, 170, 0.35);
 }
 
 .filters button {
@@ -52,153 +62,160 @@
   padding: 9px 20px;
   font-weight: 500;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .filters button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(109, 214, 170, 0.45);
+  box-shadow: 0 10px 22px rgba(109, 214, 170, 0.5);
 }
 
 /* =====================
-   Table Card
+   Filter Items
+===================== */
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f9fffc;
+  border-radius: 10px;
+  padding: 6px 10px;
+  animation: popIn 0.4s ease;
+}
+
+.filter-icon {
+  font-size: 16px;
+  color: #2f9e44;
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.filter-item:hover {
+  background: linear-gradient(135deg, #e6fff2, #d9fbe8);
+}
+
+.filter-item:hover .filter-icon {
+  color: #ff922b;
+  transform: scale(1.35) rotate(-6deg);
+}
+
+/* =====================
+   Table Wrapper
 ===================== */
 .table-wrapper {
+  margin-top: 20px;
   background: #ffffff;
   border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 18px 40px rgba(31, 61, 50, 0.15);
+  overflow-x: auto;
   animation: fadeUp 0.45s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08),
+              0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 /* =====================
    Table
 ===================== */
-/* Table wrapper */
-.table-wrapper {
-  margin-top: 20px;
-  overflow-x: auto;
-}
-
-/* Main table */
 table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  overflow: hidden;
+  min-width: 950px;
+  border-collapse: collapse;
+  background: #ffffff;
   font-size: 14px;
 }
 
-/* Table header */
+table th,
+table td {
+  box-sizing: border-box;
+}
+
 thead th {
-  background-color: #fde5ae;
+  background: linear-gradient(180deg, #fdecc0, #fde5ae);
   color: #000000b0;
   font-weight: 600;
-  text-align: left;
   padding: 12px 14px;
-  border-bottom: 1px solid #e5e7eb;
+  border: 1px solid #dfeee7;
 }
 
-/* Table body cells */
+tbody tr {
+  height: 52px;
+}
+
 tbody td {
   padding: 12px 14px;
+  border: 1px solid #dfeee7;
   color: #374151;
-  border-bottom: 1px solid #a89c9c;
-}
-
-/* Remove last row border */
-tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* Row hover effect */
-tbody tr:hover {
-  background-color: #ebfcf5;
-  transition: background-color 0.2s ease;
-}
-
-/* Center text where needed */
-td,
-th {
   vertical-align: middle;
+  line-height: 1.4; /* ✅ uniform row height */
 }
 
-/* Smooth rounded corners */
-table thead th:first-child {
-  border-top-left-radius: 10px;
-}
-
-table thead th:last-child {
-  border-top-right-radius: 10px;
-}
-
-/* Loading / empty message row */
-tbody td[colspan] {
+/* ===== Fix: Last Column (Total Complaints) ===== */
+tbody td:last-child {
   text-align: center;
-  padding: 20px;
-  color: #6b7280;
+  white-space: nowrap;
 }
 
-/* Print friendly */
-@media print {
-  table {
-    border: 1px solid #000;
-  }
-
-  thead th,
-  tbody td {
-    border: 1px solid #000;
+/* =====================
+   Table Hover (Optimized)
+===================== */
+@media (hover: hover) {
+  tbody tr {
+    transition: background-color 0.2s ease;
+    will-change: background-color;
   }
 
   tbody tr:hover {
-    background-color: transparent;
+    background-color: #ecfff6;
+  }
+
+  tbody tr:hover td:first-child {
+    box-shadow: inset 4px 0 0 #6dd6aa;
   }
 }
-
 
 /* =====================
    Status Badges
 ===================== */
 .status-badge {
-  padding: 6px 14px;
-  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
   font-size: 13px;
   font-weight: 500;
-  display: inline-block;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  animation: badgeFloat 3s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Resolved */
+.status-badge:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.15);
+}
+
 .status-badge.resolved {
-  background: #d9fbe8;
-  color: #1b7a4b;
-  box-shadow: 0 4px 12px rgba(27, 122, 75, 0.2);
+  background: linear-gradient(135deg, #b7f7d4, #7ae3b2);
+  color: #0f5132;
 }
 
-/* Pending */
 .status-badge.pending {
-  background: #ffe1e1;
-  color: #b91c1c;
-  box-shadow: 0 4px 12px rgba(185, 28, 28, 0.2);
+  background: linear-gradient(135deg, #ffd6d6, #ff9f9f);
+  color: #7a0b0b;
 }
 
-/* In Progress */
 .status-badge.inprogress {
-  background: #f4df8c;
-  color: #92400e;
-  box-shadow: 0 4px 12px rgba(146, 64, 14, 0.2);
+  background: linear-gradient(135deg, #ffe9a8, #facc15);
+  color: #854d0e;
 }
 
 /* =====================
-   No Data
+   Reduced Motion
 ===================== */
-.no-data {
-  padding: 22px;
-  color: #6b9083;
-  font-style: italic;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
+
 
 /* =====================
    Action Buttons
@@ -207,9 +224,9 @@ tbody td[colspan] {
   margin-top: 26px;
   display: flex;
   gap: 14px;
+  animation: fadeUp 0.45s ease;
 }
 
-/* Base button */
 .actions button {
   padding: 10px 22px;
   border-radius: 12px;
@@ -218,147 +235,95 @@ tbody td[colspan] {
   font-weight: 500;
   cursor: pointer;
   color: #ffffff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-/* PDF */
+.actions button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+}
+
+.actions button:active {
+  transform: translateY(-1px);
+}
+
+.actions button svg {
+  transition: transform 0.3s ease;
+}
+
+.actions button:hover svg {
+  transform: scale(1.35);
+}
+
 .actions button:nth-child(1) {
   background: linear-gradient(135deg, #ff6b6b, #e63946);
 }
 
-/* Excel */
 .actions button:nth-child(2) {
   background: linear-gradient(135deg, #51cf66, #2f9e44);
 }
 
-/* Print */
 .actions button:nth-child(3) {
   background: linear-gradient(135deg, #adb5bd, #868e96);
 }
 
-.actions button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+/* =====================
+   Mobile Responsive
+===================== */
+@media (max-width: 768px) {
+  .reports-container {
+    padding: 12px;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters input,
+  .filters select,
+  .filters button,
+  .actions button {
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
 }
 
 /* =====================
    Animations
 ===================== */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* =====================
-   Responsive Fix (Mobile) — FINAL
-===================== */
-@media (max-width: 768px) {
-
-  /* Page padding fix */
-  .reports-container {
-    padding: 12px;
-  }
-
-  /* Filters stack cleanly */
-  .filters {
-    flex-direction: column;
-    padding: 14px;
-  }
-
-  .filters input,
-  .filters select,
-  .filters button {
-    width: 100%;
-  }
-
-  /* Table wrapper */
-  .table-wrapper {
-    margin-top: 16px;
-    border-radius: 12px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* 🔑 FORCE horizontal scroll */
-  table {
-    width: 100%;
-    min-width: 950px; /* VERY IMPORTANT */
-    border-collapse: separate;
-    table-layout: auto;
-  }
-
-  /* 🔑 STOP vertical text */
-  thead th,
-  tbody td {
-    white-space: nowrap;
-    word-break: keep-all;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 10px;
-    font-size: 13px;
-  }
-
-  /* Column widths */
-  table th:nth-child(1),
-  table td:nth-child(1) {
-    min-width: 180px;
-  }
-
-  table th:nth-child(2),
-  table td:nth-child(2) {
-    min-width: 240px;
-  }
-
-  table th:nth-child(3),
-  table td:nth-child(3) {
-    min-width: 130px;
-  }
-
-  table th:nth-child(4),
-  table td:nth-child(4),
-  table th:nth-child(5),
-  table td:nth-child(5) {
-    min-width: 140px;
-  }
-
-  table th:nth-child(6),
-  table td:nth-child(6) {
-    min-width: 160px;
-    text-align: center;
-    font-weight: 600;
-  }
-
-  /* Actions section */
-  .actions {
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 18px;
-  }
-
-  .actions button {
-    width: 100%;
-    padding: 12px;
-  }
-
-  /* Disable hover on mobile */
-  tbody tr:hover {
-    background-color: transparent;
-  }
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
+
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes badgeFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+
