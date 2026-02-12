@@ -243,28 +243,30 @@
   background: #22c55e;
   border-radius: 6px;
 }
-
 /* ================================
-   MOBILE RESPONSIVE (REAL APP)
+   MOBILE RESPONSIVE (PRO FIXED)
 ================================ */
 @media (max-width: 850px) {
 
   .page-bg {
-    padding: 12px 8px;
+    padding: 12px 6px;
+  }
+
+  .track-container {
+    width: 100%;
   }
 
   .top-track-title {
     font-size: 18px;
     padding: 14px 16px;
+    text-align: center;
   }
-.header-left p {
-    white-space: normal; /* Allows wrapping only on mobile to prevent horizontal scrolling */
-    max-width: 100%;
-  }
+
+  /* HEADER STACK */
   .complaints-header {
     flex-direction: column;
     align-items: stretch;
-    gap: 16px;
+    gap: 14px;
     padding: 16px;
   }
 
@@ -272,7 +274,13 @@
     font-size: 22px;
   }
 
+  .header-left p {
+    white-space: normal;
+    max-width: 100%;
+    font-size: 14px;
+  }
 
+  /* SEARCH FULL WIDTH */
   .header-right {
     min-width: 100%;
   }
@@ -282,14 +290,45 @@
     padding: 12px 16px 12px 42px;
   }
 
-  .status {
-    font-size: 12px;
-    padding: 5px 12px;
+  /* TABLE MOBILE OPTIMIZATION */
+  .track-card {
+    padding: 16px;
   }
 
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .complaint-table {
+    min-width: 700px; /* Reduced from 900px */
+  }
+
+  /* REMOVE STICKY FIRST COLUMN ON MOBILE */
+  .complaint-table th:first-child,
+  .complaint-table td:first-child {
+    position: static;
+    box-shadow: none !important;
+  }
+
+  /* SMALLER CELL SPACING */
+  .complaint-table th,
+  .complaint-table td {
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  /* STATUS SMALLER */
+  .status {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  /* ADMIN RESPONSE FULL WIDTH */
   .admin-response-card {
     font-size: 13px;
     min-width: unset;
     width: 100%;
+    padding: 12px 18px 12px 26px;
   }
+
 }

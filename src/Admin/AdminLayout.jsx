@@ -14,70 +14,51 @@ const AdminLayout = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="admin-container">
+    <div className="admin">
 
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "show" : ""}`}>
-        <h2>ecomplaintsportal</h2>
+        <h2 className="logo">ecomplaintsportal</h2>
 
-        <ul>
-          <li>
-            <Link to="/admin/dashboard" className="nav-link">
-              <FaTachometerAlt />
-              <span>Dashboard</span>
-            </Link>
-          </li>
+        <nav>
+          <Link to="/admin/dashboard" onClick={() => setOpen(false)}>
+            <FaTachometerAlt /> Dashboard
+          </Link>
 
-          <li>
-            <Link to="/admin/manage-complaints" className="nav-link">
-              <FaClipboardList />
-              <span>Manage Complaints</span>
-            </Link>
-          </li>
+          <Link to="/admin/manage-complaints" onClick={() => setOpen(false)}>
+            <FaClipboardList /> Manage Complaints
+          </Link>
 
-          <li>
-            <Link to="/admin/reports" className="nav-link">
-              <FaChartBar />
-              <span>Reports</span>
-            </Link>
-          </li>
+          <Link to="/admin/reports" onClick={() => setOpen(false)}>
+            <FaChartBar /> Reports
+          </Link>
 
-          <li className="nav-link">
-            <FaUser />
-            <span>Profile</span>
-          </li>
+          <Link to="/admin/profile" onClick={() => setOpen(false)}>
+            <FaUser /> Profile
+          </Link>
 
-          <li className="nav-link">
-            <FaSignOutAlt />
-            <span>Logout</span>
-          </li>
-        </ul>
+          <button className="logout">
+            <FaSignOutAlt /> Logout
+          </button>
+        </nav>
       </aside>
 
+      {/* Overlay */}
       {open && <div className="overlay" onClick={() => setOpen(false)} />}
 
       {/* Main */}
       <main className="main">
 
         {/* Header */}
-       <header className="header">
+        <header className="header">
+          <button className="menu" onClick={() => setOpen(true)}>☰</button>
 
-  <div className="header-left">
-    <div className="menu-btn" onClick={() => setOpen(true)}>☰</div>
+          <h1>Admin Dashboard</h1>
 
-    <span className="header-icon">
-      <FaTachometerAlt />
-    </span>
+          <span className="badge">Administrator</span>
+        </header>
 
-    <h3>Admin Dashboard</h3>
-  </div>
-
-  <span className="admin-badge">Administrator</span>
-
-</header>
-
-
-        <div className="admin-content">
+        <div className="content">
           <Outlet />
         </div>
 

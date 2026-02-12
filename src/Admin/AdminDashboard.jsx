@@ -33,71 +33,80 @@ const data = {
 
 const AdminDashboard = () => {
   return (
-    <>
-      <div className="cards">
+    <div className="dashboard">
 
-        <div className="card">
-          <FaClipboardList className="card-icon blue" />
-          <h2>480</h2>
-          <span>Total</span>
-        </div>
+  {/* Cards */}
+  <div className="cards">
 
-        <div className="card orange">
-          <FaClock className="card-icon orange-icon" />
-          <h2>120</h2>
-          <span>Pending</span>
-        </div>
+    <div className="card">
+      <FaClipboardList />
+      <h2>480</h2>
+      <p>Total</p>
+    </div>
 
-        <div className="card purple">
-          <FaSpinner className="card-icon purple-icon spin" />
-          <h2>65</h2>
-          <span>In Progress</span>
-        </div>
+    <div className="card">
+      <FaClock />
+      <h2>120</h2>
+      <p>Pending</p>
+    </div>
 
-        <div className="card green">
-          <FaCheckCircle className="card-icon green-icon" />
-          <h2>295</h2>
-          <span>Resolved</span>
-        </div>
+    <div className="card">
+      <FaSpinner className="spin" />
+      <h2>65</h2>
+      <p>In Progress</p>
+    </div>
 
-      </div>
+    <div className="card">
+      <FaCheckCircle />
+      <h2>295</h2>
+      <p>Resolved</p>
+    </div>
 
-      <div className="chart">
-        <Bar data={data} options={{ responsive: true, maintainAspectRatio: false }} />
-      </div>
+  </div>
 
-      <div className="table-box">
-        <h3>Recent Complaints</h3>
+  {/* Dashboard Panels Grid */}
+  <div className="dashboard-grid">
 
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Student</th>
-              <th>Category</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+    {/* Chart Panel */}
+    <div className="panel chart">
+      <Bar data={data} options={{ responsive: true, maintainAspectRatio: false }} />
+    </div>
 
-          <tbody>
-            <tr>
-              <td>379</td>
-              <td>John</td>
-              <td>WiFi</td>
-              <td className="badge pending">Pending</td>
-            </tr>
+    {/* Table Panel */}
+    <div className="panel table">
+      <h3>Recent Complaints</h3>
 
-            <tr>
-              <td>378</td>
-              <td>Jane</td>
-              <td>Hostel</td>
-              <td className="badge resolved">Resolved</td>
-            </tr>
-          </tbody>
-        </table>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Student</th>
+            <th>Category</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-      </div>
-    </>
+        <tbody>
+          <tr>
+            <td>379</td>
+            <td>John</td>
+            <td>WiFi</td>
+            <td><span className="pending">Pending</span></td>
+          </tr>
+
+          <tr>
+            <td>378</td>
+            <td>Jane</td>
+            <td>Hostel</td>
+            <td><span className="resolved">Resolved</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
   );
 };
 
