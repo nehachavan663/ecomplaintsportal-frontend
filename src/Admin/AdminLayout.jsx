@@ -60,11 +60,16 @@ useEffect(() => {
     <FaUser /> Profile
   </NavLink>
 
-  <button className="logout">
+    
+  <NavLink
+    to="/"
+    className={({ isActive }) => (isActive ? "active" : "")}
+    onClick={() => setOpen(false)}
+  >
     <FaSignOutAlt /> Logout
-  </button>
+    </NavLink>
+  
 </nav>
-
       </aside>
 
       {/* Overlay */}

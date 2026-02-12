@@ -1,26 +1,23 @@
 import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, NavLink, useNavigate } from "react-router-dom";
 import "./Layout.css";
 
-import { FaBars, FaMoon, FaSun } from "react-icons/fa";
+import { FaBars, FaMoon, FaSun, FaSignOutAlt, FaTimes } from "react-icons/fa";
 
-import Dashboard from "./Dashboard";    
+import Dashboard from "./Dashboard";
 import TrackComplaintStatus from "./TrackComplaintStatus";
 import ComplaintForm from "./ComplaintForm";
 import Profile from "./Profile";
 import Setting from "./Setting";
 import Faqs from "./Faqs";
 
-
-
 function Layout() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-
-  
+  const navigate = useNavigate();
 
   const menuItems = [
-    {name: "Dashboard ", path:"/dashboard" },
+    { name: "Dashboard", path: "/dashboard" },
     { name: "Complaint Status", path: "/dashboard/status" },
     { name: "Registration Form", path: "/dashboard/register" },
     { name: "Profile", path: "/dashboard/profile" },
@@ -28,60 +25,81 @@ function Layout() {
     { name: "Setting", path: "/dashboard/setting" }
   ];
 
+  const handleLogout = () => navigate("/");
+
   return (
-    <div className="layout-container">
+    <div className={darkMode ? "dark" : ""}>
+      <div className="layout-container">
 
+        {/* MOBILE HEADER */}
+        <div className="mobile-header">
+          <FaBars
+            className="mobile-icon"
+            onClick={() => setSidebarOpen(true)}
+          />
+          <h4>Student Panel</h4>
 
-      {/* Sidebar */}
-      <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-
-    
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <FaBars onClick={() => setCollapsed(!collapsed)} style={{ cursor: "pointer" }} />
-          {!collapsed && (
-            <div onClick={() => setDarkMode(!darkMode)} style={{ cursor: "pointer" }}>
+          <div className="mobile-right">
+            <div onClick={() => setDarkMode(!darkMode)}>
               {darkMode ? <FaSun /> : <FaMoon />}
             </div>
-          )}
+            <FaSignOutAlt onClick={handleLogout} />
+          </div>
         </div>
 
-        {!collapsed && (
-          <h3 style={{ marginTop: "30px", fontSize: "15px" }}>
-            Online Complaint Management
-          </h3>
+        {/* OVERLAY */}
+        {sidebarOpen && (
+          <div
+            className="overlay"
+            onClick={() => setSidebarOpen(false)}
+          />
         )}
 
-        <div style={{ marginTop: "30px" }}>
-          {menuItems.map((item) => (
-            <Link
-              key={item.name}
-              to={item.path}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "12px",
-                borderRadius: "8px",
-                marginBottom: "10px",
-                textDecoration: "none",
-                color: "white"
-              }}
-            >
-              {!collapsed && <span>{item.name}</span>}
-            </Link>
-          ))}
-        </div>
-      </div>
+        {/* SIDEBAR */}
+        <div className={`sidebar ${sidebarOpen ? "show" : ""}`}>
+          <div className="sidebar-top">
+            <FaTimes
+              className="icon-btn"
+              onClick={() => setSidebarOpen(false)}
+            />
+          </div>
 
-      {/* Main Content */}
-      <div className="main-content">
-         <Routes>
-          <Route path="/*" element={<Dashboard />} />
-          <Route path="status" element={<TrackComplaintStatus />} />
-          <Route path="register" element={<ComplaintForm />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="faqs" element={<Faqs />} />
-          <Route path="setting" element={<Setting />} />
-        </Routes>
+          <h3 className="sidebar-title">
+            Online Complaint Management
+          </h3>
+
+          <div className="menu-container">
+            {menuItems.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                className="menu-link"
+                onClick={() => setSidebarOpen(false)}
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </div>
+
+          <div className="logout-section">
+            <button className="logout-btn" onClick={handleLogout}>
+              <FaSignOutAlt /> Logout
+            </button>
+          </div>
+        </div>
+
+        {/* MAIN CONTENT */}
+        <div className="main-content">
+          <Routes>
+            <Route path="/*" element={<Dashboard />} />
+            <Route path="status" element={<TrackComplaintStatus />} />
+            <Route path="register" element={<ComplaintForm />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="faqs" element={<Faqs />} />
+            <Route path="setting" element={<Setting />} />
+          </Routes>
+        </div>
+
       </div>
     </div>
   );

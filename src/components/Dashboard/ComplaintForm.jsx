@@ -1,5 +1,15 @@
 import React, { useState } from "react";
 import "./ComplaintForm.css";
+import heroImage from "./assets/cimage.png";
+import {
+  User,
+  Calendar,
+  Tag,
+  MapPin,
+  Folder,
+  FileText,
+  Image
+} from "lucide-react";
 
 
 const complaintCategoryMap = {
@@ -141,7 +151,8 @@ const ComplaintForm = () => {
             <div className="pro-illustration-container">
               <div className="pro-floating-chip chip-secured">🛡 Secured</div>
               <div className="pro-floating-chip chip-priority">✨ Priority</div>
-              <img src="imgae1.png" alt="Support Illustration" className="pro-hero-img" />
+            <img src={heroImage} alt="Support Illustration" className="pro-hero-img" />
+
             </div>
           </div>
 
@@ -160,30 +171,48 @@ const ComplaintForm = () => {
             <form className="pro-form-wrapper" onSubmit={handleSubmit}>
               <div className="pro-form-row">
                 <div className="pro-input-group">
-                  <label className="pro-label">👤 User Name *</label>
+                  <label className="pro-label">
+                <User size={16} className="label-icon" />
+                User Name *
+              </label>
+
                   <input className="pro-input" placeholder="Enter Full Name" required />
                 </div>
                 <div className="pro-input-group">
-                  <label className="pro-label">📅 Date *</label>
+                <label className="pro-label">
+  <Calendar size={16} className="label-icon" />
+  Date *
+</label>
+
                   <input type="date" className="pro-input" required />
                 </div>
               </div>
 
               <div className="pro-input-group">
-                <label className="pro-label">🏷️ Complaint Title *</label>
+             <label className="pro-label">
+  <Tag size={16} className="label-icon" />
+  Complaint Title *
+</label>
                 <input className="pro-input" placeholder="Short issue title" required />
               </div>
 
               <div className="pro-form-row">
                 <div className="pro-input-group">
-                  <label className="pro-label">📍 Area *</label>
+                  <label className="pro-label">
+  <MapPin size={16} className="label-icon" />
+  Area *
+</label>
                   <select className="pro-select" value={area} onChange={(e) => {setArea(e.target.value); setCategory("");}} required>
                     <option value="">Select location</option>
                     {Object.keys(complaintCategoryMap).map(a => <option key={a} value={a}>{a}</option>)}
                   </select>
                 </div>
                 <div className="pro-input-group">
-                  <label className="pro-label">📂 Category *</label>
+                
+<label className="pro-label">
+  <Folder size={16} className="label-icon" />
+  Category *
+</label>
                   <select className="pro-select" disabled={!area} value={category} onChange={(e) => setCategory(e.target.value)} required>
                     <option value="">{area ? "Select category" : "Select area first"}</option>
                     {area && complaintCategoryMap[area].map(c => <option key={c} value={c}>{c}</option>)}
@@ -192,13 +221,21 @@ const ComplaintForm = () => {
               </div>
 
               <div className="pro-input-group">
-                <label className="pro-label">📝 Description *</label>
+             
+<label className="pro-label">
+  <FileText size={16} className="label-icon" />
+  Description *
+</label>
                 <textarea className="pro-textarea" rows="3" maxLength={300} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe details clearly..." required />
                 <div className="pro-char-limit">{description.length}/300</div>
               </div>
 
               <div className="pro-input-group">
-                <label className="pro-label">📸 Upload Image</label>
+              
+<label className="pro-label">
+  <Image size={16} className="label-icon" />
+  Upload Image
+</label>
                 <label className="pro-upload-zone">
                   <input type="file" className="pro-file-hidden" accept="image/*" onChange={handleFileChange} />
                   <div className="pro-upload-content">

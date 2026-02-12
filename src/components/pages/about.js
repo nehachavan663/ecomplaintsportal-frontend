@@ -1,9 +1,11 @@
+
 import React from "react";
 import {FaBullseye,FaEye,FaCheckCircle} from "react-icons/fa";
 import "./about.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 function About() {
   return (
+    <HomeLayout>
     <section className="about-page">
       <h1>About Ecomplaintsportal</h1>
 
@@ -58,6 +60,7 @@ function About() {
         </div>
       </div>
     </section>
+    </HomeLayout>
   );
 }
 

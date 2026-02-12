@@ -1,9 +1,11 @@
 import React from "react";
 import { FaEnvelope,FaPhone,FaMapMarkerAlt } from "react-icons/fa";
 import "./contact.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 function Contact() {
+
   return (
+    <HomeLayout>
     <section className="contact-page">
       <h1>Contact & Support</h1>
 
@@ -93,6 +95,7 @@ function Contact() {
 
       </div>
     </section>
+    </HomeLayout>
   );
 }
 

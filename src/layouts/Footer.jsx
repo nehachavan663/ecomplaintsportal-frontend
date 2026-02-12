@@ -44,7 +44,7 @@ function Footer() {
 
             <li>
               <FaShieldAlt />
-              <a href="/privacy-policy">Privacy Policy</a>
+              <a href="/privacy">Privacy Policy</a>
             </li>
 
             <li>

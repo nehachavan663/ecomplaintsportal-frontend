@@ -289,3 +289,14 @@ html, body {
   .pro-floating-chip { font-size: 11px; padding: 6px 14px; }
   .pro-hero-img { width: 85%; }
 }
+.pro-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.label-icon {
+  color: #10b981;
+}

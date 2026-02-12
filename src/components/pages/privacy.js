@@ -1,8 +1,9 @@
 import React from "react";
 import "./privacy.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 function Privacy() {
   return (
+    <HomeLayout>
     <section className="privacy-page">
       <h1>Privacy & Data Protection</h1>
 
@@ -32,6 +33,7 @@ function Privacy() {
         </p>
       </div>
     </section>
+    </HomeLayout>
   );
 }
 

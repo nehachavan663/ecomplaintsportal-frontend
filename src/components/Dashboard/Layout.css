@@ -1,100 +1,165 @@
-/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
 }
 
-/* ===== LAYOUT CONTAINER ===== */
+/* ================= LAYOUT ================= */
 .layout-container {
-  display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, #eaf4ef, #d9eee3);
+  transition: 0.3s ease;
 }
 
-/* ===== SIDEBAR ===== */
+/* ================= SIDEBAR ================= */
 .sidebar {
-  width: 250px;              /* Important */
-  min-width: 250px;          /* Prevent shrinking */
+  width: 250px;
   height: 100vh;
-  position: fixed;           /* Prevent layout breaking */
-  left: 0;
+  position: fixed;
   top: 0;
+  left: 0;
   background: linear-gradient(180deg, #a8d5ba, #2cdc7b);
   padding: 25px 18px;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s ease;
-  overflow: hidden;
-}
-
-/* Collapsed Sidebar */
-.sidebar.collapsed {
-  width: 80px;
-  min-width: 80px;
-}
-
-/* Sidebar Title */
-.sidebar h3 {
-  font-weight: 600;
-  font-size: 15px;
-  margin-top: 35px;
-  margin-bottom: 25px;
-  color: #1f3b2c;
-}
-
-/* Sidebar Links */
-.sidebar a {
   display: flex;
-  align-items: center;
-  padding: 12px 14px;
-  border-radius: 12px;
-  margin-bottom: 12px;
+  flex-direction: column;
+  z-index: 1001;
+  transition: left 0.3s ease, background 0.3s ease;
+}
+
+.sidebar-title {
+  margin-top: 25px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.menu-container {
+  margin-top: 30px;
+  flex: 1;
+}
+
+.menu-link {
+  display: block;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
   text-decoration: none;
   color: #1f3b2c;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  transition: 0.3s;
 }
 
-/* Hover */
-.sidebar a:hover {
+.menu-link:hover,
+.menu-link.active {
   background: #bcf5a7;
-  transform: translateX(5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Active */
-.sidebar a.active {
-  background: #7de778;
-  font-weight: 600;
+/* Logout */
+.logout-section {
+  margin-top: auto;
 }
 
-/* Icons */
-.sidebar svg {
-  margin-right: 10px;
-  font-size: 16px;
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ef4444;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-/* ===== MAIN CONTENT ===== */
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* ================= MAIN CONTENT ================= */
 .main-content {
-  margin-left: 250px;        /* Must match sidebar width */
-  flex: 1;
+  margin-left: 250px;
   padding: 30px;
   min-height: 100vh;
-  transition: all 0.4s ease;
+  transition: 0.3s ease;
 }
 
-/* When Sidebar Collapsed */
-.sidebar.collapsed + .main-content {
-  margin-left: 80px;
+/* ================= MOBILE HEADER ================= */
+.mobile-header {
+  display: none;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* ================= DARK MODE ================= */
+.dark {
+  background: #121212;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #9bc3a8;
-  border-radius: 10px;
+.dark .layout-container {
+  background: #121212;
+}
+
+.dark .sidebar {
+  background: #1f1f1f;
+  color: white;
+}
+
+.dark .menu-link {
+  color: #e0e0e0;
+}
+
+.dark .menu-link:hover,
+.dark .menu-link.active {
+  background: #2a2a2a;
+}
+
+.dark .main-content {
+  background: #181818;
+  color: white;
+}
+
+/* ================= OVERLAY ================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: #2cdc7b;
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1002;
+  }
+
+  .mobile-icon {
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .mobile-right {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .sidebar {
+    left: -100%;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 90px 15px 20px 15px;
+  }
 }
