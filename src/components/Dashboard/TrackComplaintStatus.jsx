@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./TrackComplaintStatus.css";
-import HomeLayout from "../../layouts/HomeLayouts";
+
 
 const complaintsData = [
   {
@@ -36,7 +36,7 @@ const TrackComplaintStatus = () => {
   );
 
   return (
-    <HomeLayout>
+ 
       <div className="page-bg">
         <div className="track-container">
 
@@ -107,7 +107,7 @@ const TrackComplaintStatus = () => {
 
         </div>
       </div>
-    </HomeLayout>
+
   );
 };
 

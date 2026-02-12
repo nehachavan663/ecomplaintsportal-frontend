@@ -1,40 +1,38 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "./App.css";
 
-// Complaint Pages
-import ComplaintForm from "./components/Complaint/ComplaintForm";
-import TrackComplaintStatus from "./components/Complaint/TrackComplaintStatus";
-
-// Dashboard
-import Dashboard from "./components/Dashboard/Dashboard";
-
-// Home
+/* ---------- PUBLIC PAGES ---------- */
 import Home from "./components/Home/Home";
-
-// Info Pages
 import About from "./components/pages/about";
 import Contact from "./components/pages/contact";
 import Help from "./components/pages/help";
 import Privacy from "./components/pages/privacy";
 
-// Profile
-import Profile from "./components/Profile/Profile";
-
-// Auth
+/* ---------- AUTH ---------- */
 import Login from "./components/stdlr/login";
 import Register from "./components/stdlr/register";
 import ForgotPassword from "./components/stdlr/ForgotPassword";
 
-// CSS
-import "./App.css";
+/* ---------- STUDENT LAYOUT ---------- */
+import Layout from "./components/Dashboard/Layout";
+  
 
-// Admin
+// Complaint Pages
+import ComplaintForm from "./components/Dashboard/ComplaintForm";
+import TrackComplaintStatus from "./components/Dashboard/TrackComplaintStatus";
+
+// Profile
+import Profile from "./components/Dashboard/Profile";
+
+
+
+/* ---------- ADMIN LAYOUT ---------- */
 import AdminLayout from "./Admin/AdminLayout";
 import AdminDashboard from "./Admin/AdminDashboard";
 import ManageComplaint from "./Admin/ManageComplaint";
 import Reports from "./Admin/Reports";
-import AdminProfile from "./Admin/AdminProfile";
 
 
 function App() {
@@ -44,48 +42,38 @@ function App() {
 
         <Routes>
 
-          {/* Home */}
+          {/* ================= PUBLIC ROUTES ================= */}
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/privacy" element={<Privacy />} />
 
-          {/* Information Pages */}
-<Route path="/about" element={<About />} />
-<Route path="/contact" element={<Contact />} />
-<Route path="/help" element={<Help />} />
-<Route path="/privacy" element={<Privacy />} />
-
-          {/* Complaint */}
+              {/* Complaint */}
           <Route path="/complaint" element={<ComplaintForm />} />
           <Route path="/track" element={<TrackComplaintStatus />} />
 
-          {/* Student Dashboard */}
-          <Route path="/dashboard" element={<Dashboard />} />
 
           {/* Profile */}
           <Route path="/profile" element={<Profile />} />
 
-          {/* Auth */}
+          {/* ================= AUTH ROUTES ================= */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
-
-          {/* ================= ADMIN ROUTES ================= */}
-
-          <Route path="/admin" element={<AdminLayout />}>
-
+          {/* ================= STUDENT DASHBOARD ================= */}
+          <Route path="/dashboard/*" element={<Layout/>} />
+            
+      
+          {/* ================= ADMIN DASHBOARD ================= */}
+          <Route path="/admin/*" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
-
             <Route path="manage-complaints" element={<ManageComplaint />} />
-
             <Route path="reports" element={<Reports />} />
-
-            <Route path="profile" element={<AdminProfile/>} />
-
           </Route>
 
-          {/* =============================================== */}
-
-          {/* 404 */}
+          {/* ================= 404 ================= */}
           <Route
             path="*"
             element={

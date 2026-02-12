@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./ComplaintForm.css";
-import HomeLayout from "../../layouts/HomeLayouts";
+
 
 const complaintCategoryMap = {
 Hostel: [
@@ -104,7 +104,7 @@ const ComplaintForm = () => {
   };
 
   return (
-    <HomeLayout>
+ 
       <div className="pro-page-wrapper">
         <div className="pro-main-container">
           
@@ -221,7 +221,7 @@ const ComplaintForm = () => {
           </div>
         </div>
       </div>
-    </HomeLayout>
+
   );
 };
 
