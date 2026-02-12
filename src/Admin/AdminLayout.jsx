@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
+
 import "./AdminDashboard.css";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 import {
   FaTachometerAlt,
@@ -12,6 +15,11 @@ import {
 
 const AdminLayout = () => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+useEffect(() => {
+  setOpen(false);
+}, [location]);
 
   return (
     <div className="admin">
@@ -19,28 +27,44 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "show" : ""}`}>
         <h2 className="logo">ecomplaintsportal</h2>
+<nav>
+  <NavLink
+    to="/admin/dashboard"
+    className={({ isActive }) => (isActive ? "active" : "")}
+    onClick={() => setOpen(false)}
+  >
+    <FaTachometerAlt /> Dashboard
+  </NavLink>
 
-        <nav>
-          <Link to="/admin/dashboard" onClick={() => setOpen(false)}>
-            <FaTachometerAlt /> Dashboard
-          </Link>
+  <NavLink
+    to="/admin/manage-complaints"
+    className={({ isActive }) => (isActive ? "active" : "")}
+    onClick={() => setOpen(false)}
+  >
+    <FaClipboardList /> Manage Complaints
+  </NavLink>
 
-          <Link to="/admin/manage-complaints" onClick={() => setOpen(false)}>
-            <FaClipboardList /> Manage Complaints
-          </Link>
+  <NavLink
+    to="/admin/reports"
+    className={({ isActive }) => (isActive ? "active" : "")}
+    onClick={() => setOpen(false)}
+  >
+    <FaChartBar /> Reports
+  </NavLink>
 
-          <Link to="/admin/reports" onClick={() => setOpen(false)}>
-            <FaChartBar /> Reports
-          </Link>
+  <NavLink
+    to="/admin/profile"
+    className={({ isActive }) => (isActive ? "active" : "")}
+    onClick={() => setOpen(false)}
+  >
+    <FaUser /> Profile
+  </NavLink>
 
-          <Link to="/admin/profile" onClick={() => setOpen(false)}>
-            <FaUser /> Profile
-          </Link>
+  <button className="logout">
+    <FaSignOutAlt /> Logout
+  </button>
+</nav>
 
-          <button className="logout">
-            <FaSignOutAlt /> Logout
-          </button>
-        </nav>
       </aside>
 
       {/* Overlay */}
