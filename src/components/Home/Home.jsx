@@ -11,26 +11,16 @@ import img3 from "./Images/image.png";
 
 function Home() {
 
-  const slides = [
-    "Easy Complaint Registration",
-    "Track Status in Real Time",
-    "Fast Admin Resolution",
-    "Transparent Student System"
-  ];
-
   const images = [img1, img2, img3];
-
-  const [textIndex, setTextIndex] = useState(0);
   const [imgIndex, setImgIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTextIndex(prev => (prev + 1) % slides.length);
       setImgIndex(prev => (prev + 1) % images.length);
     }, 2500);
 
     return () => clearInterval(timer);
-  }, [slides.length, images.length]);
+  }, [images.length]);
 
   return (
     <HomeLayout>
@@ -44,8 +34,6 @@ function Home() {
               <h1>
                 Online Complaint <br /> Management System
               </h1>
-
-              <p className="hero-slider">{slides[textIndex]}</p>
 
               <ul className="hero-points">
                 <li>✔ Easy online complaint registration</li>
