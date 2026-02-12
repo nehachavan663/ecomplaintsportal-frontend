@@ -3,7 +3,7 @@ import "./help.css";
 
 function Help() {
   return (
-    <section className="section">
+    <section className="help-page">
       <h1>Help Center</h1>
 
       <input className="search" placeholder="Search help topics..." />
