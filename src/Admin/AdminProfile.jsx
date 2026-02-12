@@ -158,6 +158,7 @@ export default function AdminProfile() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
+            
             <div className="activity-item success">
               Complaint #1021 marked as resolved
             </div>
@@ -165,9 +166,9 @@ export default function AdminProfile() {
               Complaint #1078 pending review
             </div>
             <div className="activity-item neutral">
-              Profile updated successfully
+              Profile updated successfully 
             </div>
-          </motion.div>
+          </motion.div> 
         )}
       </div>
     </div>
