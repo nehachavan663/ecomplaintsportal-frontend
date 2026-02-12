@@ -1,5 +1,6 @@
 import "./Dashboard.css";
 
+
 const Dashboard = () => {
   return (
     <div className="dashboard-wrapper">
@@ -104,6 +105,5 @@ const Dashboard = () => {
       </div>
     </div>
   );
-
 };
 export default Dashboard;

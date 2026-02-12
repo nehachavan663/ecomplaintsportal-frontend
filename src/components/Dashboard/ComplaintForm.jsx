@@ -11,7 +11,6 @@ import {
   Image
 } from "lucide-react";
 
-
 const complaintCategoryMap = {
 Hostel: [
     "Electricity Issue",
