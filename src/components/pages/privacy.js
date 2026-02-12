@@ -3,7 +3,7 @@ import "./privacy.css";
 
 function Privacy() {
   return (
-    <section className="section">
+    <section className="privacy-page">
       <h1>Privacy & Data Protection</h1>
 
       <div className="card">

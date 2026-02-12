@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./Profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import HomeLayout from "../../layouts/HomeLayouts";
+
 function Profile() {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -9,7 +11,7 @@ function Profile() {
     name: "Alexa R",
     rollNo: "109CS23063",
     department: "Computer Science",
-    className: "3rd Year A",   // ✅ added
+    className: "3rd Year A",
     email: "alexa48@gmail.com",
     phone: "6235896324",
     address: "123 Main Street, KLB",
@@ -36,179 +38,194 @@ function Profile() {
 
   return (
     <HomeLayout>
-    <div className="profile-page">
-   
-      <div className="container">
-        {/* Profile Card */}
-        <div className="profile-card">
-          <div className="avatar">
-            <img src={student.profileImage} alt="profile" />
-          </div>
+      <div className="profile-page">
+        <div className="container">
 
-          {isEditing && (
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              style={{ marginBottom: "12px" }}
-            />
-          )}
+          {/* Profile Card */}
+          <div className="profile-card">
+            <div className="avatar">
+              <img src={student.profileImage} alt="profile" />
+            </div>
 
-          <h2>{student.name}</h2>
+            {isEditing && (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ marginBottom: "12px" }}
+              />
+            )}
 
-          {!isEditing ? (
-            <button className="edit-btn" onClick={() => setIsEditing(true)}>
-              <i className="fa-solid fa-pen-to-square"></i> Edit Profile
+            <h2>{student.name}</h2>
+
+            {!isEditing ? (
+              <button className="edit-btn" onClick={() => setIsEditing(true)}>
+                <i className="bi bi-pencil-square"></i> Edit Profile
+              </button>
+            ) : (
+              <button className="edit-btn" onClick={handleSave}>
+                <i className="bi bi-save"></i> Save Profile
+              </button>
+            )}
+
+            <button className="logout-btn">
+              <i className="bi bi-box-arrow-right"></i> Log Out
             </button>
-          ) : (
-            <button className="edit-btn" onClick={handleSave}>
-              <i className="fa-solid fa-floppy-disk"></i> Save Profile
-            </button>
-          )}
-
-          <button className="logout-btn">
-            <i className="bi bi-box-arrow-right"></i> Log Out
-          </button>
-        </div>
-
-        {/* Right Content */}
-        <div className="content">
-          {/* Student Information */}
-          <div className="card">
-            <h2><i className="bi bi-person-lines-fill"></i> Student Information</h2>
-            <p>
-              <span>Full Name</span> :
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="name"
-                  value={student.name}
-                  onChange={handleChange}
-                />
-              ) : (
-                ` ${student.name}`
-              )}
-            </p>
-
-            <p>
-              <span>Roll No</span> :
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="rollNo"
-                  value={student.rollNo}
-                  onChange={handleChange}
-                />
-              ) : (
-                ` ${student.rollNo}`
-              )}
-            </p>
-
-            <p>
-              <span>Department</span> :
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="department"
-                  value={student.department}
-                  onChange={handleChange}
-                />
-              ) : (
-                ` ${student.department}`
-              )}
-            </p>
-
-            <p>
-              <span>Class</span> :
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="className"
-                  value={student.className}
-                  onChange={handleChange}
-                />
-              ) : (
-                ` ${student.className}`
-              )}
-            </p>
           </div>
 
-          {/* Contact Information */}
-          <div className="card light">
-            <h2><i className="bi bi-envelope-at"></i> Contact Information</h2>
+          {/* Right Content */}
+          <div className="content">
 
-            <p>
-              <span>Email</span> :
-              {isEditing ? (
-                <input
-                  type="email"
-                  name="email"
-                  value={student.email}
-                  onChange={handleChange}
-                />
-              ) : (
-                ` ${student.email}`
-              )}
-            </p>
+            {/* Student Information */}
+            <div className="card">
+              <h3>
+                <i className="bi bi-person-lines-fill"></i>
+                Student Information
+              </h3>
 
-            <p>
-              <span>Phone No</span> :
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="phone"
-                  value={student.phone}
-                  onChange={handleChange}
-                />
-              ) : (
-                ` ${student.phone}`
-              )}
-            </p>
+              <p>
+                <span>Full Name :</span>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="name"
+                    value={student.name}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  student.name
+                )}
+              </p>
 
-            <p>
-              <span>Address</span> :
-              {isEditing ? (
-                <input
-                  type="text"
-                  name="address"
-                  value={student.address}
-                  onChange={handleChange}
-                />
-              ) : (
-                ` ${student.address}`
-              )}
-            </p>
-          </div>
+              <p>
+                <span>Roll No :</span>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="rollNo"
+                    value={student.rollNo}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  student.rollNo
+                )}
+              </p>
 
-          {/* Complaint Summary */}
-          <div className="complaint-summary">
-            <h2><i className="bi bi-clipboard-data"></i> Complaint Summary</h2>
+              <p>
+                <span>Department :</span>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="department"
+                    value={student.department}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  student.department
+                )}
+              </p>
 
-            <p className="total-complaints">Total Complaints: 12</p>
+              <p>
+                <span>Class :</span>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="className"
+                    value={student.className}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  student.className
+                )}
+              </p>
+            </div>
 
-            <div className="status-row">
-  <div className="status-badge status-pending">
-    <i className="fa-solid fa-clock"></i>
-    Pending
-  </div>
+            {/* Contact Information */}
+            <div className="card light">
+              <h3>
+                <i className="bi bi-envelope-at"></i>
+                Contact Information
+              </h3>
 
-  <div className="status-badge status-progress">
-    <i className="fa-solid fa-spinner"></i>
-    In Progress
-  </div>
+              <p>
+                <span>Email :</span>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    name="email"
+                    value={student.email}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  student.email
+                )}
+              </p>
 
-  <div className="status-badge status-resolved">
-    <i className="fa-solid fa-check-circle"></i>
-    Resolved
-  </div>
-</div>
+              <p>
+                <span>Phone No :</span>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="phone"
+                    value={student.phone}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  student.phone
+                )}
+              </p>
+
+              <p>
+                <span>Address :</span>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="address"
+                    value={student.address}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  student.address
+                )}
+              </p>
+            </div>
+
+            {/* Complaint Summary */}
+            <div className="complaint-summary">
+              <h3>
+                <i className="bi bi-clipboard-data"></i>
+                Complaint Summary
+              </h3>
+
+              <p className="total-complaints">
+                Total Complaints: 12
+              </p>
+
+              <div className="status-row">
+                <div className="status-badge status-pending">
+                  <i className="bi bi-clock"></i>
+                  Pending : 6
+                </div>
+
+                <div className="status-badge status-progress">
+                  <i className="bi bi-arrow-repeat"></i>
+                  In Progress : 3
+                </div>
+
+                <div className="status-badge status-resolved">
+                  <i className="bi bi-check-circle-fill"></i>
+                  Resolved : 3
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>
       </div>
-    </div>
     </HomeLayout>
   );
 }
 
 export default Profile;
+
+

@@ -1,23 +1,25 @@
-.header {
-  padding: 15px 40px;
-  background: #1b4332;
+header {
+  background: #1b5e20;
   color: white;
+  padding: 20px 10%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.logo {
-  font-weight: bold;
-}
-
-.nav a {
-  color: #d8f3dc;
+header a {
+  color: white;
   text-decoration: none;
-  margin-right: 15px;
+  margin-left: 20px;
   transition: 0.3s;
 }
 
-.nav a:hover {
-  color: white;
-  border-bottom: 2px solid #95d5b2;
+header a:hover {
+  color: #c8e6c9;
+}
+
+@media(max-width:768px){
+  header{
+    flex-direction: column;
+  }
 }

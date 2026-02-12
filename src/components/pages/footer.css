@@ -1,8 +1,7 @@
-.footer {
+footer {
+  background: #1b5e20;
+  color: white;
   text-align: center;
-  padding: 15px;
-  background: #1b4332;
-  color: #d8f3dc;
-  margin-top: 40px;
+  padding: 20px;
   font-size: 14px;
 }

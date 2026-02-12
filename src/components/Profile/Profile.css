@@ -6,19 +6,39 @@
   font-family: "Inter", sans-serif;
 }
 
-.container {
+/* Scoped container to avoid Bootstrap conflict */
+.profile-page .container {
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 24px;
 }
 
+/* ===== Cards Base ===== */
+.profile-card,
+.card,
+.complaint-summary {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: cardEntrance 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+.profile-card:hover,
+.card:hover,
+.complaint-summary:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(58, 156, 99, 0.12);
+  border-color: rgba(58, 156, 99, 0.3);
+}
+
 /* ===== Profile Card ===== */
 .profile-card {
-  background: #ffffff;
-  border-radius: 18px;
   padding: 28px 20px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
 .avatar img {
@@ -27,7 +47,12 @@
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid #3a9c63;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+  transition: 0.3s ease;
+}
+
+.avatar img:hover {
+  transform: rotate(3deg) scale(1.05);
 }
 
 .profile-card h2 {
@@ -36,101 +61,145 @@
   margin-bottom: 25px;
 }
 
-/* Buttons */
+/* ===== Buttons ===== */
 .edit-btn,
+.logout-btn,
+.status-badge {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.edit-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #3a9c63;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
 .logout-btn {
   width: 100%;
   padding: 10px;
   border-radius: 10px;
   border: none;
+  background: #e93c3c;
+  color: #fff;
   font-weight: 500;
   margin-bottom: 25px;
-  transition: all 0.25s ease;
 }
 
-.edit-btn {
-  background: #3a9c63;
-  color: #fff;
-}
-
-.edit-btn:hover {
-  background: #318455;
-}
-
-.logout-btn {
-  background: #e93c3c;
-  color: #fffcfc;
-}
-
+.edit-btn:hover,
 .logout-btn:hover {
-  background: #e48383;
+  filter: brightness(1.1);
+  transform: translateY(-1px);
 }
 
-/* Styling for the 'No file chosen' text area */
+.edit-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 20px rgba(128, 244, 122, 0.932);
+}
+
+.logout-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 20px rgba(255, 181, 169, 0.919);
+}
+
+/* ===== Bootstrap Icon Base Styling ===== */
+.bi {
+  font-size: 16px;
+  vertical-align: middle;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.card h3 .bi,
+.status-badge .bi,
+.edit-btn .bi,
+.logout-btn .bi {
+  margin-right: 8px;
+}
+
+.card:hover h3 .bi {
+  transform: scale(1.15);
+}
+
+/* ===== File Input ===== */
 input[type="file"] {
   background: #f9fbf9;
   border: 1px solid #cfd8d3;
   border-radius: 8px;
-  padding: 4px; /* Creates a nice frame around the button and text */
-  color: #777;  /* Softens the 'No file chosen' text color */
+  padding: 6px;
+  color: #555;
   font-size: 13px;
   width: 100%;
-  display: flex;
-  align-items: center;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-/* Hover effect for the entire input area */
 input[type="file"]:hover {
   border-color: #3a9c63;
   background: #f0f7f3;
 }
 
-/* The button part (refined) */
 input[type="file"]::file-selector-button {
   background: #3a9c63;
   color: white;
   border: none;
-  padding: 6px 14px;
-  border-radius: 6px;
-  margin-right: 12px;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s ease;
+  font-size: 13px;
+  margin-right: 12px;
 }
 
 input[type="file"]::file-selector-button:hover {
   background: #2f7a4e;
 }
 
-/* ===== Right Content ===== */
+/* ===== Content Area ===== */
 .content {
   display: flex;
   flex-direction: column;
   gap: 22px;
 }
 
-/* Cards */
 .card {
-  background: #ffffff;
-  border-radius: 16px;
   padding: 22px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
 }
 
 .card.light {
   background: #f8fbf9;
 }
 
-.card h3 {
-  font-size: 17px;
+/* ===== Headings ===== */
+.card h3,
+.complaint-summary h3 {
+  font-size: 18px;
   font-weight: 600;
-  margin-bottom: 18px;
-  color: #2f6f4e;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e0eadd;
+  background: linear-gradient(90deg, #2f6f4e, #3a9c63, #2f6f4e);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shineText 4s linear infinite;
 }
 
-/* Info rows */
+.complaint-summary {
+  padding: 22px;
+  text-align: center;
+}
+
+.complaint-summary h3 {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== Info Rows ===== */
 .card p {
   display: flex;
   align-items: center;
@@ -145,485 +214,131 @@ input[type="file"]::file-selector-button:hover {
   color: #555;
 }
 
-/* Inputs (Edit Mode) */
 .card input {
   flex: 1;
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid #cfd8d3;
-  font-size: 14px;
-  transition: border 0.2s ease;
 }
 
 .card input:focus {
   outline: none;
   border-color: #3a9c63;
-}
-/* ===== Complaint Summary ===== */
-.complaint-summary {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 22px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
-  text-align: center; /* Centers the total complaints text */
+  box-shadow: 0 0 0 4px rgba(58, 156, 99, 0.15);
+  transform: translateX(5px);
 }
 
-.complaint-summary h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center; /* Centers the heading text */
-  align-items: center;
-  color: #2f6f4e;
-}
-
-/* Optional: Add a centered decorative line under the heading */
-.complaint-summary h3::after {
-  content: '';
-  position: absolute;
-  margin-top: 35px;
-  width: 50px;
-  height: 3px;
-  background: #3a9c63;
-  border-radius: 2px;
-}
-
+/* ===== Status Section ===== */
 .status-row {
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
-  justify-content: center; /* Centers the buttons in the row */
+  justify-content: center;
   margin-top: 20px;
 }
 
 .status-badge {
+  display: inline-flex;
+  align-items: center;
   padding: 10px 18px;
+  gap: 8px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  border: none;
-  /* Smooth transition for hover effects */
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  /* Initial entrance animation */
-  animation: slideUp 0.6s ease-out forwards;
+  border: 1px solid transparent;
 }
 
-/* Entrance Animation */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.status-pending { background: #f48566; color: #800404; }
+.status-progress { background: #f6e093; color: #00aeff; }
+.status-resolved { background: #97f58d; color: #043c1f; }
+
+.status-pending:hover { background: #e85035; box-shadow: 0 8px 20px rgba(214, 73, 48, 0.4); }
+.status-progress:hover { background: #fdd32d; box-shadow: 0 8px 20px rgba(244, 206, 56, 0.4); }
+.status-resolved:hover { background: #3ef434; box-shadow: 0 8px 20px rgba(67, 236, 59, 0.4); }
+
+/* ===== Status Icon Animations ===== */
+.status-pending .bi {
+  animation: pulseIcon 2s infinite ease-in-out;
 }
 
-/* Individual Hover Effects with subtle color shifts and shadows */
-.status-pending:hover {
-  background: #e6725d;
-  color: #ffffff;
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(58, 156, 99, 0.3);
+.status-progress .bi {
+  animation: rotateIcon 3s infinite linear;
 }
 
-.status-progress:hover {
-  background: #f3d55d;
-  color: #ffffff;
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
+.status-resolved .bi {
+  animation: bounceIcon 2s infinite ease-in-out;
 }
 
-.status-resolved:hover {
-  background: #59ed51;
-  color: #ffffff;
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(73, 80, 87, 0.3);
-}
-
-/* Keep original colors for non-hover state */
-.status-pending { background: #e8f5ee; color: #df3d43; }
-.status-progress { background: #fff4cc; color: #69bee5; }
-.status-resolved { background: #e9ecef; color: #2aec88; }
-
-/* ===== Global & Layout ===== */
-.profile-page {
-  background: #eef5f1;
-  min-height: 100vh;
-  padding: 30px 0;
-  font-family: "Inter", sans-serif;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 24px;
-}
-
-/* ===== Card Animations & Shadows ===== */
-.profile-card, .card, .complaint-summary {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: hidden;
-}
-
-/* Smooth lift and shadow effect on hover */
-.profile-card:hover, .card:hover, .complaint-summary:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-}
-
-/* ===== Headings with Horizontal Lines ===== */
-.card h3, .complaint-summary h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #2f6f4e;
-  padding-bottom: 12px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #e0eadd; /* The horizontal line */
-}
-
-/* Centering the Complaint Summary Heading */
-.complaint-summary h3 {
-  text-align: center;
-  border-bottom: 2px solid #e0eadd;
-  width: 80%; /* Keeps the line from touching edges for a cleaner look */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ===== File Input (Edit Mode Styling) ===== */
-/* This targets the "Choose File" button specifically */
-input[type="file"]::file-selector-button {
-  background: #3a9c63;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  margin-right: 15px;
-  transition: background 0.3s ease;
-}
-
-input[type="file"]::file-selector-button:hover {
-  background: #2f7a4e;
-}
-
-input[type="file"] {
-  color: #555;
-  font-size: 13px;
-}
-
-/* ===== Complaint Status Button Hovers ===== */
-.status-badge {
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.status-pending:hover {
-  background: #d4e9dd;
-  transform: scale(1.05);
-}
-
-.status-progress:hover {
-  background: #ffe999;
-  transform: scale(1.05);
-}
-
-.status-resolved:hover {
-  background: #dee2e6;
-  transform: scale(1.05);
-}
-
-/* ===== Profile Card Elements ===== */
-.avatar img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #3a9c63;
-  margin-bottom: 14px;
-}
-
-.edit-btn {
-  background: #3a9c63;
-  color: #fff;
-}
-
-.logout-btn {
-  background: #e93c3c;
-  color: #fffcfc;
-}
-
-.edit-btn:hover, .logout-btn:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-/* ===== Alive Icon Animations ===== */
-
-/* 1. Pending: Subtle Pulse */
-@keyframes pulse-clock {
-  0% { transform: scale(1); opacity: 0.8; }
+@keyframes pulseIcon {
+  0%,100% { transform: scale(1); opacity: 0.8; }
   50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
 }
 
-/* 2. In Progress: Slow Rotation */
-@keyframes rotate-cog {
+@keyframes rotateIcon {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* 3. Resolved: Gentle Bounce */
-@keyframes success-bounce {
-  0%, 100% { transform: translateY(0); }
+@keyframes bounceIcon {
+  0%,100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
 }
 
-/* Applying animations to the icon classes */
-.fa-clock {
-  animation: pulse-clock 2s infinite ease-in-out;
-  margin-right: 8px;
-}
-
-.fa-spinner, .fa-gear {
-  animation: rotate-cog 3s infinite linear;
-  margin-right: 8px;
-}
-
-.fa-check-circle {
-  animation: success-bounce 2s infinite ease-in-out;
-  margin-right: 8px;
-  color: #2aec88;
-}
-
-/* Header Icons (Student/Contact Info) */
-.card h3 i {
-  color: #3a9c63;
-  margin-right: 10px;
-  transition: transform 0.3s ease;
-}
-
-.card:hover h3 i {
-  transform: scale(1.2) rotate(5deg);
-}
-
-/* ===== Updated Badge Styling to fit Icons ===== */
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 18px;
-  gap: 8px; /* Space between icon and text */
-}
-
-/* Update the hover scale to be smoother with icons */
-.status-badge:hover i {
-  animation-play-state: paused; /* Focuses the icon when you point at it */
-  transform: scale(1.1);
-}
-/* ===== 1. Premium Card Entrance & Motion ===== */
+/* ===== Animations ===== */
 @keyframes cardEntrance {
-  from { 
-    opacity: 0; 
-    transform: translateY(30px) scale(0.98); 
-    filter: blur(5px);
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0) scale(1); 
-    filter: blur(0);
-  }
-}
-
-.profile-card, .card, .complaint-summary {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px); /* Slight glass effect */
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  animation: cardEntrance 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-}
-
-/* Staggering the entrance of cards */
-.content .card:nth-child(1) { animation-delay: 0.1s; }
-.content .card:nth-child(2) { animation-delay: 0.2s; }
-.complaint-summary { animation-delay: 0.3s; }
-
-/* ===== 2. The "Magnetic" Hover Effect ===== */
-.profile-card:hover, .card:hover, .complaint-summary:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 20px 40px rgba(58, 156, 99, 0.12);
-  border-color: rgba(58, 156, 99, 0.3);
-}
-
-/* ===== 3. Button Click Glow & Interaction ===== */
-.edit-btn, .logout-btn, .status-badge {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Light Glow on Click (Active State) */
-.edit-btn:active, .status-badge:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 20px rgba(58, 156, 99, 0.6); /* Green Glow */
-}
-
-.logout-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 20px rgba(233, 60, 60, 0.6); /* Red Glow */
-}
-
-/* ===== 4. Input Focus Halo ===== */
-.card input:focus {
-  border-color: #3a9c63;
-  box-shadow: 0 0 0 4px rgba(58, 156, 99, 0.15);
-  background: #fff;
-  transform: translateX(5px); /* Subtle shift to show it's active */
-}
-
-/* ===== 5. Status Badge "Pulse" Glow ===== */
-.status-badge {
-  border: 1px solid transparent;
-}
-
-.status-pending:hover { 
-  background: #f06d56 !important;
-  box-shadow: 0 8px 20px rgba(230, 114, 93, 0.4);
-}
-
-.status-progress:hover { 
-  background: #f3d55d !important;
-  box-shadow: 0 8px 20px rgba(243, 213, 93, 0.4);
-}
-
-.status-resolved:hover { 
-  background: #59ed51 !important;
-  box-shadow: 0 8px 20px rgba(89, 237, 81, 0.4);
-}
-
-/* ===== 6. Avatar Image Interactive Glow ===== */
-.avatar {
-  position: relative;
-  display: inline-block;
-}
-
-.avatar::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border: 2px solid #3a9c63;
-  opacity: 0;
-  transition: all 0.5s ease;
-}
-
-
-.avatar img:hover {
-  transform: rotate(3deg) scale(1.05);
-}
-
-/* ===== 7. Heading Shine Effect ===== */
-.card h3, .complaint-summary h3 {
-  overflow: hidden;
-  background: linear-gradient(90deg, #2f6f4e, #3a9c63, #2f6f4e);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shineText 4s linear infinite;
+  from { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
 @keyframes shineText {
   to { background-position: 200% center; }
 }
 
+/* ===== Responsive Design ===== */
 
-/* Status-specific icon colors */
-.status-pending i { color: #ec696d; }
-.status-progress i { color: #d39b00; }
-.status-resolved i { color: #2aac68; }
-
-/* =========================================================
-   RESPONSIVE DESIGN – ALL DEVICES
-   ========================================================= */
-
-/* ---------------------------------------------------------
-   LARGE SCREENS (Desktops & Large Laptops – 1200px+)
-   Keeps content centered and readable on wide screens
---------------------------------------------------------- */
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1200px;     /* Prevents content from stretching too wide */
-    margin: auto;          /* Centers the layout horizontally */
-  }
-}
-
-/* ---------------------------------------------------------
-   MEDIUM SCREENS (Laptops & Tablets Landscape – ≤1199px)
-   Slightly reduces spacing and avatar size
---------------------------------------------------------- */
-@media (max-width: 1199px) {
-  .container {
-    grid-template-columns: 300px 1fr; /* Narrower profile column */
-    gap: 20px;                        /* Reduced spacing */
+/* Large Tablets */
+@media (max-width: 1024px) {
+  .profile-page .container {
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
   }
 
   .avatar img {
-    width: 130px;
-    height: 130px;                    /* Slightly smaller avatar */
+    width: 120px;
+    height: 120px;
   }
 }
 
-/* ---------------------------------------------------------
-   TABLETS & SMALL LAPTOPS (≤991px)
-   Switches layout to single column
---------------------------------------------------------- */
-@media (max-width: 991px) {
-  .container {
-    grid-template-columns: 1fr;       /* One column layout */
+/* Tablets */
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 20px 15px;
+  }
+
+  .profile-page .container {
+    grid-template-columns: 1fr;
   }
 
   .profile-card {
-    max-width: 420px;                 /* Prevents overly wide card */
-    margin: auto;                     /* Centers the profile card */
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   .content {
-    gap: 18px;                        /* Tighter vertical spacing */
+    gap: 18px;
   }
 
-  .status-row {
-    justify-content: space-around;    /* Even spacing for status badges */
-  }
-}
-
-/* ---------------------------------------------------------
-   MOBILE DEVICES (Phones – ≤767px)
-   Optimized for touch and vertical scrolling
---------------------------------------------------------- */
-@media (max-width: 767px) {
-  .profile-page {
-    padding: 15px 10px;               /* Less padding for small screens */
+  .card,
+  .complaint-summary {
+    padding: 18px;
   }
 
-  .avatar img {
-    width: 115px;
-    height: 115px;                    /* Mobile-friendly avatar size */
+  .card h3,
+  .complaint-summary h3 {
+    font-size: 16px;
   }
 
-  .profile-card h2 {
-    font-size: 18px;                  /* Smaller heading */
-  }
-
-  /* Stack label and value vertically */
   .card p {
     flex-direction: column;
     align-items: flex-start;
@@ -632,45 +347,64 @@ input[type="file"] {
 
   .card span {
     min-width: auto;
-    font-size: 13px;                  /* Smaller label text */
   }
 
-  /* Full-width buttons for easy tapping */
-  .status-badge {
-    width: 100%;
+  .status-row {
     justify-content: center;
   }
 }
 
-/* ---------------------------------------------------------
-   SMALL PHONES (≤480px)
-   Extra compact layout for very small screens
---------------------------------------------------------- */
+/* Mobile Devices */
 @media (max-width: 480px) {
+  .profile-page {
+    padding: 15px 10px;
+  }
+
+  .profile-card {
+    padding: 20px 15px;
+  }
+
   .avatar img {
     width: 100px;
-    height: 100px;                    /* Smallest avatar size */
+    height: 100px;
+  }
+
+  .profile-card h2 {
+    font-size: 18px;
   }
 
   .edit-btn,
   .logout-btn {
+    padding: 9px;
     font-size: 14px;
-    padding: 9px;                     /* Thumb-friendly buttons */
+  }
+
+  .card {
+    padding: 16px;
   }
 
   .card h3,
   .complaint-summary h3 {
-    font-size: 16px;                  /* Compact headings */
+    font-size: 15px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
   }
 
-  /* Stack complaint status badges vertically */
-  .status-row {
-    flex-direction: column;
-    gap: 10px;
+  .card p {
+    font-size: 13.5px;
+  }
+
+  .card input {
+    font-size: 13px;
   }
 
   .status-badge {
-    padding: 10px;
-    font-size: 12.5px;                /* Compact badge text */
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .bi {
+    font-size: 14px;
   }
 }
+
