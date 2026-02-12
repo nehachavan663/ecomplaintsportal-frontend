@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Profile.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import HomeLayout from "../../layouts/HomeLayouts";
+
 
 function Profile() {
   const [isEditing, setIsEditing] = useState(false);
@@ -37,7 +37,7 @@ function Profile() {
   };
 
   return (
-    <HomeLayout>
+
       <div className="profile-page">
         <div className="container">
 
@@ -222,7 +222,7 @@ function Profile() {
           </div>
         </div>
       </div>
-    </HomeLayout>
+
   );
 }
 

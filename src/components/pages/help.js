@@ -1,8 +1,9 @@
 import React from "react";
 import "./help.css";
-
+import HomeLayout from "../../layouts/HomeLayouts";
 function Help() {
   return (
+    <HomeLayout>
     <section className="help-page">
       <h1>Help Center</h1>
 
@@ -22,6 +23,7 @@ function Help() {
         <p>Visit Contact page to connect with support staff.</p>
       </div>
     </section>
+    </HomeLayout>
   );
 }
 
