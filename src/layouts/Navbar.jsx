@@ -1,51 +1,46 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
 import "./Navbar.css";
-import { FaHome, FaInfoCircle, FaSignInAlt, FaUserPlus } from "react-icons/fa";
 
-const Navbar = () => {
+function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path) =>
+    location.pathname === path ? "active" : "";
 
   return (
-    <>
-      <nav className="navbar">
+    <header className="navbar">
 
-        <span className="logo">ecomplaintsportal.com</span>
+      {/* LEFT LOGO */}
+     <div className="logo glow">
+            eComplaintsPortal
+      </div>
 
-        {/* Desktop */}
-        <ul className="nav-links">
-          <li><FaHome /><Link to="/">Home</Link></li>
-          <li><FaInfoCircle /><Link to="/about">About</Link></li>
-          <li><FaSignInAlt /><Link to="/login">Login</Link></li>
-          <li className="register-btn">
-            <FaUserPlus /><Link to="/register">Register</Link>
-          </li>
-        </ul>
 
-        {/* Hamburger */}
-        <div
-          className={`hamburger ${open ? "open" : ""}`}
-          onClick={() => setOpen(!open)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+      {/* RIGHT MENU */}
+      <nav className={`nav-links ${open ? "show" : ""}`}>
+
+        <Link to="/" className={isActive("/")} onClick={() => setOpen(false)}>Home</Link>
+        <Link to="/about" className={isActive("/about")} onClick={() => setOpen(false)}>About</Link>
+        <Link to="/login" className={isActive("/login")} onClick={() => setOpen(false)}>Login</Link>
+
+        {/* Register never gets active background */}
+        <Link to="/register" className="register" onClick={() => setOpen(false)}>
+          Register
+        </Link>
 
       </nav>
 
-      {/* Mobile menu */}
-      <div className={`mobile-nav ${open ? "show" : ""}`}>
-        <Link to="/" onClick={() => setOpen(false)}><FaHome /> Home</Link>
-        <Link to="/about" onClick={() => setOpen(false)}><FaInfoCircle /> About</Link>
-        <Link to="/login" onClick={() => setOpen(false)}><FaSignInAlt /> Login</Link>
-        <Link to="/register" onClick={() => setOpen(false)}><FaUserPlus /> Register</Link>
-      </div>
+      {/* Mobile icon */}
+      <button className="menu-btn" onClick={() => setOpen(!open)}>
+        {open ? <FaTimes /> : <FaBars />}
+      </button>
 
-      {/* Overlay */}
-      {open && <div className="overlay" onClick={() => setOpen(false)}></div>}
-    </>
+      {open && <div className="overlay" onClick={() => setOpen(false)} />}
+    </header>
   );
-};
+}
 
 export default Navbar;
