@@ -44,9 +44,10 @@ function Home() {
                 <Link to="/complaint" className="primary-btn">
                   Register Complaint
                 </Link>
-                <Link to="/track" className="secondary-btn">
-                  Track Status
-                </Link>
+                <Link to="/track" className="track-btn">
+  Track Status
+</Link>
+
               </div>
             </div>
 

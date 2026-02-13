@@ -246,4 +246,15 @@ section h2 {
   }
 
 }
+/* FORCE Track Status button color */
+
+.secondary-btn {
+  background: #38b764 !important;
+  color: white !important;
+  border: none !important;
+}
+.track-btn {
+  background: #38b764;
+  color: white;
+}
 
