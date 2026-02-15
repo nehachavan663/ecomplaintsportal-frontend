@@ -25,11 +25,8 @@ section {
   min-height: auto !important;
   height: auto !important;
   display: block !important;
-  .home-page {
-  display: block;
 }
 
-}
 
 
 section + section {
@@ -148,7 +145,7 @@ section h2 {
 }
 
 .step span {
-  font-size: 22px;
+  font-size: 23px;
   font-weight: bold;
   color: #38b764;
 }
@@ -256,5 +253,67 @@ section h2 {
 .track-btn {
   background: #38b764;
   color: white;
+}
+
+/* ===== PARAGRAPH AUTO SCROLL INSIDE CARDS ===== */
+
+.scroll-box {
+  height: 48px;     /* visible area (2 lines) */
+  overflow: hidden;
+  position: relative;
+}
+
+
+@keyframes scrollPara {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+/* ===== MANUAL SCROLL PARAGRAPH CARDS ===== */
+
+.scroll-box {
+  max-height: 85px;     /* slightly taller card */
+  overflow-y: auto;
+  margin-top: 6px;
+  padding-right: 4px;
+}
+
+/* smooth scrollbar style */
+
+.scroll-box::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+  background: #38b764;
+  border-radius: 10px;
+}
+
+.scroll-box p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+/* ===== DARKER CARD HEADER TEXT ===== */
+
+.feature-box,
+.step {
+  color: #0f172a;   /* deep dark text */
+  font-weight: 600;
+}
+
+.step span {
+  color: #0b7a3b;   /* darker green number */
+  font-weight: 700;
+}
+/* ===== FIX HIDDEN SECTIONS BUG ===== */
+
+.home-page {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+section {
+  position: relative;
+  z-index: 1;
 }
 
