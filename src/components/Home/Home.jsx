@@ -96,46 +96,134 @@ function Home() {
 
           </div>
         </section>
+<section>
+  <h2>Why Use Our System?</h2>
+  <div className="features-grid">
 
-        {/* FEATURES */}
-        <section>
-          <h2>Why Use Our System?</h2>
-          <div className="features-grid">
-            <div className="feature-box">⚡ Fast Processing</div>
-            <div className="feature-box">🔒 Secure Platform</div>
-            <div className="feature-box">📊 Smart Dashboard</div>
-            <div className="feature-box">🌍 Accessible Anywhere</div>
-          </div>
-        </section>
+    <div className="feature-box">
+      ⚡ Fast Processing
+      <div className="scroll-box">
+        <p>
+          Complaints are routed instantly to the correct authority.
+          Automated system reduces waiting time.
+          Quick handling improves student satisfaction.
+          Smart workflow ensures smooth operation.
+        </p>
+      </div>
+    </div>
 
-        {/* STEPS */}
-        <section className="steps">
-          <h2>How It Works</h2>
-          <div className="steps-grid">
-            <div className="step"><span>1</span> Register complaint</div>
-            <div className="step"><span>2</span> Assigned to admin</div>
-            <div className="step"><span>3</span> Resolution process</div>
-            <div className="step"><span>4</span> Notification sent</div>
-          </div>
-        </section>
+    <div className="feature-box">
+      🔒 Secure Platform
+      <div className="scroll-box">
+        <p>
+          Strong data protection and secure login system.
+          Encrypted communication prevents misuse.
+          Privacy of students is maintained.
+          Reliable and safe complaint handling.
+        </p>
+      </div>
+    </div>
 
-        {/* STATS */}
-        <section className="stats">
-          <div className="stats-grid">
-            <div className="stat"><h3>10k+</h3><p>Complaints</p></div>
-            <div className="stat"><h3>98%</h3><p>Resolved</p></div>
-            <div className="stat"><h3>24h</h3><p>Response</p></div>
-            <div className="stat"><h3>5k+</h3><p>Students</p></div>
-          </div>
-        </section>
+    <div className="feature-box">
+      📊 Smart Dashboard
+      <div className="scroll-box">
+        <p>
+          Real-time analytics for administrators.
+          Clear monitoring of pending complaints.
+          Organized dashboard improves efficiency.
+          Better decisions through smart tracking.
+        </p>
+      </div>
+    </div>
 
-        {/* TESTIMONIAL */}
-        <section className="testimonial">
-          <blockquote>
-            “Fast, transparent, and reliable complaint handling.”
-          </blockquote>
-          <p>- Student Feedback</p>
-        </section>
+    <div className="feature-box">
+      🌍 Accessible Anywhere
+      <div className="scroll-box">
+        <p>
+          Works across mobile and desktop devices.
+          Students can submit complaints anytime.
+          No location restrictions.
+          Easy access improves usability.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  <section className="steps">
+  <h2>How It Works</h2>
+  <div className="steps-grid">
+
+    <div className="step">
+      <span>1</span>
+      <div className="scroll-box">
+        <p>
+          Student submits complaint through portal.
+          System records details automatically.
+          Ticket is generated instantly.
+          Tracking begins immediately.
+        </p>
+      </div>
+    </div>
+
+    <div className="step">
+      <span>2</span>
+      <div className="scroll-box">
+        <p>
+          Complaint assigned to responsible admin.
+          Authority receives notification.
+          Work starts without delay.
+          Progress is logged in system.
+        </p>
+      </div>
+    </div>
+
+    <div className="step">
+      <span>3</span>
+      <div className="scroll-box">
+        <p>
+          Admin reviews and resolves issue.
+          Dashboard tracks resolution status.
+          Student monitors progress live.
+          Efficient workflow ensures completion.
+        </p>
+      </div>
+    </div>
+
+    <div className="step">
+      <span>4</span>
+      <div className="scroll-box">
+        <p>
+          Final update sent to student.
+          Notification confirms closure.
+          Feedback option available.
+          Process ends transparently.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+{/* STATS */}
+<section className="stats">
+  <div className="stats-grid">
+    <div className="stat"><h3>10k+</h3><p>Complaints</p></div>
+    <div className="stat"><h3>98%</h3><p>Resolved</p></div>
+    <div className="stat"><h3>24h</h3><p>Response</p></div>
+    <div className="stat"><h3>5k+</h3><p>Students</p></div>
+  </div>
+</section>
+
+{/* TESTIMONIAL */}
+<section className="testimonial">
+  <blockquote>
+    “Fast, transparent, and reliable complaint handling.”
+  </blockquote>
+  <p>- Student Feedback</p>
+</section>
+
 
       </div>
     </HomeLayout>
