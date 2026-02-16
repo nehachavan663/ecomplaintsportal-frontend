@@ -49,6 +49,14 @@ function Login() {
                 👁
               </span>
             </div>
+            <label className="label">Enter your favourite song</label>
+<input type="text" className="input" />
+
+<label className="label"> Enter your favourite book</label>
+<input type="text" className="input" />
+
+<label className="label"> Enter your favourite animal</label>
+<input type="text" className="input" />
 
             <button className="login-btn">Login</button>
 
@@ -76,10 +84,13 @@ function Login() {
               <span></span>
             </div>
 
-            <button className="google-btn">
-              <span className="google-icon">G</span>
-              Continue With Google
-            </button>
+           <button
+  className="google-btn"
+  onClick={() => window.open("https://google.com", "_blank")}
+>
+  <span className="google-icon">G</span>
+  Continue With Google
+</button>
 
           </div>
         </div>

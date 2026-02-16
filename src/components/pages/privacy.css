@@ -4,73 +4,53 @@
   --light-green: #e8f5e9;
 }
 
+/* REMOVE any global section background */
 section {
-  padding: 80px 12%;
-  background: linear-gradient(135deg, #e8f5e9, #ffffff);
+  padding: 80px 10%;
   min-height: 100vh;
-  animation: fadeIn 0.8s ease-in;
 }
 
-h1 {
-  color: var(--dark-green);
+/* ✅ Background Image Only Here */
+.privacy-page {
+  min-height: 100vh;
+  padding: 80px 10%;
+  background: 
+    linear-gradient(rgba(10,10,30,0.7), rgba(10,10,30,0.7)),
+    url("https://images.unsplash.com/photo-1510519138101-570d1dca3d66?auto=format&fit=crop&w=2000&q=80")
+    no-repeat center center;
+  background-size: cover;
+  color: white;
 }
 
+/* Title */
+.privacy-page h1 {
+  color: white;
+  margin-bottom: 30px;
+}
+
+/* Cards */
 .card {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  color: #222;
   padding: 25px;
-  border-radius: 14px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-  transition: 0.4s;
+  border-radius: 16px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: 0.4s ease;
 }
 
 .card:hover {
   transform: translateY(-6px);
 }
 
+/* List */
 ul li {
   margin-bottom: 10px;
 }
 
+/* Responsive */
 @media(max-width:768px){
-  section{
-    padding: 50px 6%;
-  }
-}
-.privacy-page {
-  position: relative;
-  min-height: 100vh;
-  padding: 80px 10%;
-  background: 
-    linear-gradient(rgba(10,10,30,0.7), rgba(10,10,30,0.7)),
-    url("https://images.unsplash.com/photo-1510519138101-570d1dca3d66?auto=format&fit=crop&w=2000&q=80") 
-    no-repeat center center/cover;
-  color: white;
-}
-
-@media (max-width: 768px) {
-  section {
-    background-attachment: scroll;
+  .privacy-page{
     padding: 60px 6%;
   }
-}
-.card,
-.info-card,
-.contact-form {
-  background: rgba(255, 255, 255, 0.95);
-  color: #222;
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-
-}
-.about-page,
-.contact-page,
-.privacy-page,
-.help-page {
-  animation: slowZoom 25s ease-in-out infinite alternate;
-}
-
-@keyframes slowZoom {
-  from { background-size: 100%; }
-  to { background-size: 110%; }
 }
