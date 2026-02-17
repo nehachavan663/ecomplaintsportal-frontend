@@ -1,11 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-}
 
 /* ================= LAYOUT ================= */
 .layout-container {
@@ -16,43 +8,47 @@ body {
 
 /* ================= SIDEBAR ================= */
 .sidebar {
-  width: 250px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: linear-gradient(180deg, #a8d5ba, #2cdc7b);
-  padding: 25px 18px;
+  width: 260px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #c6ebd5, #aae8c6);
+  padding: 30px 22px;
   display: flex;
   flex-direction: column;
-  z-index: 1001;
-  transition: left 0.3s ease, background 0.3s ease;
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.05);
 }
 
 .sidebar-title {
-  margin-top: 25px;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #064e3b;
 }
-
 .menu-container {
   margin-top: 30px;
   flex: 1;
 }
 
 .menu-link {
-  display: block;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border-radius: 14px;
   text-decoration: none;
-  color: #1f3b2c;
-  transition: 0.3s;
+  color: #064e3b;
+  font-weight: 500;
+  transition: all 0.25s ease;
 }
 
-.menu-link:hover,
+.menu-link:hover {
+  background: rgba(255,255,255,0.6);
+}
+
 .menu-link.active {
-  background: #bcf5a7;
+  background: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 /* Logout */
@@ -131,7 +127,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 14px 18px;
-    background: #2cdc7b;
+    background: linear-gradient(180deg, #c6ebd5, #aae8c6);
     color: white;
     position: fixed;
     width: 100%;
@@ -162,4 +158,24 @@ body {
     margin-left: 0;
     padding: 90px 15px 20px 15px;
   }
+}
+/* ================= PAGE HEADER ================= */
+.page-header {
+  background: linear-gradient(135deg, #c3edd9, #b3f1d3);
+  padding: 22px 28px;
+  border-radius: 16px;
+  margin-bottom: 35px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #064e3b;
+}
+
+.page-header p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #065f46;
 }

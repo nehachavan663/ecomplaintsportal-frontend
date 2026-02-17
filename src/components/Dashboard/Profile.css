@@ -1,9 +1,9 @@
 /* ===== Global ===== */
 .profile-page {
-  background: #eef5f1;
-  min-height: 100vh;
-  padding: 30px 0;
-  font-family: "Inter", sans-serif;
+padding: 30px;
+  background: #f8fafc;
+  border-radius: 20px;
+  min-height: 80vh;
 }
 
 /* Scoped container to avoid Bootstrap conflict */
