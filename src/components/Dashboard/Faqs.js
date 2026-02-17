@@ -42,6 +42,7 @@ export default function Faqs() {
   };
 
   return (
+    
     <div className="faq-wrapper">
       <div className="faq-header">
         <h1>Frequently Asked Questions</h1>

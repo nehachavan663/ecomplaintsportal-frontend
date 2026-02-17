@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Routes, Route, NavLink, useNavigate } from "react-router-dom";
 import "./Layout.css";
 
-import { FaBars, FaMoon, FaSun, FaSignOutAlt, FaTimes } from "react-icons/fa";
+import { FaBars, FaMoon, FaSun, FaSignOutAlt } from "react-icons/fa";
 
 import Dashboard from "./Dashboard";
 import TrackComplaintStatus from "./TrackComplaintStatus";
@@ -18,8 +18,8 @@ function Layout() {
 
   const menuItems = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Complaint Status", path: "/dashboard/status" },
     { name: "Registration Form", path: "/dashboard/register" },
+    { name: "Complaint Status", path: "/dashboard/status" },
     { name: "Profile", path: "/dashboard/profile" },
     { name: "Faqs", path: "/dashboard/faqs" },
     { name: "Setting", path: "/dashboard/setting" }
@@ -37,7 +37,7 @@ function Layout() {
             className="mobile-icon"
             onClick={() => setSidebarOpen(true)}
           />
-          <h4>Student Panel</h4>
+          <h4>ecomplaintsportal</h4>
 
           <div className="mobile-right">
             <div onClick={() => setDarkMode(!darkMode)}>
@@ -57,15 +57,8 @@ function Layout() {
 
         {/* SIDEBAR */}
         <div className={`sidebar ${sidebarOpen ? "show" : ""}`}>
-          <div className="sidebar-top">
-            <FaTimes
-              className="icon-btn"
-              onClick={() => setSidebarOpen(false)}
-            />
-          </div>
-
           <h3 className="sidebar-title">
-            Online Complaint Management
+            ecomplaintsportal
           </h3>
 
           <div className="menu-container">
@@ -74,7 +67,6 @@ function Layout() {
                 key={item.name}
                 to={item.path}
                 className="menu-link"
-                onClick={() => setSidebarOpen(false)}
               >
                 {item.name}
               </NavLink>
@@ -90,14 +82,21 @@ function Layout() {
 
         {/* MAIN CONTENT */}
         <div className="main-content">
+
+          <div className="page-header">
+            <h1>Student Dashboard</h1>
+            <p>Welcome back! Here's a detailed overview of your complaints.</p>
+          </div>
+
           <Routes>
             <Route path="/*" element={<Dashboard />} />
-            <Route path="status" element={<TrackComplaintStatus />} />
             <Route path="register" element={<ComplaintForm />} />
+            <Route path="status" element={<TrackComplaintStatus />} />
             <Route path="profile" element={<Profile />} />
             <Route path="faqs" element={<Faqs />} />
             <Route path="setting" element={<Setting />} />
           </Routes>
+
         </div>
 
       </div>

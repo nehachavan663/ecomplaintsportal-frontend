@@ -1,36 +1,31 @@
+import React from "react";
 import "./Dashboard.css";
 
-
-const Dashboard = () => {
+export default function Dashboard() {
   return (
     <div className="dashboard-wrapper">
-      {/* Header */}
-      <div className="dashboard-header">
-        <h1>Student Dashboard</h1>
-        <p>Welcome back! Here's a detailed overview of your complaints.</p>
-      </div>
 
       {/* Stats Cards */}
       <div className="stats-grid">
-        <div className="stat-card total">
+        <div className="stat-card blue">
           <p>Total Complaints</p>
           <h2>128</h2>
           <span>+12% this month</span>
         </div>
 
-        <div className="stat-card resolved">
+        <div className="stat-card green">
           <p>Resolved</p>
           <h2>96</h2>
           <span>75% resolution rate</span>
         </div>
 
-        <div className="stat-card pending">
+        <div className="stat-card orange">
           <p>Pending</p>
           <h2>32</h2>
           <span>Needs attention</span>
         </div>
 
-        <div className="stat-card progress">
+        <div className="stat-card yellow">
           <p>In Progress</p>
           <h2>18</h2>
           <span>Currently processing</span>
@@ -39,71 +34,72 @@ const Dashboard = () => {
 
       {/* Bottom Section */}
       <div className="bottom-grid">
-        {/* Analytics */}
-        <div className="analytics-card">
-          <h3>Complaint Status</h3>
 
-          <div className="progress-wrapper">
+        {/* Complaint Status */}
+        <div className="box">
+          <h2>Complaint Status</h2>
+
+          <div className="progress-item">
             <div className="progress-header">
               <span>Resolved</span>
               <span>75%</span>
             </div>
             <div className="progress-bar">
-              <div className="progress-fill green" style={{ width: "75%" }} />
+              <div className="progress green-bar" style={{ width: "75%" }}></div>
             </div>
           </div>
 
-          <div className="progress-wrapper">
+          <div className="progress-item">
             <div className="progress-header">
               <span>In Progress</span>
               <span>15%</span>
             </div>
             <div className="progress-bar">
-              <div className="progress-fill orange" style={{ width: "15%" }} />
+              <div className="progress orange-bar" style={{ width: "15%" }}></div>
             </div>
           </div>
 
-          <div className="progress-wrapper">
+          <div className="progress-item">
             <div className="progress-header">
               <span>Pending</span>
               <span>10%</span>
             </div>
             <div className="progress-bar">
-              <div className="progress-fill red" style={{ width: "10%" }} />
+              <div className="progress red-bar" style={{ width: "10%" }}></div>
             </div>
           </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="activity-section">
-          <h3>Recent Activity</h3>
+        <div className="box">
+          <h2>Recent Activity</h2>
 
-          <div className="activity-card">
+          <div className="activity">
             <div>
-              <strong>Hostel Water Issue</strong>
+              <h4>Hostel Water Issue</h4>
               <p>Resolved successfully</p>
             </div>
             <span className="badge resolved">Resolved</span>
           </div>
 
-          <div className="activity-card">
+          <div className="activity">
             <div>
-              <strong>Library Internet</strong>
+              <h4>Library Internet</h4>
               <p>Work in progress</p>
             </div>
-            <span className="badge progress">In Progress</span>
+            <span className="badge progress-badge">In Progress</span>
           </div>
 
-          <div className="activity-card">
+          <div className="activity">
             <div>
-              <strong>Classroom Fan Repair</strong>
+              <h4>Classroom Fan Repair</h4>
               <p>Assigned to maintenance</p>
             </div>
-            <span className="badge progress">In Progress</span>
+            <span className="badge pending">Pending</span>
           </div>
         </div>
+
       </div>
     </div>
   );
-};
-export default Dashboard;
+}

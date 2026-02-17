@@ -1,5 +1,8 @@
 .settings-wrapper {
-  padding: 30px;
+padding: 30px;
+  background: #f8fafc;
+  border-radius: 20px;
+  min-height: 80vh;
 }
 
 /* Header */
