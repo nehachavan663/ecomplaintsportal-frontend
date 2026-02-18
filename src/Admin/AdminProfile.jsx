@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./AdminProfile.css";
 
 export default function AdminProfile() {
   const [activeTab, setActiveTab] = useState("overview");
   const [darkMode, setDarkMode] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [show2FAModal, setShow2FAModal] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const menuRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const profile = {
     name: "Admin User",
@@ -14,10 +29,15 @@ export default function AdminProfile() {
     department: "IT Operations",
     phone: "+91 9876543210",
     bio: "Managing system operations and complaint workflow monitoring.",
+    employeeId: "ADM-1024",
+    location: "Hyderabad, India",
+    joined: "12 Jan 2022",
+    status: "Active",
   };
 
   return (
     <div className={`admin-profile-wrapper ${darkMode ? "dark" : ""}`}>
+
       {/* HEADER */}
       <div className="profile-top">
         <div>
@@ -26,19 +46,39 @@ export default function AdminProfile() {
         </div>
 
         <div className="top-actions">
-          <button
-            className="icon-toggle"
+
+          <div
+            className={`theme-switch ${darkMode ? "active" : ""}`}
             onClick={() => setDarkMode(!darkMode)}
           >
-            {darkMode ? "☀️" : "🌙"}
-          </button>
+            <div className="switch-knob"></div>
+          </div>
 
-          <button
-            className="edit-btn"
-            onClick={() => setShowEdit(!showEdit)}
-          >
-            Edit Profile
-          </button>
+          <div className="menu-wrapper" ref={menuRef}>
+            <button
+              className="menu-btn"
+              onClick={() => setShowMenu(!showMenu)}
+            >
+              ⋮
+            </button>
+
+            <AnimatePresence>
+              {showMenu && (
+                <motion.div
+                  className="dropdown-menu"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  <div>Edit Profile</div>
+                  <div>Share Profile</div>
+                  <div>Notifications</div>
+                  <div>Emails</div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
         </div>
       </div>
 
@@ -56,43 +96,13 @@ export default function AdminProfile() {
           <h2>{profile.name}</h2>
           <p>{profile.email}</p>
           <span className="role-badge">{profile.role}</span>
-        </div>
 
-        <AnimatePresence>
-          {showEdit && (
-            <motion.div
-              className="edit-panel"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-            >
-              <h4>Edit Profile</h4>
-
-              <input type="text" placeholder="Full Name" />
-              <input type="text" placeholder="Phone" />
-              <textarea placeholder="Bio"></textarea>
-
-              <button
-                className="save-btn"
-                onClick={() => setShowEdit(false)}
-              >
-                Save Changes
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* STATS */}
-      <div className="stats-grid">
-        <div className="stat-card active">
-          <h3>12</h3>
-          <p>Active Complaints</p>
-        </div>
-
-        <div className="stat-card resolved">
-          <h3>38</h3>
-          <p>Resolved Complaints</p>
+          <button
+            className="edit-profile-btn"
+            onClick={() => setShowEditModal(true)}
+          >
+            Edit Profile
+          </button>
         </div>
       </div>
 
@@ -111,12 +121,9 @@ export default function AdminProfile() {
 
       {/* CONTENT */}
       <div className="profile-content">
+
         {activeTab === "overview" && (
-          <motion.div
-            className="panel"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
+          <motion.div className="panel overview-panel">
             <div className="info-row">
               <label>Department</label>
               <span>{profile.department}</span>
@@ -126,51 +133,149 @@ export default function AdminProfile() {
               <span>{profile.phone}</span>
             </div>
             <div className="info-row">
-              <label>Bio</label>
-              <span>{profile.bio}</span>
+              <label>Employee ID</label>
+              <span>{profile.employeeId}</span>
+            </div>
+            <div className="info-row">
+              <label>Location</label>
+              <span>{profile.location}</span>
+            </div>
+            <div className="info-row">
+              <label>Joined</label>
+              <span>{profile.joined}</span>
+            </div>
+            <div className="info-row">
+              <label>Status</label>
+              <span className="status-text">{profile.status}</span>
+            </div>
+
+            <div className="bio-section">
+              <h4>About</h4>
+              <p>{profile.bio}</p>
             </div>
           </motion.div>
         )}
 
         {activeTab === "security" && (
-          <motion.div
-            className="panel"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
+          <motion.div className="panel">
             <div className="security-box green">
               <h4>Password</h4>
               <p>Last changed 30 days ago</p>
-              <button className="outline-btn">Update Password</button>
+              <button
+                className="outline-btn"
+                onClick={() => setShowPasswordModal(true)}
+              >
+                Update Password
+              </button>
             </div>
 
             <div className="security-box blue">
               <h4>Two-Factor Authentication</h4>
               <p>Currently Disabled</p>
-              <button className="outline-btn">Enable 2FA</button>
+              <button
+                className="outline-btn"
+                onClick={() => setShow2FAModal(true)}
+              >
+                Enable 2FA
+              </button>
             </div>
           </motion.div>
         )}
 
         {activeTab === "activity" && (
-          <motion.div
-            className="panel"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            
-            <div className="activity-item success">
-              Complaint #1021 marked as resolved
+          <motion.div className="panel">
+            <div className="activity-card success">
+              <div>
+                <strong>Complaint #1021 Resolved</strong>
+                <p>Issue marked as completed successfully.</p>
+              </div>
+              <span className="activity-time">2 hours ago</span>
             </div>
-            <div className="activity-item warning">
-              Complaint #1078 pending review
-            </div>
-            <div className="activity-item neutral">
-              Profile updated successfully 
-            </div>
-          </motion.div> 
+          </motion.div>
         )}
       </div>
+
+      {/* PASSWORD MODAL */}
+      <AnimatePresence>
+        {showPasswordModal && (
+          <motion.div className="modal-overlay">
+            <motion.div className="modal-box">
+              <button
+                className="close-btn"
+                onClick={() => setShowPasswordModal(false)}
+              >
+                ✕
+              </button>
+              <h3>Update Password</h3>
+              <input type="password" placeholder="Current Password" />
+              <input type="password" placeholder="New Password" />
+              <input type="password" placeholder="Confirm Password" />
+              <button
+                className="save-btn"
+                onClick={() => setShowPasswordModal(false)}
+              >
+                Save Changes
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 2FA MODAL */}
+      <AnimatePresence>
+        {show2FAModal && (
+          <motion.div className="modal-overlay">
+            <motion.div className="modal-box">
+              <button
+                className="close-btn"
+                onClick={() => setShow2FAModal(false)}
+              >
+                ✕
+              </button>
+              <h3>Enable Two-Factor Authentication</h3>
+              <input type="text" placeholder="Enter OTP Code" />
+              <button
+                className="save-btn"
+                onClick={() => setShow2FAModal(false)}
+              >
+                Verify & Enable
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* EDIT PROFILE MODAL */}
+      <AnimatePresence>
+        {showEditModal && (
+          <motion.div className="modal-overlay">
+            <motion.div className="modal-box">
+              <button
+                className="close-btn"
+                onClick={() => setShowEditModal(false)}
+              >
+                ✕
+              </button>
+
+              <h3>Edit Profile</h3>
+
+              <input type="text" defaultValue={profile.name} />
+              <input type="email" defaultValue={profile.email} />
+              <input type="text" defaultValue={profile.phone} />
+              <input type="text" defaultValue={profile.department} />
+              <input type="text" defaultValue={profile.location} />
+
+              <button
+                className="save-btn"
+                onClick={() => setShowEditModal(false)}
+              >
+                Save Changes
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
