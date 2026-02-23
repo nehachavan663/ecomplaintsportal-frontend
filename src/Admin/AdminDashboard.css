@@ -107,6 +107,7 @@ html, body {
   width: 100%;
   padding: 22px;
   box-sizing: border-box;
+  overflow-y: auto;   /* allow page to scroll */
 }
 
 /* Header */

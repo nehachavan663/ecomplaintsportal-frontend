@@ -200,6 +200,7 @@ html, body {
 }
 
 /* ================= SUBMIT BUTTON ================= */
+/* ================= SUBMIT BUTTON ================= */
 .pro-submit-btn {
   width: 100%;
   padding: 20px;
@@ -211,34 +212,42 @@ html, body {
   font-weight: 800;
   cursor: pointer;
   position: relative;
-  /* CRITICAL FIX: Ensure shimmer animation does not "bleed" out as a line */
-  overflow: hidden; 
-  animation: submitPulse 2.6s ease-in-out infinite;
+  overflow: hidden;
+  transition: 0.3s ease;
 }
 
-.pro-submit-btn:hover {
-  transform: translateY(-4px);
+/* Hover */
+.pro-submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(16,185,129,0.4);
 }
 
-.pro-submit-btn:active {
-  transform: scale(0.96);
+/* Disabled state */
+.pro-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-.pro-submit-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150%; /* Adjusted start to prevent glitching */
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent,
-    rgba(255, 255, 255, 0.35),
-    transparent
-  );
-  animation: submitShimmer 3s infinite linear;
+/* Remove shimmer animation when loading */
+.pro-submit-btn.loading::before {
+  display: none;
 }
+
+/* Spinner */
+.pro-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(255,255,255,0.4);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 
 /* ================= ANIMATIONS ================= */
 @keyframes floatMotion {
@@ -288,15 +297,4 @@ html, body {
   .pro-heading-card { flex-direction: column; text-align: center; }
   .pro-floating-chip { font-size: 11px; padding: 6px 14px; }
   .pro-hero-img { width: 85%; }
-}
-.pro-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: #374151;
-}
-
-.label-icon {
-  color: #10b981;
 }
