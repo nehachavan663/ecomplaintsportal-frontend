@@ -1,42 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TrackComplaintStatus.css";
 
 
-const complaintsData = [
-  {
-    title: "Water Leakage",
-    date: "02-02-2026",
-    department: "Civil",
-    status: "resolved",
-    response: "Issue fixed by maintenance team",
-  },
-  {
-    title: "Power Failure",
-    date: "01-02-2026",
-    department: "Electrical",
-    status: "pending",
-    response: "Complaint received. Under review",
-  },
-  {
-    title: "Broken Classroom",
-    date: "31-01-2026",
-    department: "Infrastructure",
-    status: "inprogress",
-    response: "Maintenance team assigned.",
-  },
-];
-
 const TrackComplaintStatus = () => {
+  const [complaints, setComplaints] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const filteredComplaints = complaintsData.filter((c) =>
-    `${c.title} ${c.department} ${c.status}`
+  // 🔥 Fetch complaints from backend
+  useEffect(() => {
+    fetch("http://localhost:8080/api/complaints")
+      .then((res) => res.json())
+      .then((data) => {
+        setComplaints(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching complaints:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // 🔍 Search filter
+  const filteredComplaints = complaints.filter((c) =>
+    `${c.title} ${c.area} ${c.status}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
 
   return (
- 
+  
       <div className="page-bg">
         <div className="track-container">
 
@@ -48,10 +41,9 @@ const TrackComplaintStatus = () => {
 
           {/* HEADER */}
           <div className="complaints-header animate-down">
-           <div className="header-left">
-            <h1>My Complaints</h1>
-                {/* The CSS now handles the single-line layout */}
-             <p>Monitor the real-time status of your requests</p>
+            <div className="header-left">
+              <h1>My Complaints</h1>
+              <p>Monitor the real-time status of your requests</p>
             </div>
 
             <div className="header-right">
@@ -80,25 +72,53 @@ const TrackComplaintStatus = () => {
                 </thead>
 
                 <tbody>
-                  {filteredComplaints.map((c, index) => (
-                    <tr key={index}>
-                      <td>{c.title}</td>
-                      <td>{c.date}</td>
-                      <td>{c.department}</td>
-                      <td>
-                        <span className={`status ${c.status}`}>
-                          {c.status === "resolved" && "Resolved ✅"}
-                          {c.status === "pending" && "Pending ⏳"}
-                          {c.status === "inprogress" && "In Progress 🔄"}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="admin-response-card">
-                          {c.response}
-                        </div>
-                      </td>
+                  {/* Loading */}
+                  {loading && (
+                    <tr>
+                      <td colSpan="5">Loading complaints...</td>
                     </tr>
-                  ))}
+                  )}
+
+                  {/* No Data */}
+                  {!loading && filteredComplaints.length === 0 && (
+                    <tr>
+                      <td colSpan="5">No complaints found</td>
+                    </tr>
+                  )}
+
+                  {/* Data */}
+                  {!loading &&
+                    filteredComplaints.map((c) => (
+                      <tr key={c.id}>
+                        <td>{c.title}</td>
+                        <td>{c.date}</td>
+                        <td>{c.department || "Not Assigned"}</td>
+
+                        <td>
+                          <span
+                            className={`status ${
+                              c.status === "Resolved"
+                                ? "resolved"
+                                : c.status === "Pending"
+                                ? "pending"
+                                : c.status === "In Progress"
+                                ? "inprogress"
+                                : ""
+                            }`}
+                          >
+                            {c.status === "Resolved" && "Resolved ✅"}
+                            {c.status === "Pending" && "Pending ⏳"}
+                            {c.status === "In Progress" && "In Progress 🔄"}
+                          </span>
+                        </td>
+
+                        <td>
+                          <div className="admin-response-card">
+                            {c.response || "Waiting for admin response"}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
 
               </table>
@@ -107,7 +127,7 @@ const TrackComplaintStatus = () => {
 
         </div>
       </div>
-
+  
   );
 };
 
