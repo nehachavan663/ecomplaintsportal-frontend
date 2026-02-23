@@ -35,11 +35,11 @@ export default function Dashboard() {
       {/* Bottom Section */}
       <div className="bottom-grid">
 
-        {/* Complaint Status */}
+        {/* Complaint Status - Enhanced */}
         <div className="box">
           <h2>Complaint Status</h2>
 
-          <div className="progress-item">
+          <div className="progress-item resolved-item">
             <div className="progress-header">
               <span>Resolved</span>
               <span>75%</span>
@@ -49,7 +49,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="progress-item">
+          <div className="progress-item progress-item">
             <div className="progress-header">
               <span>In Progress</span>
               <span>15%</span>
@@ -59,7 +59,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="progress-item">
+          <div className="progress-item pending-item">
             <div className="progress-header">
               <span>Pending</span>
               <span>10%</span>
@@ -70,11 +70,11 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Recent Activity */}
+        {/* Recent Activity - Enhanced */}
         <div className="box">
           <h2>Recent Activity</h2>
 
-          <div className="activity">
+          <div className="activity resolved-activity">
             <div>
               <h4>Hostel Water Issue</h4>
               <p>Resolved successfully</p>
@@ -82,7 +82,7 @@ export default function Dashboard() {
             <span className="badge resolved">Resolved</span>
           </div>
 
-          <div className="activity">
+          <div className="activity progress-activity">
             <div>
               <h4>Library Internet</h4>
               <p>Work in progress</p>
@@ -90,7 +90,7 @@ export default function Dashboard() {
             <span className="badge progress-badge">In Progress</span>
           </div>
 
-          <div className="activity">
+          <div className="activity pending-activity">
             <div>
               <h4>Classroom Fan Repair</h4>
               <p>Assigned to maintenance</p>
