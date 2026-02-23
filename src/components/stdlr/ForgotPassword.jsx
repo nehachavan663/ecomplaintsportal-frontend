@@ -5,7 +5,8 @@ import HomeLayout from "../../layouts/HomeLayouts";
 import bgImage from "./assets/bglogin.jpeg";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
   const bgStyle = {
@@ -17,14 +18,19 @@ function ForgotPassword() {
   };
 
   const handleReset = () => {
-    if (!email) {
-      alert("Please enter your email");
+    if (!newPassword || !confirmPassword) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match");
       return;
     }
 
     // Later connect backend API here
-    alert("Password reset link sent to " + email);
-    navigate("/");
+    alert("Password successfully reset!");
+    navigate("/login");
   };
 
   return (
@@ -34,16 +40,24 @@ function ForgotPassword() {
 
           <div className="title-pill">Reset Password</div>
 
-          <label className="label">Enter Registered Email</label>
+          <label className="label">New Password</label>
           <input
-            type="email"
+            type="password"
             className="input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+
+          <label className="label">Confirm Password</label>
+          <input
+            type="password"
+            className="input"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
 
           <button className="login-btn" onClick={handleReset}>
-            Send Reset Link
+            Update Password
           </button>
 
           <p className="footer-text">
