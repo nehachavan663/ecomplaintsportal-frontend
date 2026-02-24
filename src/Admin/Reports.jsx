@@ -1,10 +1,5 @@
-// React hooks for state management and lifecycle
 import { useState, useEffect } from "react";
-
-// Component-specific CSS
 import "./Reports.css";
-
-// Library used to export data to Excel
 import * as XLSX from "xlsx";
 
 import {
@@ -13,46 +8,13 @@ import {
   FaTags,
   FaClock,
   FaSyncAlt,
-  FaCheckCircle,
-  FaHourglassHalf,
-  FaSpinner,
   FaFileExcel,
   FaFileWord,
   FaPrint
 } from "react-icons/fa";
 
-/* =====================================================
-   Complaint Type → Category Mapping
-   Used to automatically assign a category
-   based on the selected complaint type
-===================================================== */
-const complaintCategoryMap = {
-  "Electrical Issue": "Electrical & Power Issues",
-  "Water Supply Issue": "Water Supply & Sanitation Issues",
-  "Cleanliness Issue": "Cleanliness & Hygiene Issues",
-  "Room Maintenance": "Hostel & Accommodation Issues",
-  "WiFi / Internet Issue": "IT, Network & Digital Services Issues",
-  "Noise Issue": "Noise & Disturbance Issues",
-  "Security Issue": "Campus Safety & Security Issues",
-  "Projector Not Working": "Classroom & Academic Space Issues",
-  "Fan / Light Not Working": "Electrical & Power Issues",
-  "Smart Board Issue": "Classroom & Academic Space Issues",
-  "Road / Pathway Issue": "Garden, Roads & Outdoor Facilities Issues",
-  "Street Light Issue": "Electrical & Power Issues",
-  "Parking Issue": "Garden, Roads & Outdoor Facilities Issues",
-  "Computer / Lab Equipment Issue": "Laboratory Issues",
-  "Book Availability Issue": "Library Issues",
-  "Washroom Issue": "Water Supply & Sanitation Issues",
-  "Administrative Delay": "Administrative Issues",
-  "Other": "Miscellaneous / Other Complaints"
-};
-
 const Reports = () => {
 
-  /* =====================================================
-     Filter State
-     Stores values selected in filter dropdowns
-  ===================================================== */
   const [filters, setFilters] = useState({
     status: "",
     department: "",
@@ -60,83 +22,29 @@ const Reports = () => {
     reportType: ""
   });
 
-  /* =====================================================
-     Report Data State
-  ===================================================== */
-  const [allReports, setAllReports] = useState([]); // full data
-  const [loading, setLoading] = useState(true);     // loading indicator
-  const [isResetClicked, setIsResetClicked] = useState(false); // reset flag
+  const [allComplaints, setAllComplaints] = useState([]);
+  const [isReset, setIsReset] = useState(false); // only control flag
 
-  /* =====================================================
-     Fetch / Mock Data on Component Mount
-  ===================================================== */
+  // Fetch complaints
   useEffect(() => {
-    setTimeout(() => {
-      const data = [
-        {
-          id: 1,
-          department: "Maintenance Department",
-          complaintType: "Electrical Issue",
-          status: "Resolved",
-          startDate: "2026-01-30",
-          completedDate: "2026-02-01",
-          complaints: 6
-        },
-        {
-          id: 2,
-          department: "IT Support",
-          complaintType: "WiFi / Internet Issue",
-          status: "In Progress",
-          startDate: "2026-02-02",
-          completedDate: null,
-          complaints: 10
-        },
-        {
-          id: 3,
-          department: "Housekeeping Department",
-          complaintType: "Cleanliness Issue",
-          status: "Pending",
-          startDate: null,
-          completedDate: null,
-          complaints: 4
-        },
-        {
-          id: 4,
-          department: "Library",
-          complaintType: "Book Availability Issue",
-          status: "Resolved",
-          startDate: "2026-01-28",
-          completedDate: "2026-01-30",
-          complaints: 3
-        }
-      ].map(item => ({
-        ...item,
-        // Automatically add category using mapping
-        category: complaintCategoryMap[item.complaintType]
-      }));
-
-      setAllReports(data);
-      setLoading(false);
-    }, 800); // simulate API delay
+    fetch("http://localhost:8080/api/complaints")
+      .then(res => res.json())
+      .then(data => {
+        setAllComplaints(data);
+      })
+      .catch(err => {
+        console.error("Error fetching complaints:", err);
+      });
   }, []);
 
-  /* =====================================================
-     Clear reset flag when user interacts with filters
-  ===================================================== */
-  const clearReset = () => {
-    if (isResetClicked) setIsResetClicked(false);
-  };
-
-  /* =====================================================
-     Handle filter dropdown changes
-  ===================================================== */
   const handleChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    const updatedFilters = { ...filters, [e.target.name]: e.target.value };
+    setFilters(updatedFilters);
+
+    // Any selection should show table again
+    setIsReset(false);
   };
 
-  /* =====================================================
-     Reset all filters
-  ===================================================== */
   const resetFilters = () => {
     setFilters({
       status: "",
@@ -144,67 +52,58 @@ const Reports = () => {
       category: "",
       reportType: ""
     });
-    setIsResetClicked(true);
+
+    setIsReset(true); // hide table
   };
 
-  /* =====================================================
-     Filter reports based on selected filters
-  ===================================================== */
   const today = new Date();
 
-  const filteredReports = isResetClicked
-    ? []
-    : allReports.filter(r => {
-        if (filters.department && r.department !== filters.department) return false;
-        if (filters.status && r.status !== filters.status) return false;
-        if (filters.category && r.category !== filters.category) return false;
+  const filteredComplaints = allComplaints.filter(c => {
 
-        // Filter by report type (daily / monthly / yearly)
-        if (filters.reportType && r.startDate) {
-          const start = new Date(r.startDate);
+    if (filters.department && c.department !== filters.department) return false;
+    if (filters.status && c.status !== filters.status) return false;
+    if (filters.category && c.category !== filters.category) return false;
 
-          if (
-            filters.reportType === "daily" &&
-            start.toDateString() !== today.toDateString()
-          ) return false;
+    if (filters.reportType && c.createdAt) {
+      const created = new Date(c.createdAt);
 
-          if (
-            filters.reportType === "monthly" &&
-            (start.getMonth() !== today.getMonth() ||
-              start.getFullYear() !== today.getFullYear())
-          ) return false;
+      if (
+        filters.reportType === "daily" &&
+        created.toDateString() !== today.toDateString()
+      ) return false;
 
-          if (
-            filters.reportType === "yearly" &&
-            start.getFullYear() !== today.getFullYear()
-          ) return false;
-        }
+      if (
+        filters.reportType === "monthly" &&
+        (created.getMonth() !== today.getMonth() ||
+         created.getFullYear() !== today.getFullYear())
+      ) return false;
 
-        return true;
-      });
+      if (
+        filters.reportType === "yearly" &&
+        created.getFullYear() !== today.getFullYear()
+      ) return false;
+    }
 
-  /* =====================================================
-     Helper functions for dates
-  ===================================================== */
-  const getStartDate = (r) =>
-    r.status === "Pending" ? "Not Started" : r.startDate || "-";
+    return true;
+  });
 
-  const getEndDate = (r) =>
-    r.status === "Resolved" ? r.completedDate || "-" : "-";
+  const totalComplaints = filteredComplaints.length;
 
-  /* =====================================================
-     Export to Excel
-  ===================================================== */
+  const getStartDate = (c) =>
+    c.startedAt ? new Date(c.startedAt).toLocaleString() : "Not Started";
+
+  const getEndDate = (c) =>
+    c.resolvedAt ? new Date(c.resolvedAt).toLocaleString() : "-";
+
   const downloadExcel = () => {
-    if (!filteredReports.length) return;
+    if (!filteredComplaints.length) return;
 
-    const data = filteredReports.map(r => ({
-      Department: r.department,
-      Category: r.category,
-      Status: r.status,
-      "Start Date": getStartDate(r),
-      "End Date": getEndDate(r),
-      "Total Complaints": r.complaints
+    const data = filteredComplaints.map(c => ({
+      Department: c.department,
+      Category: c.category,
+      Status: c.status,
+      "Start Date": getStartDate(c),
+      "End Date": getEndDate(c)
     }));
 
     const ws = XLSX.utils.json_to_sheet(data);
@@ -213,14 +112,12 @@ const Reports = () => {
     XLSX.writeFile(wb, "eComplaints_Report.xlsx");
   };
 
-  /* =====================================================
-     Export to Word
-  ===================================================== */
   const downloadWord = () => {
-    if (!filteredReports.length) return;
+    if (!filteredComplaints.length) return;
 
     let html = `
       <h2>eComplaints Report</h2>
+      <p><strong>Total Complaints:</strong> ${totalComplaints}</p>
       <table border="1" cellpadding="8" cellspacing="0" width="100%">
         <tr>
           <th>Department</th>
@@ -228,19 +125,17 @@ const Reports = () => {
           <th>Status</th>
           <th>Start Date</th>
           <th>End Date</th>
-          <th>Total Complaints</th>
         </tr>
     `;
 
-    filteredReports.forEach(r => {
+    filteredComplaints.forEach(c => {
       html += `
         <tr>
-          <td>${r.department}</td>
-          <td>${r.category}</td>
-          <td>${r.status}</td>
-          <td>${getStartDate(r)}</td>
-          <td>${getEndDate(r)}</td>
-          <td>${r.complaints}</td>
+          <td>${c.department}</td>
+          <td>${c.category}</td>
+          <td>${c.status}</td>
+          <td>${getStartDate(c)}</td>
+          <td>${getEndDate(c)}</td>
         </tr>
       `;
     });
@@ -258,165 +153,108 @@ const Reports = () => {
     URL.revokeObjectURL(url);
   };
 
-  /* =====================================================
-     Print Report
-  ===================================================== */
   const printReport = () => {
-    if (!filteredReports.length) return;
+    if (!filteredComplaints.length) return;
     window.print();
   };
 
-  /* =====================================================
-     JSX UI
-  ===================================================== */
   return (
     <div className="reports-container">
       <h2>eComplaints Report</h2>
 
-      {/* Filters Section */}
       <div className="filters">
-        {/* Status Filter */}
         <div className="filter-item">
-    <FaFilter className="filter-icon" />
-    <select name="status" value={filters.status} onFocus={clearReset} onChange={handleChange}>
-      <option value="">All Status</option>
-      <option value="Pending">Pending</option>
-      <option value="In Progress">In Progress</option>
-      <option value="Resolved">Resolved</option>
-    </select>
-  </div>
+          <FaFilter className="filter-icon" />
+          <select name="status" value={filters.status} onChange={handleChange}>
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
 
-          <div className="filter-item">
-    <FaBuilding className="filter-icon" />
-    <select name="department" value={filters.department} onChange={handleChange}>
-      <option value="">All Departments</option>
+        <div className="filter-item">
+          <FaBuilding className="filter-icon" />
+          <select name="department" value={filters.department} onChange={handleChange}>
+            <option value="">All Departments</option>
+            <option value="Maintenance Department">Maintenance Department</option>
+            <option value="Electrical Department">Electrical Department</option>
+            <option value="Campus Maintenance">Campus Maintenance</option>
+          </select>
+        </div>
 
-        {/* Infrastructure & Maintenance */}
-        <option value="Maintenance Department">Maintenance Department</option>
-        <option value="Civil Works / Infrastructure Department">
-            Civil Works / Infrastructure Department
-        </option>
-        <option value="Electrical Department">Electrical Department</option>
-        <option value="Campus Maintenance">Campus Maintenance</option>
-        <option value="Hostel Maintenance">Hostel Maintenance</option>
+        <div className="filter-item">
+          <FaTags className="filter-icon" />
+          <select name="category" value={filters.category} onChange={handleChange}>
+            <option value="">All Categories</option>
+            <option value="Electrical & Power Issues">Electrical & Power Issues</option>
+            <option value="Water Supply & Sanitation Issues">Water Supply & Sanitation Issues</option>
+            <option value="Cleanliness & Hygiene Issues">Cleanliness & Hygiene Issues</option>
+          </select>
+        </div>
 
-        {/* Cleanliness */}
-        <option value="Housekeeping Department">Housekeeping Department</option>
-        <option value="Sanitation Department">Sanitation Department</option>
-
-        {/* Safety */}
-        <option value="Campus Security">Campus Security</option>
-        <option value="Fire & Safety Department">Fire & Safety Department</option>
-
-        {/* General */}
-        <option value="General Complaints Desk">General Complaints Desk</option>
-
-        </select>
-      </div>
-
-
-    <div className="filter-item">
-    <FaTags className="filter-icon" />
-    <select name="category" value={filters.category} onChange={handleChange}>
-      <option value="">All Categories</option>
-
-      <option value="Infrastructure & Facilities Issues"> Infrastructure & Facilities Issues </option>
-      <option value="Electrical & Power Issues"> Electrical & Power Issues </option>
-      <option value="Water Supply & Sanitation Issues"> Water Supply & Sanitation Issues </option>
-      <option value="Cleanliness & Hygiene Issues"> Cleanliness & Hygiene Issues </option>
-      <option value="Hostel & Accommodation Issues">  Hostel & Accommodation Issues </option>
-      <option value="Classroom & Academic Space Issues">  Classroom & Academic Space Issues </option>
-      <option value="Laboratory Issues"> Laboratory Issues </option>
-      <option value="Library Issues"> Library Issues </option>
-      <option value="IT, Network & Digital Services Issues"> IT, Network & Digital Services Issues </option>
-      <option value="Campus Safety & Security Issues"> Campus Safety & Security Issues </option>
-      <option value="Garden, Roads & Outdoor Facilities Issues"> Garden, Roads & Outdoor Facilities Issues </option>
-      <option value="Administrative Issues">  Administrative Issues </option>
-      <option value="Miscellaneous / Other Complaints">  Miscellaneous / Other Complaints </option> 
-    </select>
-    </div>
-
-
-        {/* Time Filter */}
-      <div className="filter-item">
-    <FaClock className="filter-icon" />
-    <select name="reportType" value={filters.reportType} onChange={handleChange}>
-      <option value="">All Time</option>
-          <option value="daily">Daily</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-        </select>
-      </div>
+        <div className="filter-item">
+          <FaClock className="filter-icon" />
+          <select name="reportType" value={filters.reportType} onChange={handleChange}>
+            <option value="">All Time</option>
+            <option value="daily">Daily</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
 
         <button onClick={resetFilters} className="reset-btn">
           <FaSyncAlt /> Reset
         </button>
-
       </div>
 
-      {/* Table Section */}
-      <div className="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Department</th>
-              <th>Category</th>
-              <th>Status</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Total Complaints</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr><td colSpan="6">Loading report...</td></tr>
-            ) : filteredReports.length ? (
-              filteredReports.map(r => (
-                <tr key={r.id}>
-                  <td>{r.department}</td>
-                  <td>{r.category}</td>
-                  <td>
-  <span className={`status-badge ${
-    r.status === "Resolved"
-      ? "resolved"
-      : r.status === "Pending"
-      ? "pending"
-      : "inprogress"
-  }`}>
-    {r.status === "Resolved" && <FaCheckCircle />}
-    {r.status === "Pending" && <FaHourglassHalf />}
-    {r.status === "In Progress" && <FaSpinner className="spin" />}
-    <span>{r.status}</span>
-  </span>
-</td>
-
-                  <td>{getStartDate(r)}</td>
-                  <td>{getEndDate(r)}</td>
-                  <td>{r.complaints}</td>
+      {!isReset && filteredComplaints.length > 0 && (
+        <>
+          <div className="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Department</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
                 </tr>
-              ))
-            ) : (
-              <tr><td colSpan="6">No matching complaints found</td></tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody>
+                {filteredComplaints.map((c, index) => (
+                  <tr key={index}>
+                    <td>{c.department}</td>
+                    <td>{c.category}</td>
+                    <td>{c.status}</td>
+                    <td>{getStartDate(c)}</td>
+                    <td>{getEndDate(c)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-      {/* Action Buttons */}
-      <div className="actions">
-  <button disabled={!filteredReports.length} onClick={downloadExcel}>
-    <FaFileExcel /> Download Excel
-  </button>
+          <div style={{ marginTop: "15px", fontWeight: "bold" }}>
+            Total Complaints: {totalComplaints}
+          </div>
 
-  <button disabled={!filteredReports.length} onClick={downloadWord}>
-    <FaFileWord /> Download Word
-  </button>
+          <div className="actions">
+            <button onClick={downloadExcel}>
+              <FaFileExcel /> Export Excel
+            </button>
 
-  <button disabled={!filteredReports.length} onClick={printReport}>
-    <FaPrint /> Print
-  </button>
-  </div>
-  </div>
+            <button onClick={downloadWord}>
+              <FaFileWord /> Export Word
+            </button>
+
+            <button onClick={printReport}>
+              <FaPrint /> Print
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
