@@ -54,7 +54,8 @@
   box-shadow: 0 0 0 3px rgba(109, 214, 170, 0.35);
 }
 
-.filters button {
+/* ✅ Reset Button Specific (Improved Targeting) */
+.reset-btn {
   background: linear-gradient(135deg, #8ef0c3, #6dd6aa);
   color: #1f3d32;
   border: none;
@@ -62,9 +63,10 @@
   padding: 9px 20px;
   font-weight: 500;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.filters button:hover {
+.reset-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(109, 214, 170, 0.5);
 }
@@ -143,22 +145,21 @@ tbody td {
   border: 1px solid #dfeee7;
   color: #374151;
   vertical-align: middle;
-  line-height: 1.4; /* ✅ uniform row height */
+  line-height: 1.4;
 }
 
-/* ===== Fix: Last Column (Total Complaints) ===== */
+/* Fix Last Column Alignment */
 tbody td:last-child {
   text-align: center;
   white-space: nowrap;
 }
 
 /* =====================
-   Table Hover (Optimized)
+   Table Hover
 ===================== */
 @media (hover: hover) {
   tbody tr {
     transition: background-color 0.2s ease;
-    will-change: background-color;
   }
 
   tbody tr:hover {
@@ -207,17 +208,6 @@ tbody td:last-child {
 }
 
 /* =====================
-   Reduced Motion
-===================== */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-
-/* =====================
    Action Buttons
 ===================== */
 .actions {
@@ -238,10 +228,7 @@ tbody td:last-child {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .actions button:hover {
@@ -287,7 +274,7 @@ tbody td:last-child {
 
   .filters input,
   .filters select,
-  .filters button,
+  .reset-btn,
   .actions button {
     width: 100%;
   }
@@ -325,5 +312,47 @@ tbody td:last-child {
   50% { transform: translateY(-3px); }
   100% { transform: translateY(0); }
 }
+/* =====================
+   Print Styles
+===================== */
+@media print {
 
+  body {
+    margin: 0;
+    background: #ffffff !important;
+  }
 
+  /* Hide filters and buttons */
+  .filters,
+  .actions,
+  .reset-btn {
+    display: none !important;
+  }
+
+  /* Remove background and shadows */
+  .reports-container {
+    background: #ffffff !important;
+    box-shadow: none !important;
+    padding: 0;
+  }
+
+  .table-wrapper {
+    box-shadow: none !important;
+  }
+
+  /* Make table clean for printing */
+  table {
+    min-width: 100%;
+    font-size: 13px;
+  }
+
+  th, td {
+    border: 1px solid #000 !important;
+    padding: 8px;
+  }
+
+  thead th {
+    background: #f0f0f0 !important;
+  }
+
+}
