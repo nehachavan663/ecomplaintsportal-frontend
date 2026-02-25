@@ -298,3 +298,38 @@ html, body {
   .pro-floating-chip { font-size: 11px; padding: 6px 14px; }
   .pro-hero-img { width: 85%; }
 }
+/* ================= LABEL ICON STYLE ================= */
+
+.pro-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #065f46;
+}
+
+.pro-label i {
+  font-size: 1.1rem;
+  color: #10b981;
+  transition: all 0.3s ease;
+}
+
+/* Hover animation */
+.pro-input-group:hover .pro-label i {
+  transform: scale(1.2);
+  color: #059669;
+}
+.pro-input:focus,
+.pro-select:focus,
+.pro-textarea:focus {
+  outline: none;
+  border-color: #10b981;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(16,185,129,0.15);
+  transition: all 0.3s ease;
+}
+.pro-label i {
+  font-size: 1rem;
+  min-width: 18px;
+}
