@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ComplaintForm.css";
 import heroImage from "./assets/cimage.png";
-
+import Swal from "sweetalert2";
 const complaintCategoryMap = {
   Hostel: [
     "Electricity Issue",
@@ -203,7 +203,16 @@ const ComplaintForm = () => {
       });
 
       if (response.ok) {
-        alert("Complaint Submitted Successfully ✅");
+Swal.fire({
+  icon: "success",
+  title: "Complaint Submitted!",
+  text: "Your complaint has been registered successfully.",
+  confirmButtonColor: "#10b981",
+  background: "#f0fdf4",
+  iconColor: "#10b981",
+  timer: 2500,
+  showConfirmButton: false
+});
 
         setUserName("");
         setTitle("");
@@ -214,12 +223,22 @@ const ComplaintForm = () => {
       setFileDetails({ name: "", size: "" });
 
       } else {
-        alert("Failed to submit complaint ❌");
+        Swal.fire({
+  icon: "error",
+  title: "Submission Failed",
+  text: "Something went wrong. Please try again.",
+  confirmButtonColor: "#ef4444"
+});
       }
 
     } catch (error) {
       console.error(error);
-      alert("Server error ❌");
+Swal.fire({
+  icon: "error",
+  title: "Server Error",
+  text: "Unable to connect to server.",
+  confirmButtonColor: "#ef4444"
+});
     }
 
     setLoading(false);
@@ -271,7 +290,7 @@ const ComplaintForm = () => {
           <div className="pro-form-section">
             <div className="pro-heading-card">
               <div className="pro-heading-icon">
-                 <img src="https://img.icons8.com/fluency/48/maintenance.png" alt="tools" />
+              <img src="https://img.icons8.com/fluency/48/maintenance.png" alt="tools" />
               </div>
               <div className="pro-heading-text">
                 <h3>Complaint Registration</h3>
@@ -282,7 +301,9 @@ const ComplaintForm = () => {
             <form className="pro-form-wrapper" onSubmit={handleSubmit}>
               <div className="pro-form-row">
                 <div className="pro-input-group">
-                  <label className="pro-label">👤 User Name *</label>
+                  <label className="pro-label">
+  <i className="bi bi-person"></i> User Name *
+</label>
                   <input className="pro-input"
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
@@ -290,7 +311,9 @@ const ComplaintForm = () => {
 
                 </div>
                 <div className="pro-input-group">
-                  <label className="pro-label">📅 Date *</label>
+                  <label className="pro-label">
+  <i className="bi bi-calendar-event"></i> Date *
+</label>
                  <input  type="date"
                          className="pro-input"
                           value={date}
@@ -299,21 +322,27 @@ const ComplaintForm = () => {
               </div>
 
               <div className="pro-input-group">
-                <label className="pro-label">🏷️ Complaint Title *</label>
+                <label className="pro-label">
+  <i className="bi bi-tag"></i> Complaint Title *
+</label>
                 <input className="pro-input" value={title} onChange={(e) => setTitle(e.target.value)}  placeholder="Short issue title"
                    required/>
               </div>
 
               <div className="pro-form-row">
                 <div className="pro-input-group">
-                  <label className="pro-label">📍 Area *</label>
+                  <label className="pro-label">
+  <i className="bi bi-geo-alt"></i> Area *
+</label>
                   <select className="pro-select" value={area} onChange={(e) => {setArea(e.target.value); setCategory("");}} required>
                     <option value="">Select location</option>
                     {Object.keys(complaintCategoryMap).map(a => <option key={a} value={a}>{a}</option>)}
                   </select>
                 </div>
                 <div className="pro-input-group">
-                  <label className="pro-label">📂 Category *</label>
+                 <label className="pro-label">
+  <i className="bi bi-folder2-open"></i> Category *
+</label>
                   <select className="pro-select" disabled={!area} value={category} onChange={(e) => setCategory(e.target.value)} required>
                     <option value="">{area ? "Select category" : "Select area first"}</option>
                     {area && complaintCategoryMap[area].map(c => <option key={c} value={c}>{c}</option>)}
@@ -322,13 +351,17 @@ const ComplaintForm = () => {
               </div>
 
               <div className="pro-input-group">
-                <label className="pro-label">📝 Description *</label>
+               <label className="pro-label">
+  <i className="bi bi-card-text"></i> Description *
+</label>
                 <textarea className="pro-textarea" rows="3" maxLength={300} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe details clearly..." required />
                 <div className="pro-char-limit">{description.length}/300</div>
               </div>
 
               <div className="pro-input-group">
-                <label className="pro-label">📸 Upload Image</label>
+              <label className="pro-label">
+  <i className="bi bi-image"></i> Upload Image
+</label>
                 <label className="pro-upload-zone">
                   <input type="file" className="pro-file-hidden" accept="image/*" onChange={handleFileChange} />
                   <div className="pro-upload-content">
