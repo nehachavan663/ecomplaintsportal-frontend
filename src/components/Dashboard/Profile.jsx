@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./Profile.css";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 
 function Profile() {
   const [isEditing, setIsEditing] = useState(false);
-
+  const navigate = useNavigate();
   const [student, setStudent] = useState({
     name: "Alexa R",
     rollNo: "109CS23063",
@@ -33,8 +35,28 @@ function Profile() {
   };
 
   const handleSave = () => {
-    setIsEditing(false);
-  };
+  setIsEditing(false);
+
+  Swal.fire({
+    icon: "success",
+    title: "Profile Updated",
+    text: "Your profile updated successfully.",
+    timer: 2000,
+    showConfirmButton: false,
+  });
+};
+
+  const handleLogout = () => {
+  Swal.fire({
+    icon: "success",
+    title: "Logged Out Successfully",
+    text: "You have been logged out.",
+    timer: 2000,
+    showConfirmButton: false,
+  }).then(() => {
+    navigate("/"); // Redirect to home page
+  });
+};
 
   return (
 
@@ -68,7 +90,7 @@ function Profile() {
               </button>
             )}
 
-            <button className="logout-btn">
+            <button className="logout-btn" onClick={handleLogout}>
               <i className="bi bi-box-arrow-right"></i> Log Out
             </button>
           </div>
