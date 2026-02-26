@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ManageComplaint.css";
+import Swal from "sweetalert2";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 /* ===============================
    AUTO DEPARTMENT MAP
@@ -51,6 +53,18 @@ const categoryDepartmentMap = {
   default: "Administration"
 };
 
+const showSuccess = (title) => {
+  Swal.fire({
+    icon: "success",
+    title,
+    timer: 1400,
+    showConfirmButton: false,
+    background:"#ecfdf5",
+    color:"#065f46",
+    iconColor:"#22c55e"
+  });
+};
+
 const ManageComplaint = () => {
 
   const [complaints, setComplaints] = useState([]);
@@ -58,14 +72,38 @@ const ManageComplaint = () => {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [deptFilter, setDeptFilter] = useState("");
+  const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
 
   /* FETCH */
-  useEffect(() => {
-    fetch("http://localhost:8080/api/complaints")
-      .then(res => res.json())
-      .then(data => setComplaints(data))
-      .catch(err => console.error("Fetch error:", err));
-  }, []);
+useEffect(() => {
+
+  const fetchComplaints = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetch(
+        "http://localhost:8080/api/complaints"
+      );
+
+      if (!res.ok) {
+        throw new Error("Unable to load complaints");
+      }
+
+      const data = await res.json();
+
+      setComplaints(Array.isArray(data) ? data : []);
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchComplaints();
+
+}, []);
 
   /* FAST UPDATE (OPTIMISTIC) */
   const updateComplaint = (id, updatedFields) => {
@@ -112,23 +150,64 @@ const ManageComplaint = () => {
   );
 
   /* DELETE */
-  const handleRemove = id => {
-    if (!window.confirm("Remove this complaint?")) return;
+ const handleRemove = id => {
 
-    fetch(`http://localhost:8080/api/complaints/${id}`, {
-      method: "DELETE"
-    }).then(() => {
-      setComplaints(prev => prev.filter(c => c.id !== id));
-      setViewData(null);
+  Swal.fire({
+    title:"Delete Complaint?",
+    text:"This action cannot be undone",
+    icon:"warning",
+    showCancelButton:true,
+    confirmButtonText:"Delete",
+    cancelButtonText:"Cancel",
+    confirmButtonColor:"#ef4444",
+    cancelButtonColor:"#22c55e",
+    background:"#f0fdf4",
+    color:"#065f46"
+  }).then(result=>{
+
+    if(!result.isConfirmed) return;
+
+    fetch(`http://localhost:8080/api/complaints/${id}`,{
+      method:"DELETE"
+    }).then(()=>{
+
+      setComplaints(prev =>
+        prev.filter(c=>c.id!==id)
+      );
+
+      showSuccess("Complaint Removed");
     });
-  };
 
+  });
+};
   /* RESPONSE */
-  const handleResponse = id => {
-    const msg = prompt("Enter remarks:");
-    if (!msg) return;
-    updateComplaint(id, { response: msg });
-  };
+const handleResponse = id => {
+
+  Swal.fire({
+    title:"Add Remarks",
+    input:"textarea",
+    inputPlaceholder:"Write response here...",
+    showCancelButton:true,
+    confirmButtonText:"Submit",
+    confirmButtonColor:"#22c55e",
+    background:"#f0fdf4",
+    color:"#065f46",
+    inputValidator:value=>{
+      if(!value){
+        return "Response required!";
+      }
+    }
+  }).then(result=>{
+
+    if(!result.value) return;
+
+    updateComplaint(id,{
+      response:result.value
+    });
+
+    showSuccess("Response Added");
+  });
+};
 
   return (
     <div className="mc-page">
@@ -137,123 +216,200 @@ const ManageComplaint = () => {
         <h2>Manage Complaints</h2>
       </div>
 
-      {/* FILTER */}
-      <div className="mc-filter-bar">
-        <div className="mc-filter-grid">
-          <input
-            placeholder="Search..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
+      {/* FILTER */}{/* FILTER */}
+<div className="mc-filter-bar">
+  <div className="mc-filter-grid">
 
-          <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-            <option value="">All Status</option>
-            <option>Pending</option>
-            <option>In Progress</option>
-            <option>Resolved</option>
-          </select>
+    {/* SEARCH */}
+    <div className="mc-input-icon">
+      <i className="bi bi-search"></i>
+      <input
+        placeholder="Search complaint..."
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
+    </div>
 
-          <select value={deptFilter} onChange={e => setDeptFilter(e.target.value)}>
-            <option value="">All Departments</option>
-            <option>Electrical</option>
-            <option>Civil</option>
-            <option>Mechanical</option>
-            <option>Information Technology (IT)</option>
-            <option>Housekeeping</option>
-            <option>Security</option>
-            <option>Canteen</option>
-            <option>Transport</option>
-            <option>Administration</option>
-          </select>
+    {/* STATUS */}
+    <div className="mc-input-icon">
+      <i className="bi bi-activity"></i>
+      <select
+        value={statusFilter}
+        onChange={e => setStatusFilter(e.target.value)}
+      >
+        <option value="">All Status</option>
+        <option>Pending</option>
+        <option>In Progress</option>
+        <option>Resolved</option>
+      </select>
+    </div>
 
-          <button
-            className="mc-reset-btn"
-            onClick={() => {
-              setSearch("");
-              setStatusFilter("");
-              setDeptFilter("");
-            }}
-          >
-            Reset
-          </button>
-        </div>
-      </div>
+    {/* DEPARTMENT */}
+    <div className="mc-input-icon">
+      <i className="bi bi-building"></i>
+      <select
+        value={deptFilter}
+        onChange={e => setDeptFilter(e.target.value)}
+      >
+        <option value="">All Departments</option>
+        <option>Electrical</option>
+        <option>Civil</option>
+        <option>Mechanical</option>
+        <option>Information Technology (IT)</option>
+        <option>Housekeeping</option>
+        <option>Security</option>
+        <option>Canteen</option>
+        <option>Transport</option>
+        <option>Administration</option>
+      </select>
+    </div>
+
+    {/* RESET */}
+    <button
+      className="mc-reset-btn"
+      onClick={() => {
+        setSearch("");
+        setStatusFilter("");
+        setDeptFilter("");
+      }}
+    >
+      <i className="bi bi-arrow-clockwise"></i>
+      Reset
+    </button>
+
+  </div>
+</div>
 
       {/* TABLE */}
       <div className="mc-table-card">
         <div className="mc-table-scroll">
           <table className="mc-table">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Complaint</th>
-                <th>Status</th>
-                <th>Assing Department</th>
-                <th>Remarks</th>
-                <th>Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+         <thead>
+<tr>
+  <th><i className="bi bi-person"></i> User</th>
+  <th><i className="bi bi-chat-left-text"></i> Complaint</th>
+  <th><i className="bi bi-activity"></i> Status</th>
+  <th><i className="bi bi-diagram-3"></i> Department</th>
+  <th><i className="bi bi-pencil-square"></i> Remarks</th>
+  <th><i className="bi bi-calendar-event"></i> Date</th>
+  <th><i className="bi bi-gear"></i> Action</th>
+</tr>
+</thead>
 
             <tbody>
-              {filteredComplaints.map(c => (
-                <tr key={c.id}>
-                  <td>{c.userName}</td>
-                  <td>{c.title}</td>
 
-          <td>
-  <select
-    className={`mc-status-select ${c.status?.replace(" ", "-").toLowerCase()}`}
-    value={c.status}
-    onChange={e =>
-      updateComplaint(c.id, { status: e.target.value })
-    }
-  >
-    <option>Pending</option>
-    <option>In Progress</option>
-    <option>Resolved</option>
-  </select>
-</td>
+{/* ================= LOADING ================= */}
+{loading && (
+  <tr>
+    <td colSpan="7">
+      <div className="mc-loading-wrapper">
+        <div className="mc-loader"></div>
+        <p>Fetching complaints...</p>
+      </div>
+    </td>
+  </tr>
+)}
 
-                  <td>
-                    <select
-                      className="mc-dept-select"
-                      value={c.department || ""}
-                      onChange={e => updateComplaint(c.id, { department: e.target.value })}
-                    >
-                      <option value="">Select</option>
-                      <option>Electrical</option>
-                      <option>Civil</option>
-                      <option>Mechanical</option>
-                      <option>Information Technology (IT)</option>
-                      <option>Housekeeping</option>
-                      <option>Security</option>
-                      <option>Canteen</option>
-                      <option>Transport</option>
-                      <option>Administration</option>
-                    </select>
-                  </td>
+{/* ================= ERROR ================= */}
+{error && !loading && (
+  <tr>
+    <td colSpan="7" className="mc-error">
+      ⚠ {error}
+    </td>
+  </tr>
+)}
 
-                  <td><i>{c.response || "No response yet"}</i></td>
-                  <td>{c.date}</td>
+{/* ================= DATA ================= */}
+{!loading && !error && filteredComplaints.map(c => (
+  <tr key={c.id}>
+    <td>{c.userName}</td>
+    <td>{c.title}</td>
 
-                  <td>
-                    <div className="mc-action-buttons">
-                      <button className="mc-view-btn" onClick={() => setViewData(c)}>View</button>
-                      <button className="mc-response-btn" onClick={() => handleResponse(c.id)}>Response</button>
-                      <button className="mc-remove-btn" onClick={() => handleRemove(c.id)}>Remove</button>
-                      <button className="mc-assign-btn" onClick={() => autoAssignDepartment(c)}>Auto Assign</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+    {/* STATUS */}
+    <td>
+      <select
+        className={`mc-status-select ${c.status?.replace(" ", "-").toLowerCase()}`}
+        value={c.status}
+        onChange={e =>
+          updateComplaint(c.id, { status: e.target.value })
+        }
+      >
+        <option>Pending</option>
+        <option>In Progress</option>
+        <option>Resolved</option>
+      </select>
+    </td>
 
-              {filteredComplaints.length === 0 && (
-                <tr>
-                  <td colSpan="7">No complaints found</td>
-                </tr>
-              )}
-            </tbody>
+    {/* DEPARTMENT */}
+    <td>
+      <select
+        className="mc-dept-select"
+        value={c.department || ""}
+        onChange={e =>
+          updateComplaint(c.id, {
+            department: e.target.value
+          })
+        }
+      >
+        <option value="">Select</option>
+        <option>Electrical</option>
+        <option>Civil</option>
+        <option>Mechanical</option>
+        <option>Information Technology (IT)</option>
+        <option>Housekeeping</option>
+        <option>Security</option>
+        <option>Canteen</option>
+        <option>Transport</option>
+        <option>Administration</option>
+      </select>
+    </td>
+
+    <td><i>{c.response || "No response yet"}</i></td>
+    <td>{c.date}</td>
+
+    {/* ACTION */}
+    <td>
+      <div className="mc-action-buttons">
+        <button
+          className="mc-view-btn"
+          onClick={() => setViewData(c)}
+        >
+          View
+        </button>
+
+        <button
+          className="mc-response-btn"
+          onClick={() => handleResponse(c.id)}
+        >
+          Response
+        </button>
+
+        <button
+          className="mc-remove-btn"
+          onClick={() => handleRemove(c.id)}
+        >
+          Remove
+        </button>
+
+        <button
+          className="mc-assign-btn"
+          onClick={() => autoAssignDepartment(c)}
+        >
+          Auto Assign
+        </button>
+      </div>
+    </td>
+  </tr>
+))}
+
+{/* ================= EMPTY ================= */}
+{!loading && !error && filteredComplaints.length === 0 && (
+  <tr>
+    <td colSpan="7">No complaints found</td>
+  </tr>
+)}
+
+</tbody>
           </table>
         </div>
       </div>
