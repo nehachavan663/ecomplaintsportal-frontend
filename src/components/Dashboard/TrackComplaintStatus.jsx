@@ -29,7 +29,7 @@ const TrackComplaintStatus = () => {
   );
 
   return (
-  
+      
       <div className="page-bg">
         <div className="track-container">
 
@@ -61,23 +61,43 @@ const TrackComplaintStatus = () => {
           <div className="track-card animate-up">
             <div className="table-wrapper">
               <table className="complaint-table">
-                <thead>
-                  <tr>
-                    <th>📌 Complaint</th>
-                    <th>📅 Date</th>
-                    <th>🏢 Assign Department</th>
-                    <th>📊 Status</th>
-                    <th>💬 Admin Response</th>
-                  </tr>
-                </thead>
+               <thead>
+  <tr>
+    <th>
+      <i className="bi bi-file-text me-2"></i>
+      Complaint
+    </th>
+    <th>
+      <i className="bi bi-calendar-event me-2"></i>
+      Date
+    </th>
+    <th>
+      <i className="bi bi-building me-2"></i>
+      Assign Department
+    </th>
+    <th>
+      <i className="bi bi-bar-chart-line me-2"></i>
+      Status
+    </th>
+    <th>
+      <i className="bi bi-chat-left-text me-2"></i>
+      Admin Response
+    </th>
+  </tr>
+</thead>
 
                 <tbody>
                   {/* Loading */}
-                  {loading && (
-                    <tr>
-                      <td colSpan="5">Loading complaints...</td>
-                    </tr>
-                  )}
+             {loading && (
+  <tr>
+    <td colSpan="5">
+      <div className="table-loader">
+        <div className="spinner"></div>
+        <p>Fetching complaints...</p>
+      </div>
+    </td>
+  </tr>
+)}
 
                   {/* No Data */}
                   {!loading && filteredComplaints.length === 0 && (
