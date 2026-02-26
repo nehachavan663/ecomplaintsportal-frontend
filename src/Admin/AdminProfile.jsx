@@ -9,6 +9,7 @@ export default function AdminProfile() {
   const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [profilePic, setProfilePic] = useState("https://cdn-icons-png.flaticon.com/512/616/616408.png");
+  const [showCopiedMsg, setShowCopiedMsg] = useState(false);
   const fileInputRef = useRef(null);
   const menuRef = useRef();
 
@@ -46,22 +47,40 @@ export default function AdminProfile() {
     status: "Active",
   };
 
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setShowCopiedMsg(true);
+    setTimeout(() => setShowCopiedMsg(false), 2000);
+  };
+
   return (
     <div className="admin-profile-wrapper">
       {/* HEADER */}
       <div className="profile-top">
         <div>
-          <h1 style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: '#111827' }}>Account Settings</h1>
-          <p style={{ margin: '8px 0 0 0', color: '#374151', fontSize: '16px' }}>Manage profile, security and activity</p>
+         <h1 style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: '#111827' }}>Account Settings</h1>
+         <p style={{ margin: '8px 0 0 0', color: '#374151', fontSize: '16px' }}>Manage profile, security and activity</p>
         </div>
 
+        {/* MADE MORE VISIBLE - LARGER & BETTER CONTRAST */}
         <div className="top-actions">
           <div className="menu-wrapper" ref={menuRef}>
             <button
               className="menu-btn"
               onClick={() => setShowMenu(!showMenu)}
+              style={{
+                background: 'rgba(34,197,94,0.15)', // More visible background
+                border: '2px solid #22c55e', // Thicker green border
+                padding: '12px 16px', // Larger padding
+                fontSize: '24px', // Larger dots
+                minWidth: '48px', // Minimum width
+                height: '48px', // Fixed height
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
             >
-              ⋮
+             ⋮
             </button>
 
             <AnimatePresence>
@@ -73,16 +92,33 @@ export default function AdminProfile() {
                   exit={{ opacity: 0, y: -10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <div>Edit Profile</div>
-                  <div>Share Profile</div>
-                  <div>Notifications</div>
-                  <div>Emails</div>
+                  <div onClick={() => { handleCopyLink(); setShowMenu(false); }}>Copy Link</div>
+
+                  <div onClick={() => setShowMenu(false)}>Share Profile</div>
+                  <div onClick={() => setShowMenu(false)}>Notifications</div>
+                  <div onClick={() => setShowMenu(false)}>Emails</div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
         </div>
       </div>
+
+      {/* COPIED MESSAGE */}
+      <AnimatePresence>
+        {showCopiedMsg && (
+          <motion.div
+  className="copied-toast"
+  initial={{ opacity: 0, y: 20, scale: 0.9 }}
+  animate={{ opacity: 1, y: 0, scale: 1 }}
+  exit={{ opacity: 0, y: 20, scale: 0.9 }}
+  transition={{ duration: 0.2 }}
+>
+  Link copied to clipboard!
+</motion.div>
+
+        )}
+      </AnimatePresence>
 
       {/* HERO */}
       <div className="profile-hero">
@@ -120,8 +156,7 @@ export default function AdminProfile() {
         </div>
       </div>
 
-      {/* Rest of the component remains exactly the same... */}
-      {/* TABS */}
+      {/* Rest of the component - NO CHANGES */}
       <div className="profile-tabs">
         {["overview", "security", "activity"].map((tab) => (
           <motion.button
@@ -136,7 +171,6 @@ export default function AdminProfile() {
         ))}
       </div>
 
-      {/* CONTENT */}
       <div className="profile-content">
         {activeTab === "overview" && (
           <motion.div 
@@ -240,7 +274,7 @@ export default function AdminProfile() {
         )}
       </div>
 
-      {/* PASSWORD MODAL */}
+      {/* MODALS - NO CHANGES */}
       <AnimatePresence>
         {showPasswordModal && (
           <motion.div 
@@ -277,7 +311,6 @@ export default function AdminProfile() {
         )}
       </AnimatePresence>
 
-      {/* 2FA MODAL */}
       <AnimatePresence>
         {show2FAModal && (
           <motion.div 
@@ -315,7 +348,6 @@ export default function AdminProfile() {
         )}
       </AnimatePresence>
 
-      {/* EDIT PROFILE MODAL */}
       <AnimatePresence>
         {showEditModal && (
           <motion.div 
