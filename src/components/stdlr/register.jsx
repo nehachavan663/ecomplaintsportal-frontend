@@ -5,7 +5,13 @@ import HomeLayout from "../../layouts/HomeLayouts";
 import bgImage from "./assets/bglogin.jpeg";
 
 function Registration() {
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const navigate = useNavigate();
 
   const bgStyle = {
@@ -16,6 +22,43 @@ function Registration() {
     backgroundAttachment: "scroll"
   };
 
+  const handleRegister = async () => {
+
+    if (!email || !password || !confirmPassword) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8080/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: email,
+          email: email,
+          password: password
+        })
+      });
+
+      if (response.ok) {
+        alert("Registration Successful");
+        navigate("/login");
+      } else {
+        alert("Registration Failed");
+      }
+
+    } catch (error) {
+      alert("Server not connected");
+    }
+  };
+
   return (
     <HomeLayout>
       <div className="login-page" style={bgStyle}>
@@ -23,14 +66,21 @@ function Registration() {
 
           <div className="title-pill">Registration</div>
 
-          <label className="label">Username / Email id</label>
-          <input type="text" className="input" />
+          <label className="label">Email</label>
+          <input
+            type="text"
+            className="input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
           <label className="label">Enter Password</label>
           <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
               className="input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <span
               className="eye"
@@ -41,31 +91,14 @@ function Registration() {
           </div>
 
           <label className="label">Confirm Password</label>
-          <div className="password-wrapper">
-            <input
-              type={showPassword ? "text" : "password"}
-              className="input"
-            />
-            <span
-              className="eye"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              👁
-            </span>
-          </div>
+          <input
+            type={showPassword ? "text" : "password"}
+            className="input"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
 
-          {/* ✅ Security Questions Added Here */}
-
-          <label className="label">Enter your favourite song</label>
-          <input type="text" className="input" />
-
-          <label className="label">Enter your favourite book</label>
-          <input type="text" className="input" />
-
-          <label className="label">Enter your favourite animal</label>
-          <input type="text" className="input" />
-
-          <button className="login-btn">
+          <button className="login-btn" onClick={handleRegister}>
             Create Account
           </button>
 
