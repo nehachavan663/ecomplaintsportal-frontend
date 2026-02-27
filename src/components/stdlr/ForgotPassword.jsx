@@ -5,8 +5,11 @@ import HomeLayout from "../../layouts/HomeLayouts";
 import bgImage from "./assets/bglogin.jpeg";
 
 function ForgotPassword() {
+
+  const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const navigate = useNavigate();
 
   const bgStyle = {
@@ -17,8 +20,9 @@ function ForgotPassword() {
     backgroundAttachment: "scroll"
   };
 
-  const handleReset = () => {
-    if (!newPassword || !confirmPassword) {
+  const handleReset = async () => {
+
+    if (!email || !newPassword || !confirmPassword) {
       alert("Please fill all fields");
       return;
     }
@@ -28,9 +32,28 @@ function ForgotPassword() {
       return;
     }
 
-    // Later connect backend API here
-    alert("Password successfully reset!");
-    navigate("/login");
+    try {
+      const response = await fetch("http://localhost:8080/api/forgot-password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: newPassword
+        })
+      });
+
+      const result = await response.text();
+      alert(result);
+
+      if (result === "Password Updated Successfully") {
+        navigate("/login");
+      }
+
+    } catch (error) {
+      alert("Server not connected");
+    }
   };
 
   return (
@@ -39,6 +62,14 @@ function ForgotPassword() {
         <div className="login-card">
 
           <div className="title-pill">Reset Password</div>
+
+          <label className="label">Enter Email</label>
+          <input
+            type="text"
+            className="input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
           <label className="label">New Password</label>
           <input

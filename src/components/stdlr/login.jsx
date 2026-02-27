@@ -8,6 +8,8 @@ import bgImage from "./assets/bglogin.jpeg";
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const bgStyle = {
@@ -17,6 +19,38 @@ function Login() {
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "scroll"
   };
+  const handleLogin = async () => {
+  if (!email || !password) {
+    alert("Please enter email and password");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+
+    const result = await response.text();
+
+    if (result === "Login Successful") {
+      alert("Login Successful");
+      navigate("/dashboard");
+    } else {
+      alert(result);
+    }
+
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Server not connected");
+  }
+};
 
   return (
     <HomeLayout>
@@ -30,17 +64,24 @@ function Login() {
               <div className="title-pill">Ecomplaintsportal</div>
 
               <label className="label">Username / Email</label>
-              <input type="text" className="input" />
+             <input
+  type="text"
+  className="input"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
 
               <span className="link">Use phone number instead</span>
 
               <label className="label">Enter Password</label>
 
               <div className="password-wrapper">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="input"
-                />
+               <input
+  type={showPassword ? "text" : "password"}
+  className="input"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
@@ -49,7 +90,9 @@ function Login() {
                 </span>
               </div>
 
-              <button className="login-btn">Login</button>
+              <button className="login-btn" onClick={handleLogin}>
+  Login
+</button>
 
               <button
                 className="admin-btn"
