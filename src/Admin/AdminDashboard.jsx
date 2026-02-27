@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
-
+import { Pie, Bar } from "react-chartjs-2";
 import {
   FaClipboardList,
   FaClock,
@@ -9,17 +9,17 @@ import {
   FaCheckCircle
 } from "react-icons/fa";
 
-import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
+  ArcElement,
   Tooltip,
   Legend
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 const AdminDashboard = () => {
 
@@ -29,34 +29,61 @@ const AdminDashboard = () => {
     inProgress: 0,
     resolved: 0
   });
-useEffect(() => {
-  axios.get("http://localhost:8080/api/admin/dashboard")
-    .then(res => {
-      console.log(res.data);   // ADD THIS
-      setStats(res.data);
-    })
-    .catch(err => {
-      console.error(err);
-    });
-}, []);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/admin/dashboard")
+      .then(res => {
+        setStats(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching dashboard:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const chartData = {
     labels: ["Pending", "In Progress", "Resolved"],
     datasets: [
       {
         label: "Complaints",
-        data: [stats.pending, stats.inProgress, stats.resolved],
+        data: [
+          stats.pending || 0,
+          stats.inProgress || 0,
+          stats.resolved || 0
+        ],
         backgroundColor: ["#ff9f43", "#9b59b6", "#38b764"],
       },
     ],
   };
+
+  const categoryData = {
+    labels: ["Cleanliness", "Water", "Electrical", "Hostel", "Other"],
+    datasets: [
+      {
+        data: [4, 2, 3, 1, 1],
+        backgroundColor: [
+          "#4CAF50",
+          "#FF9800",
+          "#2196F3",
+          "#9C27B0",
+          "#607D8B"
+        ]
+      }
+    ]
+  };
+
+  if (loading) {
+    return <div className="dashboard">Loading dashboard...</div>;
+  }
 
   return (
     <div className="dashboard">
 
       {/* Cards */}
       <div className="cards">
-
         <div className="card">
           <FaClipboardList />
           <h2>{stats.total}</h2>
@@ -80,50 +107,52 @@ useEffect(() => {
           <h2>{stats.resolved}</h2>
           <p>Resolved</p>
         </div>
-
       </div>
+      <div className="mini-stats">
+ 
+</div>
 
-      {/* Dashboard Panels */}
+      {/* Charts + Quick Section */}
       <div className="dashboard-grid">
 
-        {/* Chart */}
         <div className="panel chart">
-          <Bar
-            data={chartData}
-            options={{ responsive: true, maintainAspectRatio: false }}
-          />
+          <Bar data={chartData} options={{ responsive: true }} />
         </div>
 
-        {/* Table (static for now) */}
-        <div className="panel table">
-          <h3>Recent Complaints</h3>
+        <div className="panel chart">
+          <h3>Complaints by Category</h3>
+         <Pie
+  data={categoryData}
+  options={{
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    maintainAspectRatio: false
+  }}
+/>
+        </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Student</th>
-                <th>Category</th>
-                <th>Status</th>
-              </tr>
-            </thead>
+        <div className="panel quick-actions">
+          <h3>Quick Actions</h3>
 
-            <tbody>
-              <tr>
-                <td>379</td>
-                <td>John</td>
-                <td>WiFi</td>
-                <td><span className="pending">Pending</span></td>
-              </tr>
+          <div className="action-card">
+            📋 Manage Complaints
+          </div>
 
-              <tr>
-                <td>378</td>
-                <td>Jane</td>
-                <td>Hostel</td>
-                <td><span className="resolved">Resolved</span></td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="action-card">
+            📊 Generate Reports
+          </div>
+
+          <div className="action-card">
+            📈 View Analytics
+          </div>
+
+          <div className="action-card">
+            ⚙ System Settings
+          </div>
+
         </div>
 
       </div>
