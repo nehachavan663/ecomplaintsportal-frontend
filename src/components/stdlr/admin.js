@@ -1,40 +1,86 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import bgImage from "./assets/bglogin.jpeg";
+import "./stdlr.css";
+
 function AdminLogin({ goBack }) {
+
   const [showPassword, setShowPassword] = useState(false);
-   const bgStyle = {
-   backgroundImage: `url(${bgImage})`,
-   backgroundSize: "cover",
-   backgroundPosition: "center",
-   backgroundRepeat: "no-repeat",
-   backgroundAttachment: "scroll"
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const bgStyle = {
+    backgroundImage: `url(${bgImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "scroll"
+  };
+
+  const handleAdminLogin = () => {
+    axios.post("http://localhost:8080/api/login", {
+      email: email,
+      password: password
+    })
+    .then(res => {
+      if (res.data.role === "ADMIN") {
+        navigate("/admin/dashboard");
+      } else {
+        alert("Not authorized as Admin");
+      }
+    })
+    .catch(() => alert("Invalid credentials"));
   };
 
   return (
     <div className="login-page" style={bgStyle}>
       <div className="login-card">
 
-        <div className="title-pill">Admin Panel Login</div>
+        <form autoComplete="off">
 
-        <label className="label">Admin Username / Email</label>
-        <input type="text" className="input" />
+          <div className="title-pill">Admin Panel Login</div>
 
-        <label className="label">Enter Password</label>
+          <label className="label">Admin Username / Email</label>
+         <input
+  type="text"
+  name="admin_email_random"
+  autoComplete="off"
+  className="input"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
 
-        <div className="password-wrapper">
-          <input
-            type={showPassword ? "text" : "password"}
-            className="input"
-          />
-          <span
-            className="eye"
-            onClick={() => setShowPassword(!showPassword)}
+          <label className="label">Enter Password</label>
+
+          <div className="password-wrapper">
+           <input
+  type={showPassword ? "text" : "password"}
+  name="admin_password_random"
+  autoComplete="new-password"
+  className="input"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+            <span
+              className="eye"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              👁
+            </span>
+          </div>
+
+          <button
+            type="button"
+            className="login-btn"
+            onClick={handleAdminLogin}
           >
-            👁
-          </span>
-        </div>
+            Admin Login
+          </button>
 
-        <button className="login-btn">Admin Login</button>
+        </form>
 
         <button className="admin-btn" onClick={goBack}>
           Back to User Login

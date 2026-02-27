@@ -26,16 +26,19 @@ const [password, setPassword] = useState("");
   }
 
   try {
-    const response = await fetch("http://localhost:8080/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    });
+    const response = await fetch(
+      "http://localhost:8080/api/lre/login", // ✅ UPDATED
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      }
+    );
 
     const result = await response.text();
 
