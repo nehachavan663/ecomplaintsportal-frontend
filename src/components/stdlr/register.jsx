@@ -11,6 +11,19 @@ function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  // Student Information
+const [name, setName] = useState("");
+const [fatherName, setFatherName] = useState("");
+const [rollNumber, setRollNumber] = useState("");
+const [className, setClassName] = useState("");
+const [department, setDepartment] = useState("");
+
+// Contact
+const [phone, setPhone] = useState("");
+
+// Security
+const [securityQuestion, setSecurityQuestion] = useState("");
+const [securityAnswer, setSecurityAnswer] = useState("");
 
   const navigate = useNavigate();
 
@@ -24,10 +37,14 @@ function Registration() {
 
   const handleRegister = async () => {
 
-    if (!email || !password || !confirmPassword) {
-      alert("Please fill all fields");
-      return;
-    }
+    if (
+  !name || !fatherName || !rollNumber || !className || !department ||
+  !email || !phone || !password || !confirmPassword ||
+  !securityQuestion || !securityAnswer
+) {
+  alert("Please fill all fields");
+  return;
+}
 
     if (password !== confirmPassword) {
       alert("Passwords do not match");
@@ -40,11 +57,18 @@ function Registration() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          username: email,
-          email: email,
-          password: password
-        })
+       body: JSON.stringify({
+  name: name,
+  fatherName: fatherName,
+  rollNumber: rollNumber,
+  className: className,
+  department: department,
+  email: email,
+  phone: phone,
+  password: password,
+  securityQuestion: securityQuestion,
+  securityAnswer: securityAnswer
+})
       });
 
       if (response.ok) {
@@ -65,6 +89,27 @@ function Registration() {
         <div className="login-card register-animate">
 
           <div className="title-pill">Registration</div>
+          <h3>Student Information</h3>
+
+<label className="label">Full Name</label>
+<input className="input" value={name} onChange={(e)=>setName(e.target.value)} />
+
+<label className="label">Father Name</label>
+<input className="input" value={fatherName} onChange={(e)=>setFatherName(e.target.value)} />
+
+<label className="label">Roll Number</label>
+<input className="input" value={rollNumber} onChange={(e)=>setRollNumber(e.target.value)} />
+
+<label className="label">Class Name</label>
+<input className="input" value={className} onChange={(e)=>setClassName(e.target.value)} />
+
+<label className="label">Department</label>
+<input className="input" value={department} onChange={(e)=>setDepartment(e.target.value)} />
+
+<h3>Contact Information</h3>
+
+<label className="label">Phone Number</label>
+<input className="input" value={phone} onChange={(e)=>setPhone(e.target.value)} />
 
           <label className="label">Email</label>
           <input
@@ -97,6 +142,31 @@ function Registration() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <h3>Security Question</h3>
+
+<select
+  className="input"
+  value={securityQuestion}
+  onChange={(e)=>setSecurityQuestion(e.target.value)}
+>
+  <option value="">Select a question</option>
+  <option value="What is your childhood nickname?">
+    What is your childhood nickname?
+  </option>
+  <option value="What is your favorite book name?">
+    What is your favorite book name?
+  </option>
+  <option value="What is your birth city?">
+    What is your birth city?
+  </option>
+</select>
+
+<label className="label">Your Answer</label>
+<input
+  className="input"
+  value={securityAnswer}
+  onChange={(e)=>setSecurityAnswer(e.target.value)}
+/>
 
           <button className="login-btn" onClick={handleRegister}>
             Create Account
