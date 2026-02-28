@@ -10,6 +10,10 @@ function ForgotPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Security
+  const [securityQuestion, setSecurityQuestion] = useState("");
+  const [securityAnswer, setSecurityAnswer] = useState("");
+
   const navigate = useNavigate();
 
   const bgStyle = {
@@ -22,39 +26,41 @@ function ForgotPassword() {
 
   const handleReset = async () => {
 
-    if (!email || !newPassword || !confirmPassword) {
-      alert("Please fill all fields");
-      return;
+  if (!email || !securityQuestion || !securityAnswer || !newPassword || !confirmPassword) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:8080/api/lre/forgot-password", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        question: securityQuestion,
+        answer: securityAnswer,
+        newPassword: newPassword
+      })
+    });
+
+    const result = await response.text();
+    alert(result);
+
+    if (result === "Password Updated Successfully") {
+      navigate("/login");
     }
 
-    if (newPassword !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:8080/api/forgot-password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: email,
-          password: newPassword
-        })
-      });
-
-      const result = await response.text();
-      alert(result);
-
-      if (result === "Password Updated Successfully") {
-        navigate("/login");
-      }
-
-    } catch (error) {
-      alert("Server not connected");
-    }
-  };
+  } catch (error) {
+    alert("Server not connected");
+  }
+};
 
   return (
     <HomeLayout>
@@ -70,6 +76,35 @@ function ForgotPassword() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
+          <h3>Security Question</h3>
+
+<select
+  className="input"
+  value={securityQuestion}
+  onChange={(e)=>setSecurityQuestion(e.target.value)}
+>
+  <option value="">Select a question</option>
+
+  <option value="What is your childhood nickname?">
+    What is your childhood nickname?
+  </option>
+
+  <option value="What is your favourite book?">
+    What is your favourite book?
+  </option>
+
+  <option value="What is your birth city?">
+    What is your birth city?
+  </option>
+</select>
+
+<label className="label">Your Answer</label>
+<input
+  className="input"
+  value={securityAnswer}
+  onChange={(e)=>setSecurityAnswer(e.target.value)}
+/>
 
           <label className="label">New Password</label>
           <input
