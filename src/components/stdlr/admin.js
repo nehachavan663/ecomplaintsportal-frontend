@@ -20,21 +20,17 @@ function AdminLogin({ goBack }) {
     backgroundAttachment: "scroll"
   };
 
-  const handleAdminLogin = () => {
-    axios.post("http://localhost:8080/api/login", {
-      email: email,
-      password: password
-    })
-    .then(res => {
-      if (res.data.role === "ADMIN") {
-        navigate("/admin/dashboard");
-      } else {
-        alert("Not authorized as Admin");
-      }
-    })
-    .catch(() => alert("Invalid credentials"));
-  };
-
+ 
+ const handleAdminLogin = () => {
+  axios.post("http://localhost:8080/api/login", {
+    email: email,
+    password: password
+  })
+  .then(res => {
+      navigate("/admin/dashboard");
+  })
+  .catch(() => alert("Invalid admin credentials"));
+};
   return (
     <div className="login-page" style={bgStyle}>
       <div className="login-card">
