@@ -129,20 +129,20 @@
 /* ===============================
    TABLE SCROLL CONTAINER
 ================================ */
-.mc-table-scroll {
-  width: 100%;
-  max-height: 60vh;     /* vertical scroll inside card */
-  overflow-x: auto;     /* horizontal scroll */
-  overflow-y: auto;     /* vertical scroll */
+.mc-table-scroll{
+  width:100%;
+  max-height:65vh;
+  overflow:auto;
+  border-radius:12px;
+  background:#ecfdf5;
 }
-
 
 /* ===============================
    TABLE
 ================================ */
 .mc-table {
-  width: max-content;  /* allow natural width */
-  min-width: 100%;     /* but not smaller than container */
+  width: max-content;
+  min-width: 1200px;   /* forces horizontal scroll */
   border-collapse: collapse;
 }
 
@@ -175,7 +175,9 @@
 .mc-table td:last-child {
   min-width: 420px;
 }
-
+.mc-table-scroll{
+  border-radius:12px;
+}
 
 /* ===============================
    STATUS SELECT
@@ -217,53 +219,83 @@
 /* ===============================
    ACTION BUTTONS
 ================================ */
-.mc-action-buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
+
+
+.mc-action-buttons{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:nowrap;
+}
+/* COMMON STYLE */
+.mc-action-buttons button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+
+  border:none;
+
+  padding:7px 14px;      /* smaller button */
+  border-radius:25px;
+
+  font-size:13px;        /* smaller text */
+  font-weight:600;
+
+  cursor:pointer;
+  transition:all .25s ease;
+  white-space:nowrap;
 }
 
-.mc-view-btn,
-.mc-response-btn,
-.mc-remove-btn,
-.mc-assign-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 6px 16px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s ease;
-  flex-shrink: 0;
+/* VIEW */
+
+.mc-view-btn{
+  background:#dbeafe;
+  color:#2563eb;
 }
 
-.mc-view-btn {
-  background: #60a5fa;
-  color: white;
+.mc-view-btn:hover{
+  background:#bfdbfe;
 }
 
-.mc-response-btn {
-  background: #facc15;
-  color: black;
+/* RESPONSE */
+
+.mc-response-btn{
+  background:#ede9fe;
+  color:#6d28d9;
 }
 
-.mc-remove-btn {
-  background: #ef4444;
-  color: white;
+.mc-response-btn:hover{
+  background:#ddd6fe;
 }
 
-.mc-assign-btn {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
+/* REMOVE */
+
+.mc-remove-btn{
+  background:#fee2e2;
+  color:#dc2626;
 }
 
-.mc-view-btn:hover,
-.mc-response-btn:hover,
-.mc-remove-btn:hover,
-.mc-assign-btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
+.mc-remove-btn:hover{
+  background:#fecaca;
+}
+
+/* AUTO ASSIGN */
+
+.mc-assign-btn{
+  background:#d1fae5;
+  color:#065f46;
+}
+
+.mc-assign-btn:hover{
+  background:#a7f3d0;
+}
+
+/* ICON SIZE */
+
+.mc-action-buttons i{
+  font-size:14px;
 }
 
 /* ===============================
@@ -327,33 +359,71 @@
   border: 1px solid #bbf7d0;
   background: #f8fff9;
 }
-
-.mc-proof-box img {
-  max-width: 100%;
-  max-height: 220px;
-  border-radius: 14px;
-  border: 1px solid #bbf7d0;
-}
-
 /* ===============================
-   THIN SCROLLBAR
+   IMAGE DISPLAY
 ================================ */
-.mc-table-scroll::-webkit-scrollbar {
-  height: 4px;
+
+.mc-proof-box{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:12px;
+  padding:12px;
+  background:#f8fff9;
+  border-radius:14px;
+  border:1px solid #bbf7d0;
+  overflow:hidden;
 }
 
-.mc-table-scroll::-webkit-scrollbar-track {
-  background: #f0fdf4;
+/* image */
+
+.mc-proof-box img{
+  width:100%;
+  max-width:420px;
+  max-height:260px;
+  object-fit:contain;
+  border-radius:12px;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+  transition:0.25s;
 }
 
-.mc-table-scroll::-webkit-scrollbar-thumb {
-  background: #86efac;
-  border-radius: 10px;
+/* hover zoom */
+
+.mc-proof-box img:hover{
+  transform:scale(1.05);
+}
+/* ===============================
+   TABLE SCROLLBAR
+================================ */
+
+.mc-table-scroll{
+  background:#ecfdf5;
+  scrollbar-width:thin;
+  scrollbar-color:#22c55e #ecfdf5;
 }
 
-.mc-table-scroll::-webkit-scrollbar-thumb:hover {
-  background: #4ade80;
+.mc-table-scroll::-webkit-scrollbar{
+  width:10px;
+  height:10px;
 }
+
+.mc-table-scroll::-webkit-scrollbar-track{
+  background:#ecfdf5;
+}
+
+.mc-table-scroll::-webkit-scrollbar-thumb{
+  background:#22c55e;
+  border-radius:10px;
+  border:2px solid #ecfdf5;
+}
+
+.mc-table-scroll::-webkit-scrollbar-thumb:hover{
+  background:#16a34a;
+}
+
+/* Firefox */
+
 
 .mc-modal-body::-webkit-scrollbar {
   width: 4px;
@@ -364,17 +434,72 @@
   border-radius: 10px;
 }
 
-.mc-table-scroll,
-.mc-modal-body {
+/* FIREFOX SCROLLBAR FIX */
+
+
+.mc-modal-body{
   scrollbar-width: thin;
   scrollbar-color: #86efac #f0fdf4;
 }
-.mc-table thead th {
+/* FIX sticky header display while scrolling */
+.mc-table thead th{
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 10;
+  background: #ffe8b3;   /* same color as header */
 }
 
+/* prevent row overlap */
+.mc-table tbody tr{
+  position: relative;
+  z-index: 1;
+}
+/* ===============================
+   DEPARTMENT DROPDOWN STYLE
+================================ */
+
+.mc-input-icon select{
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+
+  height:48px;
+  border-radius:14px;
+  border:2px solid #86efac;
+  background:#f8fff9;
+
+  font-size:15px;
+  font-weight:500;
+  color:#064e3b;
+
+  padding-left:40px;
+  padding-right:38px;
+
+  transition:.25s;
+}
+
+/* hover */
+.mc-input-icon select:hover{
+  border-color:#22c55e;
+}
+
+/* focus */
+.mc-input-icon select:focus{
+  border-color:#16a34a;
+  box-shadow:0 0 0 3px rgba(34,197,94,.2);
+}
+
+/* dropdown arrow */
+.mc-input-icon::after{
+  content:"⌄";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:16px;
+  color:#166534;
+  pointer-events:none;
+}
 /* ===============================
    RESPONSIVE
 ================================ */

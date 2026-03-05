@@ -44,6 +44,14 @@ useEffect(() => {
     <FaClipboardList /> Manage Complaints
   </NavLink>
 
+<NavLink
+    to="/admin/manage-department"
+    className={({ isActive }) => (isActive ? "active" : "")}
+    onClick={() => setOpen(false)}
+  >
+    <FaClipboardList /> Manage Department 
+  </NavLink>
+
   <NavLink
     to="/admin/reports"
     className={({ isActive }) => (isActive ? "active" : "")}

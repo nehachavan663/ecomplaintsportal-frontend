@@ -20,14 +20,18 @@ const [password, setPassword] = useState("");
     backgroundAttachment: "scroll"
   };
   const handleLogin = async () => {
+
   if (!email || !password) {
     alert("Please enter email and password");
     return;
   }
 
   try {
-    const response = await fetch(
-      "http://localhost:8080/api/lre/login", // ✅ UPDATED
+
+    /* ================= USER LOGIN ================= */
+
+    const userRes = await fetch(
+      "http://localhost:8080/api/lre/login",
       {
         method: "POST",
         headers: {
@@ -40,19 +44,56 @@ const [password, setPassword] = useState("");
       }
     );
 
-    const result = await response.text();
+    const userResult = await userRes.text();
 
-    if (result === "Login Successful") {
-      alert("Login Successful");
+    if (userResult === "Login Successful") {
+
+      alert("User Login Successful");
       navigate("/dashboard");
-    } else {
-      alert(result);
+      return;
+
     }
 
+    /* ================= DEPARTMENT LOGIN ================= */
+
+    const deptRes = await fetch(
+      "http://localhost:8080/api/departments/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      }
+    );
+
+    const deptData = await deptRes.json();
+
+  if (deptData && deptData.department) {
+
+  const deptName = deptData.department.trim();
+
+  localStorage.setItem("department", deptName);
+  localStorage.setItem("staffName", deptData.staffName);
+
+  alert("Department Staff Login Successful");
+
+  navigate("/department-dashboard");
+  return;
+}
+
+    alert("Invalid Email or Password");
+
   } catch (error) {
+
     console.error("Error:", error);
     alert("Server not connected");
+
   }
+
 };
 
   return (

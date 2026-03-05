@@ -375,4 +375,33 @@
     min-width: unset;
     width: 100%;
   }
+}/* ================================
+   VIEW PROOF BUTTON (LIGHT STYLE)
+================================ */
+
+.proof-eye{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+
+background:#d1fae5;
+color:#065f46;
+
+border:none;
+padding:7px 16px;
+border-radius:999px;
+
+font-size:13px;
+font-weight:600;
+
+cursor:pointer;
+transition:all .25s ease;
+white-space:nowrap;
+}
+
+.proof-eye:hover{
+background:#a7f3d0;
+transform:translateY(-2px);
+box-shadow:0 8px 18px rgba(0,0,0,.12);
 }

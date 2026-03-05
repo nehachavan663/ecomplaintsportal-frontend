@@ -34,6 +34,8 @@ import AdminDashboard from "./Admin/AdminDashboard";
 import ManageComplaint from "./Admin/ManageComplaint";
 import Reports from "./Admin/Reports";
 import AdminProfile from "./Admin/AdminProfile";
+import ManageDepartments from "./Admin/ManageDepartments";
+import DepartmentDashboard from "./Department/DepartmentDashboard";
 
 function App() {
   return (
@@ -48,6 +50,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/help" element={<Help />} />
           <Route path="/privacy" element={<Privacy />} />
+           <Route path="department-dashboard" element={<DepartmentDashboard/>}/>
 
               {/* Complaint */}
           <Route path="/complaint" element={<ComplaintForm />} />
@@ -70,8 +73,11 @@ function App() {
           <Route path="/admin/*" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="manage-complaints" element={<ManageComplaint />} />
+             <Route path="manage-department" element={<ManageDepartments/>} />
             <Route path="reports" element={<Reports />} />
             <Route path="profile" element={<AdminProfile/>}/>
+           
+            
           </Route>
 
           {/* ================= 404 ================= */}
