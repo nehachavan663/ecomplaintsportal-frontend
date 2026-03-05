@@ -74,10 +74,15 @@ const ManageComplaint = () => {
   const [deptFilter, setDeptFilter] = useState("");
   const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
+const [departments, setDepartments] = useState([]);
 
   /* FETCH */
 useEffect(() => {
-
+  fetch("http://localhost:8080/api/departments")
+    .then(res => res.json())
+    .then(data => setDepartments(data))
+    .catch(err => console.error(err));
+    
   const fetchComplaints = async () => {
     try {
       setLoading(true);
@@ -247,21 +252,19 @@ const handleResponse = id => {
     {/* DEPARTMENT */}
     <div className="mc-input-icon">
       <i className="bi bi-building"></i>
-      <select
-        value={deptFilter}
-        onChange={e => setDeptFilter(e.target.value)}
-      >
-        <option value="">All Departments</option>
-        <option>Electrical</option>
-        <option>Civil</option>
-        <option>Mechanical</option>
-        <option>Information Technology (IT)</option>
-        <option>Housekeeping</option>
-        <option>Security</option>
-        <option>Canteen</option>
-        <option>Transport</option>
-        <option>Administration</option>
-      </select>
+    <select
+  value={deptFilter}
+  onChange={e => setDeptFilter(e.target.value)}
+>
+  <option value="">All Departments</option>
+
+  {departments.map((dept) => (
+    <option key={dept.id} value={dept.department}>
+      {dept.department}
+    </option>
+  ))}
+
+</select>
     </div>
 
     {/* RESET */}
@@ -343,25 +346,24 @@ const handleResponse = id => {
     {/* DEPARTMENT */}
     <td>
       <select
-        className="mc-dept-select"
-        value={c.department || ""}
-        onChange={e =>
-          updateComplaint(c.id, {
-            department: e.target.value
-          })
-        }
-      >
-        <option value="">Select</option>
-        <option>Electrical</option>
-        <option>Civil</option>
-        <option>Mechanical</option>
-        <option>Information Technology (IT)</option>
-        <option>Housekeeping</option>
-        <option>Security</option>
-        <option>Canteen</option>
-        <option>Transport</option>
-        <option>Administration</option>
-      </select>
+  className="mc-dept-select"
+  value={c.department || ""}
+  onChange={e =>
+    updateComplaint(c.id, {
+      department: e.target.value
+    })
+  }
+>
+
+  <option value="">Select</option>
+
+  {departments.map((dept) => (
+    <option key={dept.id} value={dept.department}>
+      {dept.department}
+    </option>
+  ))}
+
+</select>
     </td>
 
     <td><i>{c.response || "No response yet"}</i></td>
@@ -369,35 +371,41 @@ const handleResponse = id => {
 
     {/* ACTION */}
     <td>
-      <div className="mc-action-buttons">
-        <button
-          className="mc-view-btn"
-          onClick={() => setViewData(c)}
-        >
-          View
-        </button>
+     <div className="mc-action-buttons">
 
-        <button
-          className="mc-response-btn"
-          onClick={() => handleResponse(c.id)}
-        >
-          Response
-        </button>
+  <button
+    className="mc-view-btn"
+    onClick={() => setViewData(c)}
+  >
+    <i className="bi bi-eye"></i>
+    View
+  </button>
 
-        <button
-          className="mc-remove-btn"
-          onClick={() => handleRemove(c.id)}
-        >
-          Remove
-        </button>
+  <button
+    className="mc-response-btn"
+    onClick={() => handleResponse(c.id)}
+  >
+    <i className="bi bi-chat-dots"></i>
+    Response
+  </button>
 
-        <button
-          className="mc-assign-btn"
-          onClick={() => autoAssignDepartment(c)}
-        >
-          Auto Assign
-        </button>
-      </div>
+  <button
+    className="mc-remove-btn"
+    onClick={() => handleRemove(c.id)}
+  >
+    <i className="bi bi-trash"></i>
+    Remove
+  </button>
+
+  <button
+    className="mc-assign-btn"
+    onClick={() => autoAssignDepartment(c)}
+  >
+    <i className="bi bi-lightning"></i>
+    Auto Assign
+  </button>
+
+</div>
     </td>
   </tr>
 ))}
@@ -441,17 +449,33 @@ const handleResponse = id => {
                 </div>
               ))}
 
-              {viewData.image && viewData.image.length > 50 && (
-                <div className="mc-field">
-                  <label>Proof</label>
-                  <div className="mc-proof-box">
-                    <img
-                      src={`data:image/jpeg;base64,${viewData.image}`}
-                      alt="Proof"
-                    />
-                  </div>
-                </div>
-              )}
+           {/* USER UPLOADED IMAGE */}
+
+{viewData.image && viewData.image.length > 50 && (
+  <div className="mc-field">
+    <label>User Uploaded Proof</label>
+    <div className="mc-proof-box">
+      <img
+        src={`data:image/jpeg;base64,${viewData.image}`}
+        alt="User Proof"
+      />
+    </div>
+  </div>
+)}
+
+{/* DEPARTMENT RESOLUTION PROOF */}
+
+{viewData.resolvedImage && (
+  <div className="mc-field">
+    <label>Department Resolution Proof</label>
+    <div className="mc-proof-box">
+      <img
+        src={`data:image/jpeg;base64,${viewData.resolvedImage}`}
+        alt="Department Proof"
+      />
+    </div>
+  </div>
+)}
             </div>
 
           </div>
