@@ -11,8 +11,9 @@ function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  
   // Student Information
-const [name, setName] = useState("");
+const [fullName, setFullName] = useState("");
 const [fatherName, setFatherName] = useState("");
 const [rollNumber, setRollNumber] = useState("");
 const [className, setClassName] = useState("");
@@ -38,7 +39,7 @@ const [securityAnswer, setSecurityAnswer] = useState("");
   const handleRegister = async () => {
 
     if (
-  !name || !fatherName || !rollNumber || !className || !department ||
+  !fullName || !fatherName || !rollNumber || !className || !department ||
   !email || !phone || !password || !confirmPassword ||
   !securityQuestion || !securityAnswer
 ) {
@@ -58,7 +59,7 @@ const [securityAnswer, setSecurityAnswer] = useState("");
           "Content-Type": "application/json"
         },
        body: JSON.stringify({
-  name: name,
+  fullName: fullName,
   fatherName: fatherName,
   rollNumber: rollNumber,
   className: className,
@@ -92,7 +93,7 @@ const [securityAnswer, setSecurityAnswer] = useState("");
           <h3>Student Information</h3>
 
 <label className="label">Full Name</label>
-<input className="input" value={name} onChange={(e)=>setName(e.target.value)} />
+<input className="input" value={fullName} onChange={(e)=>setFullName(e.target.value)} />
 
 <label className="label">Father Name</label>
 <input className="input" value={fatherName} onChange={(e)=>setFatherName(e.target.value)} />

@@ -9,7 +9,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const bgStyle = {
@@ -19,41 +19,54 @@ const [password, setPassword] = useState("");
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "scroll"
   };
+
   const handleLogin = async () => {
-  if (!email || !password) {
-    alert("Please enter email and password");
-    return;
-  }
 
-  try {
-    const response = await fetch(
-      "http://localhost:8080/api/lre/login", // ✅ UPDATED
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      }
-    );
-
-    const result = await response.text();
-
-    if (result === "Login Successful") {
-      alert("Login Successful");
-      navigate("/dashboard");
-    } else {
-      alert(result);
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
     }
 
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Server not connected");
-  }
-};
+    try {
+
+      const response = await fetch(
+        "http://localhost:8080/api/lre/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+
+        alert("Login Successful");
+
+        localStorage.setItem("studentId", data.id);
+        localStorage.setItem("studentEmail", data.email);
+
+        navigate("/dashboard");
+
+      } else {
+
+        alert(data.message || "Invalid email or password");
+
+      }
+
+    } catch (error) {
+
+      console.error("Error:", error);
+      alert("Login failed. Server error.");
+
+    }
+  };
 
   return (
     <HomeLayout>
@@ -67,24 +80,24 @@ const [password, setPassword] = useState("");
               <div className="title-pill">Ecomplaintsportal</div>
 
               <label className="label">Username / Email</label>
-             <input
-  type="text"
-  className="input"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-/>
+              <input
+                type="text"
+                className="input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
               <span className="link">Use phone number instead</span>
 
               <label className="label">Enter Password</label>
 
               <div className="password-wrapper">
-               <input
-  type={showPassword ? "text" : "password"}
-  className="input"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-/>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="input"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
@@ -94,8 +107,8 @@ const [password, setPassword] = useState("");
               </div>
 
               <button className="login-btn" onClick={handleLogin}>
-  Login
-</button>
+                Login
+              </button>
 
               <button
                 className="admin-btn"
