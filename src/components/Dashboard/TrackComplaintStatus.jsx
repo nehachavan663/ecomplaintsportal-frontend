@@ -9,18 +9,25 @@ const TrackComplaintStatus = () => {
   const [preview,setPreview]=useState(null);
 
   // 🔥 Fetch complaints from backend
-  useEffect(() => {
-    fetch("http://localhost:8080/api/complaints")
-      .then((res) => res.json())
-      .then((data) => {
-        setComplaints(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching complaints:", err);
-        setLoading(false);
-      });
-  }, []);
+useEffect(() => {
+  const studentId = localStorage.getItem("studentId");
+
+  if (!studentId) {
+    console.error("Student not logged in");
+    return;
+  }
+
+  fetch(`http://localhost:8080/api/complaints/student/${studentId}/complaints`)
+    .then((res) => res.json())
+    .then((data) => {
+      setComplaints(data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error fetching complaints:", err);
+      setLoading(false);
+    });
+}, []);
 
   // 🔍 Search filter
   const filteredComplaints = complaints.filter((c) =>

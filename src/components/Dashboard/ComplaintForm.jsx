@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ComplaintForm.css";
 import heroImage from "./assets/cimage.png";
 import Swal from "sweetalert2";
@@ -147,7 +147,23 @@ const ComplaintForm = () => {
   const [imageBase64, setImageBase64] = useState("");
 
 
+useEffect(() => {
 
+  const studentId = localStorage.getItem("studentId");
+
+  if (!studentId) return;
+
+  fetch(`http://localhost:8080/api/studentProfile/${studentId}`)
+    .then(res => res.json())
+    .then(data => {
+      setUserName(data.fullName || "");
+    })
+    .catch(err => console.error(err));
+
+  const today = new Date().toISOString().split("T")[0];
+  setDate(today);
+
+}, []);
   const formatBytes = (bytes) => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -182,14 +198,17 @@ const ComplaintForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    const complaintData = {
+  const studentId = localStorage.getItem("studentId");
+
+const complaintData = {
+  studentId: studentId,   
   userName,
   title,
   area,
   category,
   description,
   date,
-  image: imageBase64,   
+  image: imageBase64,
   status: "Pending"
 };
 
@@ -214,7 +233,7 @@ Swal.fire({
   showConfirmButton: false
 });
 
-        setUserName("");
+       
         setTitle("");
         setArea("");
         setCategory("");
@@ -302,12 +321,14 @@ Swal.fire({
               <div className="pro-form-row">
                 <div className="pro-input-group">
                   <label className="pro-label">
-  <i className="bi bi-person"></i> User Name *
-</label>
-                  <input className="pro-input"
-                      value={userName}
-                      onChange={(e) => setUserName(e.target.value)}
-                      placeholder="Enter Full Name" required />
+              <i className="bi bi-person"></i> User Name *
+            </label>
+                      <input
+              className="pro-input"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Enter your name"
+            />
 
                 </div>
                 <div className="pro-input-group">
