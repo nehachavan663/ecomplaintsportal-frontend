@@ -6,6 +6,7 @@ const TrackComplaintStatus = () => {
   const [complaints, setComplaints] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [preview,setPreview]=useState(null);
 
   // 🔥 Fetch complaints from backend
   useEffect(() => {
@@ -83,6 +84,7 @@ const TrackComplaintStatus = () => {
       <i className="bi bi-chat-left-text me-2"></i>
       Admin Response
     </th>
+    <th>Proof</th>
   </tr>
 </thead>
 
@@ -90,7 +92,7 @@ const TrackComplaintStatus = () => {
                   {/* Loading */}
              {loading && (
   <tr>
-    <td colSpan="5">
+    <td colSpan="6">
       <div className="table-loader">
         <div className="spinner"></div>
         <p>Fetching complaints...</p>
@@ -102,7 +104,7 @@ const TrackComplaintStatus = () => {
                   {/* No Data */}
                   {!loading && filteredComplaints.length === 0 && (
                     <tr>
-                      <td colSpan="5">No complaints found</td>
+                      <td colSpan="6">No complaints found</td>
                     </tr>
                   )}
 
@@ -110,44 +112,71 @@ const TrackComplaintStatus = () => {
                   {!loading &&
                     filteredComplaints.map((c) => (
                       <tr key={c.id}>
-                        <td>{c.title}</td>
-                        <td>{c.date}</td>
-                        <td>{c.department || "Not Assigned"}</td>
+  <td>{c.title}</td>
+  <td>{c.date}</td>
+  <td>{c.department || "Not Assigned"}</td>
 
-                        <td>
-                          <span
-                            className={`status ${
-                              c.status === "Resolved"
-                                ? "resolved"
-                                : c.status === "Pending"
-                                ? "pending"
-                                : c.status === "In Progress"
-                                ? "inprogress"
-                                : ""
-                            }`}
-                          >
-                            {c.status === "Resolved" && "Resolved ✅"}
-                            {c.status === "Pending" && "Pending ⏳"}
-                            {c.status === "In Progress" && "In Progress 🔄"}
-                          </span>
-                        </td>
+  <td>
+    <span
+      className={`status ${
+        c.status === "Resolved"
+          ? "resolved"
+          : c.status === "Pending"
+          ? "pending"
+          : "inprogress"
+      }`}
+    >
+      {c.status}
+    </span>
+  </td>
 
-                        <td>
-                          <div className="admin-response-card">
-                            {c.response || "Waiting for admin response"}
-                          </div>
-                        </td>
-                      </tr>
+  <td>
+    <div className="admin-response-card">
+      {c.response || "Waiting for admin response"}
+    </div>
+  </td>
+
+  {/* ✅ FIXED PROOF COLUMN */}
+  <td>
+    {c.resolvedImage ? (
+      <button
+        className="proof-eye"
+        onClick={() => setPreview(c.resolvedImage)}
+      >
+        <i className="bi bi-eye"></i> View
+      </button>
+    ) : (
+      "Waiting"
+    )}
+  </td>
+</tr>
+                   
                     ))}
                 </tbody>
 
               </table>
+              
             </div>
           </div>
 
+{/* ✅ GLOBAL MODAL POSITION */}
+{preview && (
+  <div
+    className="proof-modal"
+    onClick={() => setPreview(null)}
+  >
+    <img
+      src={`data:image/jpeg;base64,${preview}`}
+      alt="Proof"
+      onClick={(e) => e.stopPropagation()}
+    />
+  </div>
+)}
         </div>
+        
       </div>
-  
+      
+
   );
 };
 

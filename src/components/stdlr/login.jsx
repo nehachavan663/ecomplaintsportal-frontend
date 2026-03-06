@@ -29,7 +29,9 @@ function Login() {
 
     try {
 
-      const response = await fetch(
+      /* ================= STUDENT LOGIN ================= */
+
+      const userRes = await fetch(
         "http://localhost:8080/api/lre/login",
         {
           method: "POST",
@@ -43,9 +45,9 @@ function Login() {
         }
       );
 
-      const data = await response.json();
+      if (userRes.ok) {
 
-      if (response.ok) {
+        const data = await userRes.json();
 
         alert("Login Successful");
 
@@ -53,19 +55,49 @@ function Login() {
         localStorage.setItem("studentEmail", data.email);
 
         navigate("/dashboard");
-
-      } else {
-
-        alert(data.message || "Invalid email or password");
-
+        return;
       }
+
+      /* ================= DEPARTMENT LOGIN ================= */
+
+      const deptRes = await fetch(
+        "http://localhost:8080/api/departments/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        }
+      );
+
+      const deptData = await deptRes.json();
+
+      if (deptData && deptData.department) {
+
+        const deptName = deptData.department.trim();
+
+        localStorage.setItem("department", deptName);
+        localStorage.setItem("staffName", deptData.staffName);
+
+        alert("Department Staff Login Successful");
+
+        navigate("/department-dashboard");
+        return;
+      }
+
+      alert("Invalid Email or Password");
 
     } catch (error) {
 
       console.error("Error:", error);
-      alert("Login failed. Server error.");
+      alert("Server not connected");
 
     }
+
   };
 
   return (

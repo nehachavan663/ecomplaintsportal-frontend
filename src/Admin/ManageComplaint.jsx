@@ -74,10 +74,15 @@ const ManageComplaint = () => {
   const [deptFilter, setDeptFilter] = useState("");
   const [loading, setLoading] = useState(true);
 const [error, setError] = useState(null);
+const [departments, setDepartments] = useState([]);
 
   /* FETCH */
 useEffect(() => {
-
+  fetch("http://localhost:8080/api/departments")
+    .then(res => res.json())
+    .then(data => setDepartments(data))
+    .catch(err => console.error(err));
+    
   const fetchComplaints = async () => {
     try {
       setLoading(true);
@@ -247,21 +252,19 @@ const handleResponse = id => {
     {/* DEPARTMENT */}
     <div className="mc-input-icon">
       <i className="bi bi-building"></i>
-      <select
-        value={deptFilter}
-        onChange={e => setDeptFilter(e.target.value)}
-      >
-        <option value="">All Departments</option>
-        <option>Electrical</option>
-        <option>Civil</option>
-        <option>Mechanical</option>
-        <option>Information Technology (IT)</option>
-        <option>Housekeeping</option>
-        <option>Security</option>
-        <option>Canteen</option>
-        <option>Transport</option>
-        <option>Administration</option>
-      </select>
+    <select
+  value={deptFilter}
+  onChange={e => setDeptFilter(e.target.value)}
+>
+  <option value="">All Departments</option>
+
+  {departments.map((dept) => (
+    <option key={dept.id} value={dept.department}>
+      {dept.department}
+    </option>
+  ))}
+
+</select>
     </div>
 
     {/* RESET */}
@@ -281,139 +284,138 @@ const handleResponse = id => {
 </div>
 
       {/* TABLE */}
-      <div className="mc-table-card">
-        <div className="mc-table-scroll">
-          <table className="mc-table">
-         <thead>
-<tr>
-  <th><i className="bi bi-person"></i> User</th>
-  <th><i className="bi bi-chat-left-text"></i> Complaint</th>
-  <th><i className="bi bi-activity"></i> Status</th>
-  <th><i className="bi bi-diagram-3"></i> Department</th>
-  <th><i className="bi bi-pencil-square"></i> Remarks</th>
-  <th><i className="bi bi-calendar-event"></i> Date</th>
-  <th><i className="bi bi-gear"></i> Action</th>
-</tr>
-</thead>
+     <div className="mc-table-card">
 
-            <tbody>
+  {/* LOADING */}
+  {loading && (
+    <div className="mc-loading-wrapper">
+      <div className="mc-loader"></div>
+      <p>Fetching complaints...</p>
+    </div>
+  )}
 
-{/* ================= LOADING ================= */}
-{loading && (
-  <tr>
-    <td colSpan="7">
-      <div className="mc-loading-wrapper">
-        <div className="mc-loader"></div>
-        <p>Fetching complaints...</p>
-      </div>
-    </td>
-  </tr>
-)}
-
-{/* ================= ERROR ================= */}
-{error && !loading && (
-  <tr>
-    <td colSpan="7" className="mc-error">
+  {/* ERROR */}
+  {error && !loading && (
+    <div className="mc-error">
       ⚠ {error}
-    </td>
-  </tr>
-)}
+    </div>
+  )}
 
-{/* ================= DATA ================= */}
-{!loading && !error && filteredComplaints.map(c => (
-  <tr key={c.id}>
-    <td>{c.userName}</td>
-    <td>{c.title}</td>
+  {/* TABLE */}
+  {!loading && !error && (
+    <div className="mc-table-scroll">
+      <table className="mc-table">
 
-    {/* STATUS */}
-    <td>
-      <select
-        className={`mc-status-select ${c.status?.replace(" ", "-").toLowerCase()}`}
-        value={c.status}
-        onChange={e =>
-          updateComplaint(c.id, { status: e.target.value })
-        }
-      >
-        <option>Pending</option>
-        <option>In Progress</option>
-        <option>Resolved</option>
-      </select>
-    </td>
+        <thead>
+          <tr>
+            <th><i className="bi bi-person"></i> User</th>
+            <th><i className="bi bi-chat-left-text"></i> Complaint</th>
+            <th><i className="bi bi-activity"></i> Status</th>
+            <th><i className="bi bi-diagram-3"></i> Department</th>
+            <th><i className="bi bi-pencil-square"></i> Remarks</th>
+            <th><i className="bi bi-calendar-event"></i> Date</th>
+            <th><i className="bi bi-gear"></i> Action</th>
+          </tr>
+        </thead>
 
-    {/* DEPARTMENT */}
-    <td>
-      <select
-        className="mc-dept-select"
-        value={c.department || ""}
-        onChange={e =>
-          updateComplaint(c.id, {
-            department: e.target.value
-          })
-        }
-      >
-        <option value="">Select</option>
-        <option>Electrical</option>
-        <option>Civil</option>
-        <option>Mechanical</option>
-        <option>Information Technology (IT)</option>
-        <option>Housekeeping</option>
-        <option>Security</option>
-        <option>Canteen</option>
-        <option>Transport</option>
-        <option>Administration</option>
-      </select>
-    </td>
+        <tbody>
 
-    <td><i>{c.response || "No response yet"}</i></td>
-    <td>{c.date}</td>
+        {filteredComplaints.map(c => (
+          <tr key={c.id}>
+            <td>{c.userName}</td>
+            <td>{c.title}</td>
 
-    {/* ACTION */}
-    <td>
-      <div className="mc-action-buttons">
-        <button
-          className="mc-view-btn"
-          onClick={() => setViewData(c)}
-        >
-          View
-        </button>
+            <td>
+              <select
+                className={`mc-status-select ${c.status?.replace(" ", "-").toLowerCase()}`}
+                value={c.status}
+                onChange={e =>
+                  updateComplaint(c.id, { status: e.target.value })
+                }
+              >
+                <option>Pending</option>
+                <option>In Progress</option>
+                <option>Resolved</option>
+              </select>
+            </td>
 
-        <button
-          className="mc-response-btn"
-          onClick={() => handleResponse(c.id)}
-        >
-          Response
-        </button>
+            <td>
+              <select
+                className="mc-dept-select"
+                value={c.department || ""}
+                onChange={e =>
+                  updateComplaint(c.id, { department: e.target.value })
+                }
+              >
+                <option value="">Select</option>
 
-        <button
-          className="mc-remove-btn"
-          onClick={() => handleRemove(c.id)}
-        >
-          Remove
-        </button>
+                {departments.map((dept) => (
+                  <option key={dept.id} value={dept.department}>
+                    {dept.department}
+                  </option>
+                ))}
+              </select>
+            </td>
 
-        <button
-          className="mc-assign-btn"
-          onClick={() => autoAssignDepartment(c)}
-        >
-          Auto Assign
-        </button>
-      </div>
-    </td>
-  </tr>
-))}
+            <td><i>{c.response || "No response yet"}</i></td>
+            <td>{c.date}</td>
 
-{/* ================= EMPTY ================= */}
-{!loading && !error && filteredComplaints.length === 0 && (
-  <tr>
-    <td colSpan="7">No complaints found</td>
-  </tr>
-)}
+            <td>
+              <div className="mc-action-buttons">
 
-</tbody>
-          </table>
-        </div>
-      </div>
+                <button
+                  className="mc-view-btn"
+                  onClick={() => setViewData(c)}
+                >
+                  <i className="bi bi-eye"></i>
+                  View
+                </button>
 
+                <button
+                  className="mc-response-btn"
+                  onClick={() => handleResponse(c.id)}
+                >
+                  <i className="bi bi-chat-dots"></i>
+                  Response
+                </button>
+
+                <button
+                  className="mc-remove-btn"
+                  onClick={() => handleRemove(c.id)}
+                >
+                  <i className="bi bi-trash"></i>
+                  Remove
+                </button>
+
+                <button
+                  className="mc-assign-btn"
+                  onClick={() => autoAssignDepartment(c)}
+                >
+                  <i className="bi bi-lightning"></i>
+                  Auto Assign
+                </button>
+
+              </div>
+            </td>
+
+          </tr>
+        ))}
+
+        {filteredComplaints.length === 0 && (
+          <tr>
+            <td colSpan="7">No complaints found</td>
+          </tr>
+        )}
+
+        </tbody>
+
+      </table>
+    </div>
+  )}
+
+</div>
+         
+     
       {/* MODAL */}
       {viewData && (
         <div className="mc-modal-overlay" onClick={() => setViewData(null)}>
@@ -441,17 +443,33 @@ const handleResponse = id => {
                 </div>
               ))}
 
-              {viewData.image && viewData.image.length > 50 && (
-                <div className="mc-field">
-                  <label>Proof</label>
-                  <div className="mc-proof-box">
-                    <img
-                      src={`data:image/jpeg;base64,${viewData.image}`}
-                      alt="Proof"
-                    />
-                  </div>
-                </div>
-              )}
+           {/* USER UPLOADED IMAGE */}
+
+{viewData.image && viewData.image.length > 50 && (
+  <div className="mc-field">
+    <label>User Uploaded Proof</label>
+    <div className="mc-proof-box">
+      <img
+        src={`data:image/jpeg;base64,${viewData.image}`}
+        alt="User Proof"
+      />
+    </div>
+  </div>
+)}
+
+{/* DEPARTMENT RESOLUTION PROOF */}
+
+{viewData.resolvedImage && (
+  <div className="mc-field">
+    <label>Department Resolution Proof</label>
+    <div className="mc-proof-box">
+      <img
+        src={`data:image/jpeg;base64,${viewData.resolvedImage}`}
+        alt="Department Proof"
+      />
+    </div>
+  </div>
+)}
             </div>
 
           </div>
