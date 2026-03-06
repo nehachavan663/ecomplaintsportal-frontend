@@ -1,6 +1,5 @@
 
 import React from "react";
-import {FaBullseye,FaEye,FaCheckCircle} from "react-icons/fa";
 import "./about.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 function About() {

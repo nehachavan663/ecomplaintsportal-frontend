@@ -9,7 +9,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const bgStyle = {
@@ -19,82 +19,86 @@ const [password, setPassword] = useState("");
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "scroll"
   };
+
   const handleLogin = async () => {
 
-  if (!email || !password) {
-    alert("Please enter email and password");
-    return;
-  }
-
-  try {
-
-    /* ================= USER LOGIN ================= */
-
-    const userRes = await fetch(
-      "http://localhost:8080/api/lre/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      }
-    );
-
-    const userResult = await userRes.text();
-
-    if (userResult === "Login Successful") {
-
-      alert("User Login Successful");
-      navigate("/dashboard");
+    if (!email || !password) {
+      alert("Please enter email and password");
       return;
+    }
+
+    try {
+
+      /* ================= STUDENT LOGIN ================= */
+
+      const userRes = await fetch(
+        "http://localhost:8080/api/lre/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        }
+      );
+
+      if (userRes.ok) {
+
+        const data = await userRes.json();
+
+        alert("Login Successful");
+
+        localStorage.setItem("studentId", data.id);
+        localStorage.setItem("studentEmail", data.email);
+
+        navigate("/dashboard");
+        return;
+      }
+
+      /* ================= DEPARTMENT LOGIN ================= */
+
+      const deptRes = await fetch(
+        "http://localhost:8080/api/departments/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        }
+      );
+
+      const deptData = await deptRes.json();
+
+      if (deptData && deptData.department) {
+
+        const deptName = deptData.department.trim();
+
+        localStorage.setItem("department", deptName);
+        localStorage.setItem("staffName", deptData.staffName);
+
+        alert("Department Staff Login Successful");
+
+        navigate("/department-dashboard");
+        return;
+      }
+
+      alert("Invalid Email or Password");
+
+    } catch (error) {
+
+      console.error("Error:", error);
+      alert("Server not connected");
 
     }
 
-    /* ================= DEPARTMENT LOGIN ================= */
-
-    const deptRes = await fetch(
-      "http://localhost:8080/api/departments/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      }
-    );
-
-    const deptData = await deptRes.json();
-
-  if (deptData && deptData.department) {
-
-  const deptName = deptData.department.trim();
-
-  localStorage.setItem("department", deptName);
-  localStorage.setItem("staffName", deptData.staffName);
-
-  alert("Department Staff Login Successful");
-
-  navigate("/department-dashboard");
-  return;
-}
-
-    alert("Invalid Email or Password");
-
-  } catch (error) {
-
-    console.error("Error:", error);
-    alert("Server not connected");
-
-  }
-
-};
+  };
 
   return (
     <HomeLayout>
@@ -108,24 +112,24 @@ const [password, setPassword] = useState("");
               <div className="title-pill">Ecomplaintsportal</div>
 
               <label className="label">Username / Email</label>
-             <input
-  type="text"
-  className="input"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-/>
+              <input
+                type="text"
+                className="input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
               <span className="link">Use phone number instead</span>
 
               <label className="label">Enter Password</label>
 
               <div className="password-wrapper">
-               <input
-  type={showPassword ? "text" : "password"}
-  className="input"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-/>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="input"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
@@ -135,8 +139,8 @@ const [password, setPassword] = useState("");
               </div>
 
               <button className="login-btn" onClick={handleLogin}>
-  Login
-</button>
+                Login
+              </button>
 
               <button
                 className="admin-btn"
