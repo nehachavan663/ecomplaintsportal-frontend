@@ -22,13 +22,13 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 const AdminDashboard = () => {
-
-  const [stats, setStats] = useState({
-    total: 0,
-    pending: 0,
-    inProgress: 0,
-    resolved: 0
-  });
+const [stats, setStats] = useState({
+  total: 0,
+  pending: 0,
+  inProgress: 0,
+  resolved: 0,
+  categoryStats: {}
+});
 
   const [loading, setLoading] = useState(true);
 
@@ -59,21 +59,28 @@ const AdminDashboard = () => {
     ],
   };
 
-  const categoryData = {
-    labels: ["Cleanliness", "Water", "Electrical", "Hostel", "Other"],
-    datasets: [
-      {
-        data: [4, 2, 3, 1, 1],
-        backgroundColor: [
-          "#4CAF50",
-          "#FF9800",
-          "#2196F3",
-          "#9C27B0",
-          "#607D8B"
-        ]
-      }
-    ]
-  };
+ const labels = Object.keys(stats.departmentStats || {});
+const data = Object.values(stats.departmentStats || {});
+
+const categoryData = {
+  labels: labels,
+  datasets: [
+    {
+      data: data,
+      backgroundColor: [
+        "#4CAF50",
+        "#FF9800",
+        "#2196F3",
+        "#9C27B0",
+        "#00BCD4",
+        "#E91E63",
+        "#FFC107",
+        "#795548",
+        "#607D8B"
+      ]
+    }
+  ]
+};
 
   if (loading) {
     return <div className="dashboard">Loading dashboard...</div>;
@@ -97,7 +104,7 @@ const AdminDashboard = () => {
         </div>
 
         <div className="card">
-          <FaSpinner className="spin" />
+          <FaSpinner className={stats.inProgress > 0 ? "spin" : ""} />
           <h2>{stats.inProgress}</h2>
           <p>In Progress</p>
         </div>
@@ -121,17 +128,23 @@ const AdminDashboard = () => {
 
         <div className="panel chart">
           <h3>Complaints by Category</h3>
-         <Pie
-  data={categoryData}
-  options={{
-    plugins: {
-      legend: {
-        display: false
-      }
-    },
-    maintainAspectRatio: false
-  }}
-/>
+        {categoryData.datasets[0].data.some(v => v > 0) ? (
+  <Pie
+    data={categoryData}
+    options={{
+      plugins: {
+        legend: {
+          display: true
+        }
+      },
+      maintainAspectRatio: false
+    }}
+  />
+) : (
+  <div style={{textAlign:"center", padding:"40px", color:"#777"}}>
+    No category data available
+  </div>
+)}
         </div>
 
         <div className="panel quick-actions">
