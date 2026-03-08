@@ -17,10 +17,10 @@ const [password, setPassword] = useState("");
 const navigate = useNavigate();
 
 const bgStyle = {
-backgroundImage: "url(${bgImage})",
-backgroundSize: "cover",
-backgroundPosition: "center",
-backgroundRepeat: "no-repeat",
+  backgroundImage: `url(${bgImage})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
 backgroundAttachment: "scroll"
 };
 
