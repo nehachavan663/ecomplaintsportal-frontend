@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";   // ✅ SweetAlert2 import
 import "./stdlr.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 import bgImage from "./assets/bglogin.jpeg";
@@ -26,41 +27,76 @@ function ForgotPassword() {
 
   const handleReset = async () => {
 
-  if (!email || !securityQuestion || !securityAnswer || !newPassword || !confirmPassword) {
-    alert("Please fill all fields");
-    return;
-  }
+    if (!email || !securityQuestion || !securityAnswer || !newPassword || !confirmPassword) {
 
-  if (newPassword !== confirmPassword) {
-    alert("Passwords do not match");
-    return;
-  }
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill all fields"
+      });
 
-  try {
-    const response = await fetch("http://localhost:8080/api/lre/forgot-password", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email,
-        question: securityQuestion,
-        answer: securityAnswer,
-        newPassword: newPassword
-      })
-    });
-
-    const result = await response.text();
-    alert(result);
-
-    if (result === "Password Updated Successfully") {
-      navigate("/login");
+      return;
     }
 
-  } catch (error) {
-    alert("Server not connected");
-  }
-};
+    if (newPassword !== confirmPassword) {
+
+      Swal.fire({
+        icon: "error",
+        title: "Password Error",
+        text: "Passwords do not match"
+      });
+
+      return;
+    }
+
+    try {
+
+      const response = await fetch("http://localhost:8080/api/lre/forgot-password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          question: securityQuestion,
+          answer: securityAnswer,
+          newPassword: newPassword
+        })
+      });
+
+      const result = await response.text();
+
+      if (result === "Password Updated Successfully") {
+
+        Swal.fire({
+          icon: "success",
+          title: "Password Updated",
+          text: "Your password has been reset successfully"
+        }).then(() => {
+          navigate("/login");
+        });
+
+      } else {
+
+        Swal.fire({
+          icon: "error",
+          title: "Reset Failed",
+          text: result
+        });
+
+      }
+
+    } catch (error) {
+
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "Server not connected"
+      });
+
+    }
+
+  };
 
   return (
     <HomeLayout>
@@ -79,34 +115,37 @@ function ForgotPassword() {
 
           <h3>Security Question</h3>
 
-<select
-  className="input"
-  value={securityQuestion}
-  onChange={(e)=>setSecurityQuestion(e.target.value)}
->
-  <option value="">Select a question</option>
+          <select
+            className="input"
+            value={securityQuestion}
+            onChange={(e) => setSecurityQuestion(e.target.value)}
+          >
+            <option value="">Select a question</option>
 
-  <option value="What is your childhood nickname?">
-    What is your childhood nickname?
-  </option>
+            <option value="What is your childhood nickname?">
+              What is your childhood nickname?
+            </option>
 
-  <option value="What is your favourite book?">
-    What is your favourite book?
-  </option>
+            <option value="What is your favourite book?">
+              What is your favourite book?
+            </option>
 
-  <option value="What is your birth city?">
-    What is your birth city?
-  </option>
-</select>
+            <option value="What is your birth city?">
+              What is your birth city?
+            </option>
 
-<label className="label">Your Answer</label>
-<input
-  className="input"
-  value={securityAnswer}
-  onChange={(e)=>setSecurityAnswer(e.target.value)}
-/>
+          </select>
+
+          <label className="label">Your Answer</label>
+
+          <input
+            className="input"
+            value={securityAnswer}
+            onChange={(e) => setSecurityAnswer(e.target.value)}
+          />
 
           <label className="label">New Password</label>
+
           <input
             type="password"
             className="input"
@@ -115,6 +154,7 @@ function ForgotPassword() {
           />
 
           <label className="label">Confirm Password</label>
+
           <input
             type="password"
             className="input"

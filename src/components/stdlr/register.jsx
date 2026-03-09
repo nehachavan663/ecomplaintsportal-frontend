@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./stdlr.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 import bgImage from "./assets/bglogin.jpeg";
+import Swal from "sweetalert2";
 
 function Registration() {
 
@@ -43,12 +44,20 @@ const [securityAnswer, setSecurityAnswer] = useState("");
   !email || !phone || !password || !confirmPassword ||
   !securityQuestion || !securityAnswer
 ) {
-  alert("Please fill all fields");
+ Swal.fire({
+  icon: "warning",
+  title: "Missing Fields",
+  text: "Please fill all fields"
+});
   return;
 }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      Swal.fire({
+  icon: "error",
+  title: "Password Error",
+  text: "Passwords do not match"
+});
       return;
     }
 
@@ -73,14 +82,28 @@ const [securityAnswer, setSecurityAnswer] = useState("");
       });
 
       if (response.ok) {
-        alert("Registration Successful");
+       Swal.fire({
+  icon: "success",
+  title: "Registration Successful",
+  text: "Your account has been created"
+}).then(() => {
+  navigate("/login");
+});
         navigate("/login");
       } else {
-        alert("Registration Failed");
+        Swal.fire({
+  icon: "error",
+  title: "Registration Failed",
+  text: "Please try again"
+});
       }
 
     } catch (error) {
-      alert("Server not connected");
+    Swal.fire({
+  icon: "error",
+  title: "Server Error",
+  text: "Backend server not connected"
+});
     }
   };
 
