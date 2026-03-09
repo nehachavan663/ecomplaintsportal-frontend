@@ -38,62 +38,63 @@ import ManageDepartments from "./Admin/ManageDepartments";
 import DepartmentDashboard from "./Department/DepartmentDashboard";
 
 function App() {
-return (
-<GoogleOAuthProvider clientId="1234567890-abc123xyz.apps.googleusercontent.com">
-<Router>
-<div className="app-bg">
+  return (
+    <GoogleOAuthProvider clientId="946622246428-i6cb8dd0ehfqftrae5fjdjqonh3p8eae.apps.googleusercontent.com">
 
-      <Routes>
+      <Router>
+        <div className="app-bg">
 
-        {/* ================= PUBLIC ROUTES ================= */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/help" element={<Help />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/department-dashboard" element={<DepartmentDashboard />} />
+          <Routes>
 
-        {/* Complaint */}
-        <Route path="/complaint" element={<ComplaintForm />} />
-        <Route path="/track" element={<TrackComplaintStatus />} />
+            {/* ================= PUBLIC ROUTES ================= */}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/department-dashboard" element={<DepartmentDashboard />} />
 
-        {/* Profile */}
-        <Route path="/profile" element={<Profile />} />
+            {/* Complaint */}
+            <Route path="/complaint" element={<ComplaintForm />} />
+            <Route path="/track" element={<TrackComplaintStatus />} />
 
-        {/* ================= AUTH ROUTES ================= */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+            {/* Profile */}
+            <Route path="/profile" element={<Profile />} />
 
-        {/* ================= STUDENT DASHBOARD ================= */}
-        <Route path="/dashboard/*" element={<Layout />} />
+            {/* ================= AUTH ROUTES ================= */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        {/* ================= ADMIN DASHBOARD ================= */}
-        <Route path="/admin/*" element={<AdminLayout />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="manage-complaints" element={<ManageComplaint />} />
-          <Route path="manage-department" element={<ManageDepartments />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="profile" element={<AdminProfile />} />
-        </Route>
+            {/* ================= STUDENT DASHBOARD ================= */}
+            <Route path="/dashboard/*" element={<Layout />} />
 
-        {/* ================= 404 ================= */}
-        <Route
-          path="*"
-          element={
-            <h2 style={{ textAlign: "center", marginTop: "50px" }}>
-              404 - Page Not Found
-            </h2>
-          }
-        />
+            {/* ================= ADMIN DASHBOARD ================= */}
+            <Route path="/admin/*" element={<AdminLayout />}>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="manage-complaints" element={<ManageComplaint />} />
+              <Route path="manage-department" element={<ManageDepartments />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="profile" element={<AdminProfile />} />
+            </Route>
 
-      </Routes>
+            {/* ================= 404 ================= */}
+            <Route
+              path="*"
+              element={
+                <h2 style={{ textAlign: "center", marginTop: "50px" }}>
+                  404 - Page Not Found
+                </h2>
+              }
+            />
 
-    </div>
-  </Router>
-</GoogleOAuthProvider>
+          </Routes>
 
-);
+        </div>
+      </Router>
+
+    </GoogleOAuthProvider>
+  );
 }
 
 export default App;
