@@ -39,7 +39,7 @@ function AdminLogin({ goBack }) {
 
           <div className="title-pill">Admin Panel Login</div>
 
-          <label className="label">Admin Username / Email</label>
+          <label className="label">Email</label>
          <input
   type="text"
   name="admin_email_random"
