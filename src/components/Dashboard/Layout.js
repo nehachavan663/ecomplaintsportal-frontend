@@ -20,9 +20,9 @@ function Layout() {
     { name: "Dashboard", path: "/dashboard" },
     { name: "Complaint Form", path: "/dashboard/register" },
     { name: "Complaint Status", path: "/dashboard/status" },
-    { name: "Profile", path: "/dashboard/profile" },
     { name: "Faqs", path: "/dashboard/faqs" },
-    { name: "Setting", path: "/dashboard/setting" }
+    { name: "Setting", path: "/dashboard/setting" },
+   { name: "Profile", path: "/dashboard/profile" }
   ];
 
   const handleLogout = () => navigate("/");

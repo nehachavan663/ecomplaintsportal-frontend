@@ -1,22 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import "./AdminProfile.css";
 import Swal from "sweetalert2";
+
 export default function AdminProfile() {
 
 const adminEmail = "admin@gmail.com";
 
 const [activeTab,setActiveTab]=useState("overview");
-const [showMenu,setShowMenu]=useState(false);
+
 const [showPasswordModal,setShowPasswordModal]=useState(false);
 const [show2FAModal,setShow2FAModal]=useState(false);
 const [showEditModal,setShowEditModal]=useState(false);
-const [showCopiedMsg,setShowCopiedMsg]=useState(false);
 
 const [profile,setProfile]=useState({});
 const [complaints,setComplaints]=useState([]);
 
 const [editData,setEditData]=useState({});
+
 const [otp,setOtp]=useState("");
 
 const [passwordData,setPasswordData]=useState({
@@ -25,13 +25,6 @@ newPassword:"",
 confirmPassword:""
 });
 
-
-
-const [showCurrentPassword,setShowCurrentPassword]=useState(false);
-const [showNewPassword,setShowNewPassword]=useState(false);
-const [showConfirmPassword,setShowConfirmPassword]=useState(false);
-
-const menuRef=useRef(null);
 const fileInputRef=useRef(null);
 
 const [profilePic,setProfilePic]=useState(
@@ -55,27 +48,6 @@ fetch("http://localhost:8080/api/complaints")
 
 },[]);
 
-/* ================= MENU CLOSE ================= */
-
-useEffect(()=>{
-const handleClickOutside=(e)=>{
-if(menuRef.current && !menuRef.current.contains(e.target)){
-setShowMenu(false);
-}
-};
-
-document.addEventListener("mousedown",handleClickOutside);
-return ()=>document.removeEventListener("mousedown",handleClickOutside);
-
-},[]);
-
-/* ================= COPY LINK ================= */
-
-const handleCopyLink=()=>{
-navigator.clipboard.writeText(window.location.href);
-setShowCopiedMsg(true);
-setTimeout(()=>setShowCopiedMsg(false),2000);
-};
 
 /* ================= PROFILE UPDATE ================= */
 
@@ -115,7 +87,10 @@ text:"Unable to update profile"
 }
 
 };
+
+
 /* ================= CHANGE PASSWORD ================= */
+
 const handlePasswordUpdate = async () => {
 
 if(!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword){
@@ -168,6 +143,7 @@ text:"Your password was changed successfully"
 });
 
 }catch(err){
+
 Swal.fire({
 icon:"error",
 title:"Server Error",
@@ -175,45 +151,26 @@ text:"Password update failed"
 });
 
 }
+
 };
 
-/* ================= ENABLE 2FA ================= */
 
+/* ================= ENABLE 2FA ================= */
 
 const handleEnable2FA = async () => {
 
 try{
 
 const res = await fetch("http://localhost:8080/api/admin/enable-2fa",{
- method:"POST",
- headers:{"Content-Type":"application/json"},
- body:JSON.stringify({
-  email:adminEmail,
-  code: otp
- })
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+email:adminEmail,
+code:otp
+})
 });
 
 const message = await res.text();
-
-/* STEP 1 → OTP generated */
-
-if(message.startsWith("OTP:")){
- const otpValue = message.replace("OTP:", "");
-
- setOtp("");
-
- Swal.fire({
-  icon:"info",
-  title:"OTP Generated",
-  html:`<h2>${otpValue}</h2>
-        <p>Enter this OTP in the field to enable 2FA</p>`
- });
-
- setShow2FAModal(true);
- return;
-}
-
-/* STEP 2 → OTP validation */
 
 if(!res.ok){
 Swal.fire({
@@ -223,8 +180,6 @@ text:message
 });
 return;
 }
-
-/* SUCCESS */
 
 setShow2FAModal(false);
 
@@ -243,11 +198,16 @@ text:"2FA request failed"
 });
 
 }
+
 };
+
+
 /* ================= IMAGE UPLOAD ================= */
 
 const handleProfilePicUpload=(e)=>{
+
 const file=e.target.files[0];
+
 if(!file) return;
 
 const reader=new FileReader();
@@ -260,6 +220,7 @@ reader.readAsDataURL(file);
 
 };
 
+
 const recentActivity=complaints.slice(0,5);
 
 return(
@@ -270,45 +231,13 @@ return(
 
 <div className="profile-top">
 
-  <div className="header-text">
-    <h1>Account Settings</h1>
-    <p>Manage profile, security and activity</p>
-  </div>
-
-  <div className="menu-wrapper" ref={menuRef}>
-    <button
-      className="menu-btn"
-      onClick={() => setShowMenu(!showMenu)}
-    >
-      ⋮
-    </button>
-
-    <AnimatePresence>
-      {showMenu && (
-        <motion.div
-          className="dropdown-menu"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-        >
-          <div onClick={() => {handleCopyLink(); setShowMenu(false)}}>Copy Link</div>
-          <div>Share Profile</div>
-          <div>Notifications</div>
-          <div>Emails</div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>
+<div className="header-text">
+<h1>Account Settings</h1>
+<p>Manage profile, security and activity</p>
+</div>
 
 </div>
 
-{/* COPY TOAST */}
-
-{showCopiedMsg &&(
-<div className="copied-toast">
-Link copied to clipboard
-</div>
-)}
 
 {/* HERO */}
 
@@ -336,6 +265,7 @@ onChange={handleProfilePicUpload}
 
 </div>
 
+
 <div className="hero-info">
 
 <h2>{profile.name || "Admin User"}</h2>
@@ -357,6 +287,7 @@ Edit Profile
 
 </div>
 
+
 {/* TABS */}
 
 <div className="profile-tabs">
@@ -373,12 +304,20 @@ onClick={()=>setActiveTab(tab)}
 
 </div>
 
+
 {/* CONTENT */}
 
 <div className="panel">
 
+
+{/* OVERVIEW */}
+
 {activeTab==="overview" &&(
+
 <>
+
+<div className="panel-title">Profile Information</div>
+
 <div className="info-row">
 <label>Department</label>
 <span>{profile.department}</span>
@@ -404,58 +343,88 @@ onClick={()=>setActiveTab(tab)}
 <span>{profile.joined}</span>
 </div>
 
-
 <div className="bio-section">
 <h4>About</h4>
 <p>{profile?.bio || "Managing system operations and complaint workflow monitoring."}</p>
 </div>
 
 </>
+
 )}
 
+
+{/* SECURITY */}
+
 {activeTab==="security" &&(
+
 <>
+
+<div className="panel-title">Security Settings</div>
+
 <div className="security-box">
+
 <h4>Password</h4>
+
 <button
 className="outline-btn"
 onClick={()=>setShowPasswordModal(true)}
 >
 Update Password
 </button>
+
 </div>
 
+
 <div className="security-box">
+
 <h4>Two Factor Authentication</h4>
+
 <button
 className="outline-btn"
 onClick={()=>setShow2FAModal(true)}
 >
 Enable 2FA
 </button>
+
 </div>
+
 </>
+
 )}
+
+
+{/* ACTIVITY */}
 
 {activeTab==="activity" &&(
 
-recentActivity.map((c,i)=>(
+<>
+
+<div className="panel-title">Recent Activity</div>
+
+{recentActivity.map((c,i)=>(
 <div key={i} className="activity-card">
+
 <div>
 <strong>{c.title}</strong>
 <p>{c.status}</p>
 </div>
+
 <span>{c.date}</span>
+
 </div>
-))
+))}
+
+</>
 
 )}
 
 </div>
 
+
 {/* EDIT PROFILE MODAL */}
 
 {showEditModal &&(
+
 <div className="modal-overlay">
 
 <div className="modal-box">
@@ -468,34 +437,35 @@ onClick={()=>setShowEditModal(false)}
 </button>
 
 <h3>Edit Profile</h3>
+
 <input
-placeholder="Enter admin name"
-value={editData.name||""}
-onChange={e=>setEditData({...editData,name:e.target.value})}
+placeholder="Name"
+value={editData.name || ""}
+onChange={(e)=>setEditData({...editData,name:e.target.value})}
 />
 
 <input
-placeholder="Enter phone number"
-value={editData.phone||""}
-onChange={e=>setEditData({...editData,phone:e.target.value})}
+placeholder="Phone"
+value={editData.phone || ""}
+onChange={(e)=>setEditData({...editData,phone:e.target.value})}
 />
 
 <input
-placeholder="Enter department"
-value={editData.department||""}
-onChange={e=>setEditData({...editData,department:e.target.value})}
+placeholder="Department"
+value={editData.department || ""}
+onChange={(e)=>setEditData({...editData,department:e.target.value})}
 />
 
 <input
-placeholder="Enter location"
-value={editData.location||""}
-onChange={e=>setEditData({...editData,location:e.target.value})}
+placeholder="Location"
+value={editData.location || ""}
+onChange={(e)=>setEditData({...editData,location:e.target.value})}
 />
 
 <textarea
-placeholder="Enter admin bio"
-value={editData.bio||""}
-onChange={e=>setEditData({...editData,bio:e.target.value})}
+placeholder="Bio"
+value={editData.bio || ""}
+onChange={(e)=>setEditData({...editData,bio:e.target.value})}
 />
 
 <div className="modal-actions">
@@ -517,12 +487,16 @@ Save
 </div>
 
 </div>
+
 </div>
+
 )}
+
 
 {/* PASSWORD MODAL */}
 
 {showPasswordModal &&(
+
 <div className="modal-overlay">
 
 <div className="modal-box">
@@ -535,50 +509,25 @@ onClick={()=>setShowPasswordModal(false)}
 </button>
 
 <h3>Update Password</h3>
-<div className="password-field">
+
 <input
-type={showCurrentPassword ? "text" : "password"}
+type="password"
 placeholder="Current Password"
-onChange={e=>setPasswordData({...passwordData,currentPassword:e.target.value})}
+onChange={(e)=>setPasswordData({...passwordData,currentPassword:e.target.value})}
 />
 
-<span
-className="eye-icon"
-onClick={()=>setShowCurrentPassword(!showCurrentPassword)}
->
-{showCurrentPassword ? "🙈" : "👁"}
-</span>
-</div>
-
-<div className="password-field">
 <input
-type={showNewPassword ? "text" : "password"}
+type="password"
 placeholder="New Password"
-onChange={e=>setPasswordData({...passwordData,newPassword:e.target.value})}
+onChange={(e)=>setPasswordData({...passwordData,newPassword:e.target.value})}
 />
 
-<span
-className="eye-icon"
-onClick={()=>setShowNewPassword(!showNewPassword)}
->
-{showNewPassword ? "🙈" : "👁"}
-</span>
-</div>
-
-<div className="password-field">
 <input
-type={showConfirmPassword ? "text" : "password"}
+type="password"
 placeholder="Confirm Password"
-onChange={e=>setPasswordData({...passwordData,confirmPassword:e.target.value})}
+onChange={(e)=>setPasswordData({...passwordData,confirmPassword:e.target.value})}
 />
 
-<span
-className="eye-icon"
-onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
->
-{showConfirmPassword ? "🙈" : "👁"}
-</span>
-</div>
 <div className="modal-actions">
 
 <button
@@ -598,12 +547,16 @@ Update
 </div>
 
 </div>
+
 </div>
+
 )}
+
 
 {/* 2FA MODAL */}
 
 {show2FAModal &&(
+
 <div className="modal-overlay">
 
 <div className="modal-box">
@@ -621,7 +574,7 @@ onClick={()=>setShow2FAModal(false)}
 placeholder="Enter OTP"
 value={otp}
 maxLength={6}
-onChange={(e)=>setOtp(e.target.value.replace(/\D/g,''))}
+onChange={(e)=>setOtp(e.target.value)}
 />
 
 <div className="modal-actions">
@@ -643,9 +596,13 @@ Enable
 </div>
 
 </div>
+
 </div>
+
 )}
 
 </div>
+
 );
+
 }
