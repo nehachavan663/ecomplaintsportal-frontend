@@ -1,393 +1,651 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./AdminProfile.css";
-
+import Swal from "sweetalert2";
 export default function AdminProfile() {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [show2FAModal, setShow2FAModal] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [profilePic, setProfilePic] = useState("https://cdn-icons-png.flaticon.com/512/616/616408.png");
-  const [showCopiedMsg, setShowCopiedMsg] = useState(false);
-  const fileInputRef = useRef(null);
-  const menuRef = useRef();
 
-  const handleProfilePicUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setProfilePic(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+const adminEmail = "admin@gmail.com";
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+const [activeTab,setActiveTab]=useState("overview");
+const [showMenu,setShowMenu]=useState(false);
+const [showPasswordModal,setShowPasswordModal]=useState(false);
+const [show2FAModal,setShow2FAModal]=useState(false);
+const [showEditModal,setShowEditModal]=useState(false);
+const [showCopiedMsg,setShowCopiedMsg]=useState(false);
 
-  const profile = {
-    name: "Admin User",
-    email: "admin@ocms.com",
-    role: "Super Administrator",
-    department: "IT Operations",
-    phone: "+91 9876543210",
-    bio: "Managing system operations and complaint workflow monitoring.",
-    employeeId: "ADM-1024",
-    location: "Hyderabad, India",
-    joined: "12 Jan 2022",
-    status: "Active",
-  };
+const [profile,setProfile]=useState({});
+const [complaints,setComplaints]=useState([]);
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setShowCopiedMsg(true);
-    setTimeout(() => setShowCopiedMsg(false), 2000);
-  };
+const [editData,setEditData]=useState({});
+const [otp,setOtp]=useState("");
 
-  return (
-    <div className="admin-profile-wrapper">
-      {/* HEADER */}
-      <div className="profile-top">
-        <div>
-         <h1 style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: '#111827' }}>Account Settings</h1>
-         <p style={{ margin: '8px 0 0 0', color: '#374151', fontSize: '16px' }}>Manage profile, security and activity</p>
-        </div>
+const [passwordData,setPasswordData]=useState({
+currentPassword:"",
+newPassword:"",
+confirmPassword:""
+});
 
-        {/* MADE MORE VISIBLE - LARGER & BETTER CONTRAST */}
-        <div className="top-actions">
-          <div className="menu-wrapper" ref={menuRef}>
-            <button
-              className="menu-btn"
-              onClick={() => setShowMenu(!showMenu)}
-              style={{
-                background: 'rgba(34,197,94,0.15)', // More visible background
-                border: '2px solid #22c55e', // Thicker green border
-                padding: '12px 16px', // Larger padding
-                fontSize: '24px', // Larger dots
-                minWidth: '48px', // Minimum width
-                height: '48px', // Fixed height
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-             ⋮
-            </button>
 
-            <AnimatePresence>
-              {showMenu && (
-                <motion.div
-                  className="dropdown-menu"
-                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div onClick={() => { handleCopyLink(); setShowMenu(false); }}>Copy Link</div>
 
-                  <div onClick={() => setShowMenu(false)}>Share Profile</div>
-                  <div onClick={() => setShowMenu(false)}>Notifications</div>
-                  <div onClick={() => setShowMenu(false)}>Emails</div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      </div>
+const [showCurrentPassword,setShowCurrentPassword]=useState(false);
+const [showNewPassword,setShowNewPassword]=useState(false);
+const [showConfirmPassword,setShowConfirmPassword]=useState(false);
 
-      {/* COPIED MESSAGE */}
-      <AnimatePresence>
-        {showCopiedMsg && (
-          <motion.div
-  className="copied-toast"
-  initial={{ opacity: 0, y: 20, scale: 0.9 }}
-  animate={{ opacity: 1, y: 0, scale: 1 }}
-  exit={{ opacity: 0, y: 20, scale: 0.9 }}
-  transition={{ duration: 0.2 }}
+const menuRef=useRef(null);
+const fileInputRef=useRef(null);
+
+const [profilePic,setProfilePic]=useState(
+"https://cdn-icons-png.flaticon.com/512/616/616408.png"
+);
+
+/* ================= FETCH DATA ================= */
+
+useEffect(()=>{
+
+fetch(`http://localhost:8080/api/admin/profile/${adminEmail}`)
+.then(res=>res.json())
+.then(data=>{
+setProfile(data);
+setEditData(data);
+});
+
+fetch("http://localhost:8080/api/complaints")
+.then(res=>res.json())
+.then(data=>setComplaints(data));
+
+},[]);
+
+/* ================= MENU CLOSE ================= */
+
+useEffect(()=>{
+const handleClickOutside=(e)=>{
+if(menuRef.current && !menuRef.current.contains(e.target)){
+setShowMenu(false);
+}
+};
+
+document.addEventListener("mousedown",handleClickOutside);
+return ()=>document.removeEventListener("mousedown",handleClickOutside);
+
+},[]);
+
+/* ================= COPY LINK ================= */
+
+const handleCopyLink=()=>{
+navigator.clipboard.writeText(window.location.href);
+setShowCopiedMsg(true);
+setTimeout(()=>setShowCopiedMsg(false),2000);
+};
+
+/* ================= PROFILE UPDATE ================= */
+
+const handleProfileUpdate = async () => {
+
+try{
+
+const res = await fetch(`http://localhost:8080/api/admin/profile/update/${adminEmail}`,{
+method:"PUT",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(editData)
+});
+
+if(!res.ok){
+throw new Error("Update failed");
+}
+
+const data = await res.json();
+
+setProfile(data);
+setShowEditModal(false);
+
+Swal.fire({
+icon:"success",
+title:"Profile Updated",
+text:"Your profile has been saved successfully"
+});
+
+}catch(err){
+
+Swal.fire({
+icon:"error",
+title:"Update Failed",
+text:"Unable to update profile"
+});
+
+}
+
+};
+/* ================= CHANGE PASSWORD ================= */
+const handlePasswordUpdate = async () => {
+
+if(!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword){
+Swal.fire({
+icon:"warning",
+title:"Missing Fields",
+text:"Please enter all password fields"
+});
+return;
+}
+
+if(passwordData.newPassword !== passwordData.confirmPassword){
+Swal.fire({
+icon:"error",
+title:"Password mismatch",
+text:"New password and confirm password must match"
+});
+return;
+}
+
+try{
+
+const res = await fetch("http://localhost:8080/api/admin/change-password",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+email:adminEmail,
+currentPassword:passwordData.currentPassword,
+newPassword:passwordData.newPassword
+})
+});
+
+const message = await res.text();
+
+if(!res.ok){
+Swal.fire({
+icon:"error",
+title:"Password Error",
+text:message
+});
+return;
+}
+
+setShowPasswordModal(false);
+
+Swal.fire({
+icon:"success",
+title:"Password Updated",
+text:"Your password was changed successfully"
+});
+
+}catch(err){
+Swal.fire({
+icon:"error",
+title:"Server Error",
+text:"Password update failed"
+});
+
+}
+};
+
+/* ================= ENABLE 2FA ================= */
+
+
+const handleEnable2FA = async () => {
+
+try{
+
+const res = await fetch("http://localhost:8080/api/admin/enable-2fa",{
+ method:"POST",
+ headers:{"Content-Type":"application/json"},
+ body:JSON.stringify({
+  email:adminEmail,
+  code: otp
+ })
+});
+
+const message = await res.text();
+
+/* STEP 1 → OTP generated */
+
+if(message.startsWith("OTP:")){
+ const otpValue = message.replace("OTP:", "");
+
+ setOtp("");
+
+ Swal.fire({
+  icon:"info",
+  title:"OTP Generated",
+  html:`<h2>${otpValue}</h2>
+        <p>Enter this OTP in the field to enable 2FA</p>`
+ });
+
+ setShow2FAModal(true);
+ return;
+}
+
+/* STEP 2 → OTP validation */
+
+if(!res.ok){
+Swal.fire({
+icon:"error",
+title:"Invalid OTP",
+text:message
+});
+return;
+}
+
+/* SUCCESS */
+
+setShow2FAModal(false);
+
+Swal.fire({
+icon:"success",
+title:"2FA Enabled",
+text:message
+});
+
+}catch(err){
+
+Swal.fire({
+icon:"error",
+title:"Server Error",
+text:"2FA request failed"
+});
+
+}
+};
+/* ================= IMAGE UPLOAD ================= */
+
+const handleProfilePicUpload=(e)=>{
+const file=e.target.files[0];
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=(event)=>{
+setProfilePic(event.target.result);
+};
+
+reader.readAsDataURL(file);
+
+};
+
+const recentActivity=complaints.slice(0,5);
+
+return(
+
+<div className="admin-profile-wrapper">
+
+{/* HEADER */}
+
+<div className="profile-top">
+
+  <div className="header-text">
+    <h1>Account Settings</h1>
+    <p>Manage profile, security and activity</p>
+  </div>
+
+  <div className="menu-wrapper" ref={menuRef}>
+    <button
+      className="menu-btn"
+      onClick={() => setShowMenu(!showMenu)}
+    >
+      ⋮
+    </button>
+
+    <AnimatePresence>
+      {showMenu && (
+        <motion.div
+          className="dropdown-menu"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+        >
+          <div onClick={() => {handleCopyLink(); setShowMenu(false)}}>Copy Link</div>
+          <div>Share Profile</div>
+          <div>Notifications</div>
+          <div>Emails</div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+
+</div>
+
+{/* COPY TOAST */}
+
+{showCopiedMsg &&(
+<div className="copied-toast">
+Link copied to clipboard
+</div>
+)}
+
+{/* HERO */}
+
+<div className="profile-hero">
+
+<div className="avatar-container">
+
+<div
+className="avatar-wrapper"
+onClick={()=>fileInputRef.current.click()}
 >
-  Link copied to clipboard!
-</motion.div>
 
-        )}
-      </AnimatePresence>
+<img src={profilePic} alt="avatar"/>
 
-      {/* HERO */}
-      <div className="profile-hero">
-        <div className="avatar-container">
-          <div 
-            className="avatar-wrapper" 
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <img src={profilePic} alt="avatar" />
-            <span className="online-dot"></span>
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleProfilePicUpload}
-              accept="image/*"
-            />
-          </div>
-          <div className="pfp-change-tooltip">
-            Click to change photo
-          </div>
-          <div className="upload-icon">📷</div>
-        </div>
+<input
+type="file"
+ref={fileInputRef}
+accept="image/*"
+onChange={handleProfilePicUpload}
+/>
 
-        <div className="hero-info">
-          <h2 style={{ margin: '0 0 4px 0', fontSize: '28px', fontWeight: '700', color: '#111827' }}>{profile.name}</h2>
-          <p style={{ margin: '0 0 8px 0', fontSize: '16px', color: '#374151' }}>{profile.email}</p>
-          <span className="role-badge">{profile.role}</span>
+<span className="online-dot"></span>
 
-          <button
-            className="edit-profile-btn"
-            onClick={() => setShowEditModal(true)}
-          >
-            Edit Profile
-          </button>
-        </div>
-      </div>
+</div>
 
-      {/* Rest of the component - NO CHANGES */}
-      <div className="profile-tabs">
-        {["overview", "security", "activity"].map((tab) => (
-          <motion.button
-            key={tab}
-            className={`tab-btn ${activeTab === tab ? "active" : ""}`}
-            onClick={() => setActiveTab(tab)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
-          </motion.button>
-        ))}
-      </div>
+</div>
 
-      <div className="profile-content">
-        {activeTab === "overview" && (
-          <motion.div 
-            className="panel overview-panel"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="info-row">
-              <label>Department</label>
-              <span>{profile.department}</span>
-            </div>
-            <div className="info-row">
-              <label>Phone</label>
-              <span>{profile.phone}</span>
-            </div>
-            <div className="info-row">
-              <label>Employee ID</label>
-              <span>{profile.employeeId}</span>
-            </div>
-            <div className="info-row">
-              <label>Location</label>
-              <span>{profile.location}</span>
-            </div>
-            <div className="info-row">
-              <label>Joined</label>
-              <span>{profile.joined}</span>
-            </div>
-            <div className="info-row">
-              <label>Status</label>
-              <span style={{ color: '#22c55e', fontWeight: '600' }}>{profile.status}</span>
-            </div>
+<div className="hero-info">
 
-            <div className="bio-section">
-              <h4 style={{ margin: '0 0 12px 0', color: '#111827', fontSize: '18px' }}>About</h4>
-              <p style={{ margin: 0, lineHeight: '1.6', color: '#374151' }}>{profile.bio}</p>
-            </div>
-          </motion.div>
-        )}
+<h2>{profile.name || "Admin User"}</h2>
 
-        {activeTab === "security" && (
-          <motion.div 
-            className="panel"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="security-box green">
-              <h4 style={{ margin: '0 0 8px 0', color: '#111827', fontSize: '18px', fontWeight: '600' }}>Password</h4>
-              <p style={{ margin: '0 0 16px 0', color: '#374151' }}>Last changed 30 days ago</p>
-              <button
-                className="outline-btn"
-                onClick={() => setShowPasswordModal(true)}
-              >
-                Update Password
-              </button>
-            </div>
+<p>{profile.email}</p>
 
-            <div className="security-box blue">
-              <h4 style={{ margin: '0 0 8px 0', color: '#111827', fontSize: '18px', fontWeight: '600' }}>Two-Factor Authentication</h4>
-              <p style={{ margin: '0 0 16px 0', color: '#374151' }}>Currently Disabled</p>
-              <button
-                className="outline-btn"
-                onClick={() => setShow2FAModal(true)}
-              >
-                Enable 2FA
-              </button>
-            </div>
-          </motion.div>
-        )}
+<span className="role-badge">
+{profile.role || "Super Administrator"}
+</span>
 
-        {activeTab === "activity" && (
-          <motion.div 
-            className="panel"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="activity-card success">
-              <div>
-                <strong>Complaint #1021 Resolved</strong>
-                <p>Issue marked as completed successfully.</p>
-              </div>
-              <span className="activity-time">2 hours ago</span>
-            </div>
-            <div className="activity-card warning">
-              <div>
-                <strong>Complaint #1019 Assigned</strong>
-                <p>New complaint assigned to your team for review.</p>
-              </div>
-              <span className="activity-time">5 hours ago</span>
-            </div>
-            <div className="activity-card neutral">
-              <div>
-                <strong>System Login</strong>
-                <p>Successfully logged into the admin dashboard.</p>
-              </div>
-              <span className="activity-time">1 day ago</span>
-            </div>
-          </motion.div>
-        )}
-      </div>
+<button
+className="edit-profile-btn"
+onClick={()=>setShowEditModal(true)}
+>
+Edit Profile
+</button>
 
-      {/* MODALS - NO CHANGES */}
-      <AnimatePresence>
-        {showPasswordModal && (
-          <motion.div 
-            className="modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div 
-              className="modal-box"
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <button
-                className="close-btn"
-                onClick={() => setShowPasswordModal(false)}
-              >
-                ✕
-              </button>
-              <h3>Update Password</h3>
-              <input type="password" placeholder="Current Password" />
-              <input type="password" placeholder="New Password" />
-              <input type="password" placeholder="Confirm Password" />
-              <button
-                className="save-btn"
-                onClick={() => setShowPasswordModal(false)}
-              >
-                Save Changes
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+</div>
 
-      <AnimatePresence>
-        {show2FAModal && (
-          <motion.div 
-            className="modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div 
-              className="modal-box"
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <button
-                className="close-btn"
-                onClick={() => setShow2FAModal(false)}
-              >
-                ✕
-              </button>
-              <h3>Enable Two-Factor Authentication</h3>
-              <p style={{ margin: '0 0 20px 0', color: '#6b7280', fontSize: '14px' }}>
-                Enter the 6-digit code from your authenticator app
-              </p>
-              <input type="text" placeholder="Enter OTP Code" maxLength={6} />
-              <button
-                className="save-btn"
-                onClick={() => setShow2FAModal(false)}
-              >
-                Verify & Enable
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+</div>
 
-      <AnimatePresence>
-        {showEditModal && (
-          <motion.div 
-            className="modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div 
-              className="modal-box"
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              transition={{ duration: 0.2 }}
-            >
-              <button
-                className="close-btn"
-                onClick={() => setShowEditModal(false)}
-              >
-                ✕
-              </button>
+{/* TABS */}
 
-              <h3>Edit Profile</h3>
+<div className="profile-tabs">
 
-              <input type="text" defaultValue={profile.name} placeholder="Full Name" />
-              <input type="email" defaultValue={profile.email} placeholder="Email Address" />
-              <input type="tel" defaultValue={profile.phone} placeholder="Phone Number" />
-              <input type="text" defaultValue={profile.department} placeholder="Department" />
-              <input type="text" defaultValue={profile.location} placeholder="Location" />
+{["overview","security","activity"].map(tab=>(
+<button
+key={tab}
+className={`tab-btn ${activeTab===tab?"active":""}`}
+onClick={()=>setActiveTab(tab)}
+>
+{tab}
+</button>
+))}
 
-              <button
-                className="save-btn"
-                onClick={() => setShowEditModal(false)}
-              >
-                Save Changes
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+</div>
+
+{/* CONTENT */}
+
+<div className="panel">
+
+{activeTab==="overview" &&(
+<>
+<div className="info-row">
+<label>Department</label>
+<span>{profile.department}</span>
+</div>
+
+<div className="info-row">
+<label>Phone</label>
+<span>{profile.phone}</span>
+</div>
+
+<div className="info-row">
+<label>Employee ID</label>
+<span>{profile.employeeId}</span>
+</div>
+
+<div className="info-row">
+<label>Location</label>
+<span>{profile.location}</span>
+</div>
+
+<div className="info-row">
+<label>Joined</label>
+<span>{profile.joined}</span>
+</div>
+
+
+<div className="bio-section">
+<h4>About</h4>
+<p>{profile?.bio || "Managing system operations and complaint workflow monitoring."}</p>
+</div>
+
+</>
+)}
+
+{activeTab==="security" &&(
+<>
+<div className="security-box">
+<h4>Password</h4>
+<button
+className="outline-btn"
+onClick={()=>setShowPasswordModal(true)}
+>
+Update Password
+</button>
+</div>
+
+<div className="security-box">
+<h4>Two Factor Authentication</h4>
+<button
+className="outline-btn"
+onClick={()=>setShow2FAModal(true)}
+>
+Enable 2FA
+</button>
+</div>
+</>
+)}
+
+{activeTab==="activity" &&(
+
+recentActivity.map((c,i)=>(
+<div key={i} className="activity-card">
+<div>
+<strong>{c.title}</strong>
+<p>{c.status}</p>
+</div>
+<span>{c.date}</span>
+</div>
+))
+
+)}
+
+</div>
+
+{/* EDIT PROFILE MODAL */}
+
+{showEditModal &&(
+<div className="modal-overlay">
+
+<div className="modal-box">
+
+<button
+className="close-btn"
+onClick={()=>setShowEditModal(false)}
+>
+✕
+</button>
+
+<h3>Edit Profile</h3>
+<input
+placeholder="Enter admin name"
+value={editData.name||""}
+onChange={e=>setEditData({...editData,name:e.target.value})}
+/>
+
+<input
+placeholder="Enter phone number"
+value={editData.phone||""}
+onChange={e=>setEditData({...editData,phone:e.target.value})}
+/>
+
+<input
+placeholder="Enter department"
+value={editData.department||""}
+onChange={e=>setEditData({...editData,department:e.target.value})}
+/>
+
+<input
+placeholder="Enter location"
+value={editData.location||""}
+onChange={e=>setEditData({...editData,location:e.target.value})}
+/>
+
+<textarea
+placeholder="Enter admin bio"
+value={editData.bio||""}
+onChange={e=>setEditData({...editData,bio:e.target.value})}
+/>
+
+<div className="modal-actions">
+
+<button
+className="cancel-btn"
+onClick={()=>setShowEditModal(false)}
+>
+Cancel
+</button>
+
+<button
+className="save-btn"
+onClick={handleProfileUpdate}
+>
+Save
+</button>
+
+</div>
+
+</div>
+</div>
+)}
+
+{/* PASSWORD MODAL */}
+
+{showPasswordModal &&(
+<div className="modal-overlay">
+
+<div className="modal-box">
+
+<button
+className="close-btn"
+onClick={()=>setShowPasswordModal(false)}
+>
+✕
+</button>
+
+<h3>Update Password</h3>
+<div className="password-field">
+<input
+type={showCurrentPassword ? "text" : "password"}
+placeholder="Current Password"
+onChange={e=>setPasswordData({...passwordData,currentPassword:e.target.value})}
+/>
+
+<span
+className="eye-icon"
+onClick={()=>setShowCurrentPassword(!showCurrentPassword)}
+>
+{showCurrentPassword ? "🙈" : "👁"}
+</span>
+</div>
+
+<div className="password-field">
+<input
+type={showNewPassword ? "text" : "password"}
+placeholder="New Password"
+onChange={e=>setPasswordData({...passwordData,newPassword:e.target.value})}
+/>
+
+<span
+className="eye-icon"
+onClick={()=>setShowNewPassword(!showNewPassword)}
+>
+{showNewPassword ? "🙈" : "👁"}
+</span>
+</div>
+
+<div className="password-field">
+<input
+type={showConfirmPassword ? "text" : "password"}
+placeholder="Confirm Password"
+onChange={e=>setPasswordData({...passwordData,confirmPassword:e.target.value})}
+/>
+
+<span
+className="eye-icon"
+onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
+>
+{showConfirmPassword ? "🙈" : "👁"}
+</span>
+</div>
+<div className="modal-actions">
+
+<button
+className="cancel-btn"
+onClick={()=>setShowPasswordModal(false)}
+>
+Cancel
+</button>
+
+<button
+className="save-btn"
+onClick={handlePasswordUpdate}
+>
+Update
+</button>
+
+</div>
+
+</div>
+</div>
+)}
+
+{/* 2FA MODAL */}
+
+{show2FAModal &&(
+<div className="modal-overlay">
+
+<div className="modal-box">
+
+<button
+className="close-btn"
+onClick={()=>setShow2FAModal(false)}
+>
+✕
+</button>
+
+<h3>Enable 2FA</h3>
+
+<input
+placeholder="Enter OTP"
+value={otp}
+maxLength={6}
+onChange={(e)=>setOtp(e.target.value.replace(/\D/g,''))}
+/>
+
+<div className="modal-actions">
+
+<button
+className="cancel-btn"
+onClick={()=>setShow2FAModal(false)}
+>
+Cancel
+</button>
+
+<button
+className="save-btn"
+onClick={handleEnable2FA}
+>
+Enable
+</button>
+
+</div>
+
+</div>
+</div>
+)}
+
+</div>
+);
 }
