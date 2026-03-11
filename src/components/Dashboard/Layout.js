@@ -18,7 +18,7 @@ function Layout() {
 
   const menuItems = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Comlaint Form", path: "/dashboard/register" },
+    { name: "Complaint Form", path: "/dashboard/register" },
     { name: "Complaint Status", path: "/dashboard/status" },
     { name: "Profile", path: "/dashboard/profile" },
     { name: "Faqs", path: "/dashboard/faqs" },
