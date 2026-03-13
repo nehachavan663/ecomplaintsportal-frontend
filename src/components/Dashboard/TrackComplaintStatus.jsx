@@ -30,11 +30,13 @@ useEffect(() => {
 }, []);
 
   // 🔍 Search filter
-  const filteredComplaints = complaints.filter((c) =>
-    `${c.title} ${c.area} ${c.status}`
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+const filteredComplaints = complaints.filter((c) => {
+  const title = (c.title || "").toLowerCase();
+  const department = (c.department || "").toLowerCase();
+  const searchText = search.toLowerCase();
+
+  return title.includes(searchText) || department.includes(searchText);
+});
 
   return (
       
@@ -155,7 +157,7 @@ useEffect(() => {
     ) : (
       "Waiting"
     )}
-  </td>
+  </td>         
 </tr>
                    
                     ))}
