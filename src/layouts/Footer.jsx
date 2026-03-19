@@ -1,6 +1,7 @@
 import React from "react";
 import "./Footer.css";
-
+import logo1 from "../components/Home/Images/elogo1.png"; 
+import { Link } from "react-router-dom";
 import {
   FaInfoCircle,
   FaPhoneAlt,
@@ -14,17 +15,22 @@ import {
 
 function Footer() {
   return (
-    <footer className="footer">
+   
+<footer className="footer">
 
-      <div className="footer-container">
+  <div className="footer-container">
 
-        {/* SECTION 1 */}
-        <div className="footer-section">
-          <h4>Online Complaint System</h4>
-          <p>
-            Simple & transparent complaint handling platform for students.
-          </p>
-        </div>
+    {/* LOGO + TEXT */}
+    <div className="footer-logo">
+    
+<Link to="/" className="logo-container">
+        <img src={logo1} alt="logo" className="logo-img" />
+      </Link>
+      <h4>Online Complaint System</h4>
+      <p>
+        Simple & transparent complaint handling platform for students.
+      </p>
+    </div>
 
         {/* QUICK ACCESS */}
         <div className="footer-section">

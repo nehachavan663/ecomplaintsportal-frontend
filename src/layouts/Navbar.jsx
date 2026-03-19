@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "./Navbar.css";
-
+import logo from "../components/Home/Images/elogo1.png"; 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -14,9 +14,9 @@ function Navbar() {
     <header className="navbar">
 
       {/* LEFT LOGO */}
-     <div className="logo glow">
-            eComplaintsPortal
-      </div>
+   <Link to="/" className="logo-container">
+  <img src={logo} alt="logo" className="logo-img" />
+</Link>
 
 
       {/* RIGHT MENU */}
