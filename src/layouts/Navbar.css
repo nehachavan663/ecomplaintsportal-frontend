@@ -98,9 +98,12 @@
 
 .overlay {
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);  /* slightly darker */
+  z-index: 1000;
 }
 /* LOGO FIX */
 
@@ -117,7 +120,6 @@
   transform: none;    
 }
 /* ===== MOBILE ===== */
-
 @media (max-width: 768px) {
 
   .menu-btn {
@@ -125,18 +127,24 @@
   }
 
   .nav-links {
-    top: 0;              /* ✅ remove gap */
-    height: 100vh;       /* ✅ full screen */
-    padding-top: 80px;   /* ✅ push content below navbar */
     position: fixed;
-    right: -100%;
+    top: 0;
+    right: -240px;
     width: 240px;
+    height: 100vh;
+
     background: #bfe4d4;
+
+    display: flex;
     flex-direction: column;
-    padding: 25px;
     gap: 14px;
-    transition: 0.3s;
-    z-index: 1001;
+
+    padding: 80px 20px 20px;
+
+    transition: 0.3s ease;
+    z-index: 2000;
+
+    overflow-y: auto;
   }
 
   .nav-links.show {
