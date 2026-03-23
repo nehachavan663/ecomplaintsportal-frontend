@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import "./Home.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 import { FaFileAlt, FaSearch, FaUserShield, FaBell } from "react-icons/fa";
@@ -11,6 +10,16 @@ import img3 from "./Images/image.png";
 const images = [img1, img2, img3];
 
 function Home() {
+  const isLoggedIn = localStorage.getItem("user");
+
+const handleProtectedNav = (path) => {
+  if (!isLoggedIn) {
+    alert("Please login first");
+    window.location.href = "/login";
+  } else {
+    window.location.href = path;
+  }
+};
   const [imgIndex, setImgIndex] = useState(0);
 
   useEffect(() => {
@@ -41,14 +50,20 @@ function Home() {
               </ul>
 
               <div className="hero-buttons">
-                <Link to="/complaint" className="primary-btn">
-                  Register Complaint
-                </Link>
-                <Link to="/track" className="track-btn">
-  Track Status
-</Link>
+  <button
+    className="primary-btn"
+    onClick={() => handleProtectedNav("/complaint")}
+  >
+    Register Complaint
+  </button>
 
-              </div>
+  <button
+    className="track-btn"
+    onClick={() => handleProtectedNav("/track")}
+  >
+    Track Status
+  </button>
+</div>
             </div>
 
            <div className="hero-right">

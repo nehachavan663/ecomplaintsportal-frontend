@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -14,6 +14,10 @@ function Login() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loginInput, setLoginInput] = useState("");
   const [password, setPassword] = useState("");
+  useEffect(() => {
+  setLoginInput("");
+  setPassword("");
+}, []);
 
   const navigate = useNavigate();
 
@@ -66,7 +70,7 @@ function Login() {
 
         localStorage.setItem("studentId", data.id);
         localStorage.setItem("studentEmail", data.email);
-
+       localStorage.setItem("role", "student");
         navigate("/dashboard");
         return;
       }
@@ -137,24 +141,27 @@ function Login() {
               <label className="label">
                 Username / Email / Phone
               </label>
-
-              <input
-                type="text"
-                className="input"
-                value={loginInput}
-                onChange={(e) => setLoginInput(e.target.value)}
-                placeholder="Enter username, email or phone"
-              />
+<input
+  type="text"
+  name="random_login_field"        // ✅ ADD
+  autoComplete="off"               // ✅ ADD
+  className="input"
+  value={loginInput}
+  onChange={(e) => setLoginInput(e.target.value)}
+  placeholder="Enter username, email or phone"
+/>
 
               <label className="label">Enter Password</label>
 
               <div className="password-wrapper">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="input"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+               <input
+  type={showPassword ? "text" : "password"}
+  name="random_password_field"     // ✅ ADD
+  autoComplete="new-password"      // ✅ ADD
+  className="input"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
@@ -200,7 +207,7 @@ function Login() {
 
                   localStorage.setItem("studentName", user.name);
                   localStorage.setItem("studentEmail", user.email);
-
+                 localStorage.setItem("role", "student");
                Swal.fire({
   icon: "success",
   title: "Google Login Successful",

@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: space-between;
 
-  padding: 10px 60px;   
+  padding: 0 30px;   
   height: 70px;         
 }
 
@@ -81,7 +81,7 @@
   border: none;
   cursor: pointer;
   margin-right: 10px;
-  margin-top: -20px;
+  
 }
 .mobile-menu {
   position: fixed;
@@ -153,5 +153,42 @@
 
   .nav-links a {
     width: 100%;
+  }
+}
+/* Desktop menu */
+.desktop-menu {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-left: auto;
+}
+.desktop-menu a {
+  text-decoration: none;
+  color: #1f3d2b;
+  font-size: 20px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  transition: 0.25s;
+}
+
+.desktop-menu a:hover {
+  background: rgba(56,183,100,0.15);
+}
+
+.desktop-menu .register {
+  background: #38b764;
+  color: white !important;
+}
+/* Hide desktop menu on mobile */
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+}
+
+/* Hide sidebar on desktop */
+@media (min-width: 769px) {
+  .nav-links {
+    display: none;
   }
 }
