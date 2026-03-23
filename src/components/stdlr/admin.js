@@ -27,8 +27,9 @@ function AdminLogin({ goBack }) {
     password: password
   })
   .then(res => {
-      navigate("/admin/dashboard");
-  })
+    localStorage.setItem("role", "admin");   // ✅ ADD THIS LINE
+    navigate("/admin/dashboard");
+})
   .catch(() => alert("Invalid admin credentials"));
 };
   return (
