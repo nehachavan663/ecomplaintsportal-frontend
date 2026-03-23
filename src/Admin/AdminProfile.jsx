@@ -149,9 +149,7 @@ icon:"error",
 title:"Server Error",
 text:"Password update failed"
 });
-
 }
-
 };
 
 
