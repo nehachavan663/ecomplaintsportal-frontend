@@ -19,15 +19,14 @@ function AdminLogin({ goBack }) {
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "scroll"
   };
-
  
  const handleAdminLogin = () => {
-  axios.post("http://localhost:8080/api/login", {
+  axios.post("https://ecomplaintsportal-backend.onrender.com/api/login", {
     email: email,
     password: password
   })
   .then(res => {
-    localStorage.setItem("role", "admin");   // ✅ ADD THIS LINE
+    localStorage.setItem("role", "admin");  
     navigate("/admin/dashboard");
 })
   .catch(() => alert("Invalid admin credentials"));

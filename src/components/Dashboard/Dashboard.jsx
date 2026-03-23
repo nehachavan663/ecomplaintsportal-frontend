@@ -17,7 +17,7 @@ export default function Dashboard() {
   useEffect(() => {
 
     // FETCH SUMMARY DATA
-    fetch(`http://localhost:8080/api/complaints/student/${studentId}`)
+    fetch(`https://ecomplaintsportal-backend.onrender.com/api/complaints/student/${studentId}`)
       .then(res => res.json())
       .then(data => {
         setStats({
@@ -29,7 +29,7 @@ export default function Dashboard() {
       });
 
     // FETCH RECENT COMPLAINTS
-    fetch(`http://localhost:8080/api/complaints/student/${studentId}/complaints`)
+    fetch(`https://ecomplaintsportal-backend.onrender.com/api/complaints/student/${studentId}/complaints`)
       .then(res => res.json())
       .then(data => {
         setRecentComplaints(data.slice(0, 3));

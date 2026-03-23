@@ -48,7 +48,7 @@ const ManageDepartment = () => {
 
     if (editId) {
 
-      fetch(`http://localhost:8080/api/departments/${editId}`, {
+      fetch(`https://ecomplaintsportal-backend.onrender.com/api/departments/${editId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -69,7 +69,7 @@ const ManageDepartment = () => {
 
     } else {
 
-      fetch("http://localhost:8080/api/departments", {
+      fetch("https://ecomplaintsportal-backend.onrender.com/api/departments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -95,7 +95,7 @@ const ManageDepartment = () => {
 
   const handleDelete = (id) => {
 
-    fetch(`http://localhost:8080/api/departments/${id}`, {
+    fetch(`https://ecomplaintsportal-backend.onrender.com/api/departments/${id}`, {
       method: "DELETE"
     }).then(() => {
 
@@ -111,7 +111,7 @@ const ManageDepartment = () => {
 
     setLoading(true);
 
-    fetch("http://localhost:8080/api/departments")
+    fetch("https://ecomplaintsportal-backend.onrender.com/api/departments")
       .then(res => res.json())
       .then(data => {
         setStaffList(data);

@@ -28,7 +28,7 @@ const Reports = () => {
 
   // Fetch complaints
   useEffect(() => {
-    fetch("http://localhost:8080/api/complaints")
+    fetch("https://ecomplaintsportal-backend.onrender.com/api/complaints")
       .then(res => res.json())
       .then(data => {
         setAllComplaints(data);

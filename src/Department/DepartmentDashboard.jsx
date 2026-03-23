@@ -52,7 +52,7 @@ const [viewData,setViewData]=useState(null);
 
 const fetchComplaints = useCallback(() => {
 
-fetch(`http://localhost:8080/api/complaints/department/${department}`)
+fetch(`https://ecomplaintsportal-backend.onrender.com/api/complaints/department/${department}`)
 .then(res => res.json())
 .then(data=>{
 setComplaints(data || []);
@@ -82,7 +82,7 @@ const updateComplaint = (id, updatedFields) => {
   );
 
   // backend update
-  fetch(`http://localhost:8080/api/complaints/${id}`, {
+  fetch(`https://ecomplaintsportal-backend.onrender.com/api/complaints/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(updatedComplaint)

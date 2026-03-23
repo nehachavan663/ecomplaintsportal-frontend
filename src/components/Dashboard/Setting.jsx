@@ -28,7 +28,7 @@ export default function Settings() {
     try {
 
       const response = await fetch(
-        `http://localhost:8080/api/lre/generate-2fa/${studentId}`
+        `https://ecomplaintsportal-backend.onrender.com/api/lre/generate-2fa/${studentId}`
       );
 
       const data = await response.json();
@@ -77,7 +77,7 @@ const handlePasswordChange = (e) => {
   try {
 
     const response = await fetch(
-      "http://localhost:8080/api/lre/change-password",
+      "https://ecomplaintsportal-backend.onrender.com/api/lre/change-password",
       {
         method: "PUT",
         headers: {
@@ -143,7 +143,7 @@ const handlePasswordChange = (e) => {
     try {
 
       const response = await fetch(
-        "http://localhost:8080/api/lre/verify-2fa",
+        "https://ecomplaintsportal-backend.onrender.com/api/lre/verify-2fa",
         {
           method: "POST",
           headers: {

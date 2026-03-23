@@ -78,7 +78,7 @@ const [departments, setDepartments] = useState([]);
 
   /* FETCH */
 useEffect(() => {
-  fetch("http://localhost:8080/api/departments")
+  fetch("https://ecomplaintsportal-backend.onrender.com/api/departments")
     .then(res => res.json())
     .then(data => setDepartments(data))
     .catch(err => console.error(err));
@@ -88,7 +88,7 @@ useEffect(() => {
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost:8080/api/complaints"
+        "https://ecomplaintsportal-backend.onrender.com/api/complaints"
       );
 
       if (!res.ok) {
@@ -126,7 +126,7 @@ useEffect(() => {
     const existing = complaints.find(c => c.id === id);
     if (!existing) return;
 
-    fetch(`http://localhost:8080/api/complaints/${id}`, {
+    fetch(`https://ecomplaintsportal-backend.onrender.com/api/complaints/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...existing, ...updatedFields })
@@ -172,7 +172,7 @@ useEffect(() => {
 
     if(!result.isConfirmed) return;
 
-    fetch(`http://localhost:8080/api/complaints/${id}`,{
+    fetch(`https://ecomplaintsportal-backend.onrender.com/api/complaints/${id}`,{
       method:"DELETE"
     }).then(()=>{
 

@@ -153,7 +153,7 @@ useEffect(() => {
 
   if (!studentId) return;
 
-  fetch(`http://localhost:8080/api/studentProfile/${studentId}`)
+  fetch(`https://ecomplaintsportal-backend.onrender.com/api/studentProfile/${studentId}`)
     .then(res => res.json())
     .then(data => {
       setUserName(data.fullName || "");
@@ -213,7 +213,7 @@ const complaintData = {
 };
 
     try {
-      const response = await fetch("http://localhost:8080/api/complaints", {
+      const response = await fetch("https://ecomplaintsportal-backend.onrender.com/api/complaints", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

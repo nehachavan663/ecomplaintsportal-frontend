@@ -35,14 +35,14 @@ const [profilePic,setProfilePic]=useState(
 
 useEffect(()=>{
 
-fetch(`http://localhost:8080/api/admin/profile/${adminEmail}`)
+fetch(`https://ecomplaintsportal-backend.onrender.com/api/admin/profile/${adminEmail}`)
 .then(res=>res.json())
 .then(data=>{
 setProfile(data);
 setEditData(data);
 });
 
-fetch("http://localhost:8080/api/complaints")
+fetch("https://ecomplaintsportal-backend.onrender.com/api/complaints")
 .then(res=>res.json())
 .then(data=>setComplaints(data));
 
@@ -55,7 +55,7 @@ const handleProfileUpdate = async () => {
 
 try{
 
-const res = await fetch(`http://localhost:8080/api/admin/profile/update/${adminEmail}`,{
+const res = await fetch(`https://ecomplaintsportal-backend.onrender.com/api/admin/profile/update/${adminEmail}`,{
 method:"PUT",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify(editData)
@@ -113,7 +113,7 @@ return;
 
 try{
 
-const res = await fetch("http://localhost:8080/api/admin/change-password",{
+const res = await fetch("https://ecomplaintsportal-backend.onrender.com/api/admin/change-password",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
@@ -159,7 +159,7 @@ const handleEnable2FA = async () => {
 
 try{
 
-const res = await fetch("http://localhost:8080/api/admin/enable-2fa",{
+const res = await fetch("https://ecomplaintsportal-backend.onrender.com/api/admin/enable-2fa",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
