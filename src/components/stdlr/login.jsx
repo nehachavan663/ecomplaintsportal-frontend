@@ -43,7 +43,7 @@ function Login() {
     try {
 
       const response = await fetch(
-        "http://localhost:8080/api/lre/login",
+        "https://ecomplaintsportal-backend.onrender.com/api/lre/login",
         {
           method: "POST",
           headers: {
@@ -76,7 +76,7 @@ function Login() {
       }
 
       const deptRes = await fetch(
-        "http://localhost:8080/api/departments/login",
+        "https://ecomplaintsportal-backend.onrender.com/api/departments/login",
         {
           method: "POST",
           headers: {

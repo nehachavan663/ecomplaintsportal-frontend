@@ -42,7 +42,7 @@ function Profile() {
   fetchStudent(studentId);
   fetchSummary(studentId);
 
-  const socket = new SockJS("http://localhost:8080/ws");
+  const socket = new SockJS("https://ecomplaintsportal-backend.onrender.com/ws");
 
   const client = new Client({
     webSocketFactory: () => socket,
@@ -92,7 +92,7 @@ function Profile() {
 
   const fetchStudent = (studentId) => {
 
-    fetch(`http://localhost:8080/api/studentProfile/${studentId}`)
+    fetch(`https://ecomplaintsportal-backend.onrender.com/api/studentProfile/${studentId}`)
       .then((res) => res.json())
       .then((data) => {
 
@@ -115,7 +115,7 @@ function Profile() {
 
   const fetchSummary = (studentId) => {
 
-    fetch(`http://localhost:8080/api/studentProfile/summary/${studentId}`)
+    fetch(`https://ecomplaintsportal-backend.onrender.com/api/studentProfile/summary/${studentId}`)
       .then((res) => res.json())
       .then((data) => {
 
@@ -156,7 +156,7 @@ function Profile() {
   const formData = new FormData();
   formData.append("file", file);
 
-  await fetch(`http://localhost:8080/api/studentProfile/image/${studentId}`, {
+  await fetch(`https://ecomplaintsportal-backend.onrender.com/api/studentProfile/image/${studentId}`, {
     method: "PUT",
     body: formData
   });
@@ -169,7 +169,7 @@ function Profile() {
 
   const studentId = localStorage.getItem("studentId");
 
-  fetch(`http://localhost:8080/api/studentProfile/${studentId}`, {
+  fetch(`https://ecomplaintsportal-backend.onrender.com/api/studentProfile/${studentId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -226,7 +226,7 @@ function Profile() {
             <img
               src={
                 student.profileImage
-                ? `http://localhost:8080/api/studentProfile/image/${student.profileImage}`
+                ? `https://ecomplaintsportal-backend.onrender.com/api/studentProfile/image/${student.profileImage}`
                 : "https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
               }
               alt="profile"

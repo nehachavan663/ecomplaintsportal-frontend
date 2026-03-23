@@ -51,7 +51,7 @@ function ForgotPassword() {
 
     try {
 
-      const response = await fetch("http://localhost:8080/api/lre/forgot-password", {
+      const response = await fetch("https://ecomplaintsportal-backend.onrender.com/api/lre/forgot-password", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

@@ -17,7 +17,7 @@ useEffect(() => {
     return;
   }
 
-  fetch(`http://localhost:8080/api/complaints/student/${studentId}/complaints`)
+  fetch(`https://ecomplaintsportal-backend.onrender.com/api/complaints/student/${studentId}/complaints`)
     .then((res) => res.json())
     .then((data) => {
       setComplaints(data);

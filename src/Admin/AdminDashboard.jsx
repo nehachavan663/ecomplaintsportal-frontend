@@ -33,7 +33,7 @@ const [stats, setStats] = useState({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/admin/dashboard")
+    axios.get("https://ecomplaintsportal-backend.onrender.com/api/admin/dashboard")
       .then(res => {
         setStats(res.data);
         setLoading(false);

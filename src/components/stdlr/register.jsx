@@ -62,7 +62,7 @@ const [securityAnswer, setSecurityAnswer] = useState("");
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/lre/register", {
+      const response = await fetch("https://ecomplaintsportal-backend.onrender.com/api/lre/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
