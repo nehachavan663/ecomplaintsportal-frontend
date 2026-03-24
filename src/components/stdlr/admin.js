@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import bgImage from "./assets/bglogin.jpeg";
 import "./stdlr.css";
+import Swal from "sweetalert2";
 
 function AdminLogin({ goBack }) {
 
@@ -29,7 +30,15 @@ function AdminLogin({ goBack }) {
     localStorage.setItem("role", "admin");  
     navigate("/admin/dashboard");
 })
-  .catch(() => alert("Invalid admin credentials"));
+  .catch(() => {
+  Swal.fire({
+    title: "Login Failed",
+    text: "Invalid admin credentials",
+    icon: "error",
+    confirmButtonText: "Try Again",
+    confirmButtonColor: "#e74c3c"
+  });
+});
 };
   return (
     <div className="login-page" style={bgStyle}>
