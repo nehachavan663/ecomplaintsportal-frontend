@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./Home.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 import { FaFileAlt, FaSearch, FaUserShield, FaBell } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 import img1 from "./Images/hero.png";
 import img2 from "./Images/hero2.webp";
@@ -11,16 +13,25 @@ const images = [img1, img2, img3];
 
 function Home() {
   const isLoggedIn = localStorage.getItem("user");
+const navigate = useNavigate();
 
 const handleProtectedNav = (path) => {
   if (!isLoggedIn) {
-    alert("Please login first");
-    window.location.href = "/login";
+    Swal.fire({
+      title: "🔐 Login Required",
+      text: "You need to login before accessing this feature",
+      icon: "info",
+      confirmButtonText: "Go to Login",
+      confirmButtonColor: "#38b764"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      }
+    });
   } else {
-    window.location.href = path;
+    navigate(path);
   }
-};
-  const [imgIndex, setImgIndex] = useState(0);
+}; const [imgIndex, setImgIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
