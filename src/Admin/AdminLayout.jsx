@@ -4,7 +4,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import "./AdminDashboard.css";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-
+import { FaTimes } from "react-icons/fa";
 import {
   FaTachometerAlt,
   FaClipboardList,
@@ -26,7 +26,12 @@ useEffect(() => {
 
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "show" : ""}`}>
-        <h2 className="logo">ecomplaintsportal</h2>
+        <div className="sidebar-header">
+    <button className="close-btn" onClick={() => setOpen(false)}>
+      <FaTimes />
+    </button>
+  </div>
+      
 <nav>
   <NavLink
     to="/admin/dashboard"

@@ -8,7 +8,9 @@ import {
   FaSpinner,
   FaCheckCircle
 } from "react-icons/fa";
+import {  FaBuilding, FaChartBar } from "react-icons/fa";
 
+import { useNavigate } from "react-router-dom";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,6 +24,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 const AdminDashboard = () => {
+const navigate = useNavigate();
 const [stats, setStats] = useState({
   total: 0,
   pending: 0,
@@ -147,27 +150,38 @@ const categoryData = {
 )}
         </div>
 
-        <div className="panel quick-actions">
-          <h3>Quick Actions</h3>
+    <div className="panel quick-actions">
+  <h3>Quick Actions</h3>
 
-          <div className="action-card">
-            📋 Manage Complaints
-          </div>
+  <div className="quick-card-container">
 
-          <div className="action-card">
-            📊 Generate Reports
-          </div>
+    <div
+      className="quick-card"
+      onClick={() => navigate("/admin/manage-complaints")}
+    >
+      <FaClipboardList className="quick-icon" />
+      <span>Manage Complaints</span>
+    </div>
 
-          <div className="action-card">
-            📈 View Analytics
-          </div>
+    <div
+      className="quick-card"
+      onClick={() => navigate("/admin/manage-department")}
+    >
+      <FaBuilding className="quick-icon" />
+      <span>Add Departments</span>
+    </div>
 
-          <div className="action-card">
-            ⚙ System Settings
-          </div>
+    <div
+      className="quick-card"
+      onClick={() => navigate("/admin/reports")}
+    >
+      <FaChartBar className="quick-icon" />
+      <span>Reports</span>
+    </div>
 
-        </div>
+  </div>
 
+</div>
       </div>
     </div>
   );
