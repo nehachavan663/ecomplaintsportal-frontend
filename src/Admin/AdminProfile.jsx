@@ -7,17 +7,12 @@ export default function AdminProfile() {
 const adminEmail = "admin@gmail.com";
 
 const [activeTab,setActiveTab]=useState("overview");
-
 const [showPasswordModal,setShowPasswordModal]=useState(false);
-const [show2FAModal,setShow2FAModal]=useState(false);
 const [showEditModal,setShowEditModal]=useState(false);
 
 const [profile,setProfile]=useState({});
 const [complaints,setComplaints]=useState([]);
-
 const [editData,setEditData]=useState({});
-
-const [otp,setOtp]=useState("");
 
 const [passwordData,setPasswordData]=useState({
 currentPassword:"",
@@ -31,10 +26,8 @@ const [profilePic,setProfilePic]=useState(
 "https://cdn-icons-png.flaticon.com/512/616/616408.png"
 );
 
-/* ================= FETCH DATA ================= */
-
+/* ================= FETCH ================= */
 useEffect(()=>{
-
 fetch(`https://ecomplaintsportal-backend.onrender.com/api/admin/profile/${adminEmail}`)
 .then(res=>res.json())
 .then(data=>{
@@ -45,74 +38,52 @@ setEditData(data);
 fetch("https://ecomplaintsportal-backend.onrender.com/api/complaints")
 .then(res=>res.json())
 .then(data=>setComplaints(data));
-
 },[]);
 
+/* ================= IMAGE ================= */
+const handleProfilePicUpload=(e)=>{
+const file=e.target.files[0];
+if(!file) return;
+
+const reader=new FileReader();
+reader.onload=(ev)=>setProfilePic(ev.target.result);
+reader.readAsDataURL(file);
+};
 
 /* ================= PROFILE UPDATE ================= */
-
 const handleProfileUpdate = async () => {
-
 try{
-
 const res = await fetch(`https://ecomplaintsportal-backend.onrender.com/api/admin/profile/update/${adminEmail}`,{
 method:"PUT",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify(editData)
 });
 
-if(!res.ok){
-throw new Error("Update failed");
-}
+if(!res.ok) throw new Error();
 
 const data = await res.json();
-
 setProfile(data);
 setShowEditModal(false);
 
-Swal.fire({
-icon:"success",
-title:"Profile Updated",
-text:"Your profile has been saved successfully"
-});
+Swal.fire("Success","Profile Updated","success");
 
-}catch(err){
-
-Swal.fire({
-icon:"error",
-title:"Update Failed",
-text:"Unable to update profile"
-});
-
+}catch{
+Swal.fire("Error","Update failed","error");
 }
-
 };
 
-
-/* ================= CHANGE PASSWORD ================= */
-
+/* ================= PASSWORD ================= */
 const handlePasswordUpdate = async () => {
 
 if(!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword){
-Swal.fire({
-icon:"warning",
-title:"Missing Fields",
-text:"Please enter all password fields"
-});
-return;
+return Swal.fire("Warning","Fill all fields","warning");
 }
 
 if(passwordData.newPassword !== passwordData.confirmPassword){
-Swal.fire({
-icon:"error",
-title:"Password mismatch",
-text:"New password and confirm password must match"
-});
-return;
+return Swal.fire("Error","Passwords do not match","error");
 }
 
 try{
-
 const res = await fetch("https://ecomplaintsportal-backend.onrender.com/api/admin/change-password",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -123,484 +94,179 @@ newPassword:passwordData.newPassword
 })
 });
 
-const message = await res.text();
+const msg = await res.text();
 
 if(!res.ok){
-Swal.fire({
-icon:"error",
-title:"Password Error",
-text:message
-});
-return;
+return Swal.fire("Error",msg,"error");
 }
 
 setShowPasswordModal(false);
+Swal.fire("Success","Password Updated","success");
 
-Swal.fire({
-icon:"success",
-title:"Password Updated",
-text:"Your password was changed successfully"
-});
-
-}catch(err){
-
-Swal.fire({
-icon:"error",
-title:"Server Error",
-text:"Password update failed"
-});
+}catch{
+Swal.fire("Error","Server error","error");
 }
 };
-
-
-/* ================= ENABLE 2FA ================= */
-
-const handleEnable2FA = async () => {
-
-try{
-
-const res = await fetch("https://ecomplaintsportal-backend.onrender.com/api/admin/enable-2fa",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-email:adminEmail,
-code:otp
-})
-});
-
-const message = await res.text();
-
-if(!res.ok){
-Swal.fire({
-icon:"error",
-title:"Invalid OTP",
-text:message
-});
-return;
-}
-
-setShow2FAModal(false);
-
-Swal.fire({
-icon:"success",
-title:"2FA Enabled",
-text:message
-});
-
-}catch(err){
-
-Swal.fire({
-icon:"error",
-title:"Server Error",
-text:"2FA request failed"
-});
-
-}
-
-};
-
-
-/* ================= IMAGE UPLOAD ================= */
-
-const handleProfilePicUpload=(e)=>{
-
-const file=e.target.files[0];
-
-if(!file) return;
-
-const reader=new FileReader();
-
-reader.onload=(event)=>{
-setProfilePic(event.target.result);
-};
-
-reader.readAsDataURL(file);
-
-};
-
 
 const recentActivity=complaints.slice(0,5);
 
-return(
+return (
 
 <div className="admin-profile-wrapper">
 
 {/* HEADER */}
-
 <div className="profile-top">
-
-<div className="header-text">
+<div>
 <h1>Account Settings</h1>
 <p>Manage profile, security and activity</p>
 </div>
-
 </div>
-
 
 {/* HERO */}
-
 <div className="profile-hero">
 
-<div className="avatar-container">
-
-<div
-className="avatar-wrapper"
-onClick={()=>fileInputRef.current.click()}
->
-
+<div className="avatar-wrapper" onClick={()=>fileInputRef.current.click()}>
 <img src={profilePic} alt="avatar"/>
-
-<input
-type="file"
-ref={fileInputRef}
-accept="image/*"
-onChange={handleProfilePicUpload}
-/>
-
+<input type="file" ref={fileInputRef} onChange={handleProfilePicUpload}/>
 <span className="online-dot"></span>
-
 </div>
-
-</div>
-
 
 <div className="hero-info">
-
 <h2>{profile.name || "Admin User"}</h2>
-
 <p>{profile.email}</p>
 
-<span className="role-badge">
-{profile.role || "Super Administrator"}
-</span>
-
-<button
-className="edit-profile-btn"
-onClick={()=>setShowEditModal(true)}
->
+<button className="edit-profile-btn" onClick={()=>setShowEditModal(true)}>
 Edit Profile
 </button>
-
 </div>
 
 </div>
-
 
 {/* TABS */}
-
 <div className="profile-tabs">
-
 {["overview","security","activity"].map(tab=>(
 <button
 key={tab}
 className={`tab-btn ${activeTab===tab?"active":""}`}
-onClick={()=>setActiveTab(tab)}
->
+onClick={()=>setActiveTab(tab)}>
 {tab}
 </button>
 ))}
-
 </div>
 
-
-{/* CONTENT */}
-
+{/* PANEL */}
 <div className="panel">
 
-
 {/* OVERVIEW */}
-
-{activeTab==="overview" &&(
-
+{activeTab==="overview" && (
 <>
-
 <div className="panel-title">Profile Information</div>
 
-<div className="info-row">
-<label>Department</label>
-<span>{profile.department}</span>
-</div>
-
-<div className="info-row">
-<label>Phone</label>
-<span>{profile.phone}</span>
-</div>
-
-<div className="info-row">
-<label>Employee ID</label>
-<span>{profile.employeeId}</span>
-</div>
-
-<div className="info-row">
-<label>Location</label>
-<span>{profile.location}</span>
-</div>
-
-<div className="info-row">
-<label>Joined</label>
-<span>{profile.joined}</span>
-</div>
+<div className="info-row"><label>Department</label><span>{profile.department}</span></div>
+<div className="info-row"><label>Phone</label><span>{profile.phone}</span></div>
+<div className="info-row"><label>Employee ID</label><span>{profile.employeeId}</span></div>
+<div className="info-row"><label>Location</label><span>{profile.location}</span></div>
+<div className="info-row"><label>Joined</label><span>{profile.joined}</span></div>
 
 <div className="bio-section">
 <h4>About</h4>
-<p>{profile?.bio || "Managing system operations and complaint workflow monitoring."}</p>
+<p>{profile?.bio || "Managing system operations."}</p>
 </div>
-
 </>
-
 )}
-
 
 {/* SECURITY */}
-
-{activeTab==="security" &&(
-
+{activeTab==="security" && (
 <>
-
-<div className="panel-title">Security Settings</div>
+<div className="panel-title">Security</div>
 
 <div className="security-box">
-
 <h4>Password</h4>
-
-<button
-className="outline-btn"
-onClick={()=>setShowPasswordModal(true)}
->
+<button className="outline-btn" onClick={()=>setShowPasswordModal(true)}>
 Update Password
 </button>
-
-</div>
-
-
-<div className="security-box">
-
-<h4>Two Factor Authentication</h4>
-
-<button
-className="outline-btn"
-onClick={()=>setShow2FAModal(true)}
->
-Enable 2FA
-</button>
-
 </div>
 
 </>
-
 )}
 
-
 {/* ACTIVITY */}
-
-{activeTab==="activity" &&(
-
+{activeTab==="activity" && (
 <>
-
-<div className="panel-title">Recent Activity</div>
+<div className="panel-title">Activity</div>
 
 {recentActivity.map((c,i)=>(
 <div key={i} className="activity-card">
-
 <div>
 <strong>{c.title}</strong>
 <p>{c.status}</p>
 </div>
-
 <span>{c.date}</span>
-
 </div>
 ))}
 
 </>
-
 )}
 
 </div>
 
-
-{/* EDIT PROFILE MODAL */}
-
-{showEditModal &&(
-
+{/* EDIT MODAL */}
+{showEditModal && (
 <div className="modal-overlay">
-
 <div className="modal-box">
 
-<button
-className="close-btn"
-onClick={()=>setShowEditModal(false)}
->
-✕
-</button>
+<button className="close-btn" onClick={()=>setShowEditModal(false)}>✕</button>
 
 <h3>Edit Profile</h3>
 
-<input
-placeholder="Name"
-value={editData.name || ""}
-onChange={(e)=>setEditData({...editData,name:e.target.value})}
-/>
+<input placeholder="Name" value={editData.name || ""}
+onChange={(e)=>setEditData({...editData,name:e.target.value})}/>
 
-<input
-placeholder="Phone"
-value={editData.phone || ""}
-onChange={(e)=>setEditData({...editData,phone:e.target.value})}
-/>
+<input placeholder="Phone" value={editData.phone || ""}
+onChange={(e)=>setEditData({...editData,phone:e.target.value})}/>
 
-<input
-placeholder="Department"
-value={editData.department || ""}
-onChange={(e)=>setEditData({...editData,department:e.target.value})}
-/>
+<input placeholder="Department" value={editData.department || ""}
+onChange={(e)=>setEditData({...editData,department:e.target.value})}/>
 
-<input
-placeholder="Location"
-value={editData.location || ""}
-onChange={(e)=>setEditData({...editData,location:e.target.value})}
-/>
-
-<textarea
-placeholder="Bio"
-value={editData.bio || ""}
-onChange={(e)=>setEditData({...editData,bio:e.target.value})}
-/>
+<textarea placeholder="Bio" value={editData.bio || ""}
+onChange={(e)=>setEditData({...editData,bio:e.target.value})}/>
 
 <div className="modal-actions">
-
-<button
-className="cancel-btn"
-onClick={()=>setShowEditModal(false)}
->
-Cancel
-</button>
-
-<button
-className="save-btn"
-onClick={handleProfileUpdate}
->
-Save
-</button>
-
+<button className="cancel-btn" onClick={()=>setShowEditModal(false)}>Cancel</button>
+<button className="save-btn" onClick={handleProfileUpdate}>Save</button>
 </div>
 
 </div>
-
 </div>
-
 )}
 
-
 {/* PASSWORD MODAL */}
-
-{showPasswordModal &&(
-
+{showPasswordModal && (
 <div className="modal-overlay">
-
 <div className="modal-box">
 
-<button
-className="close-btn"
-onClick={()=>setShowPasswordModal(false)}
->
-✕
-</button>
+<button className="close-btn" onClick={()=>setShowPasswordModal(false)}>✕</button>
 
 <h3>Update Password</h3>
 
-<input
-type="password"
-placeholder="Current Password"
-onChange={(e)=>setPasswordData({...passwordData,currentPassword:e.target.value})}
-/>
+<input type="password" placeholder="Current Password"
+onChange={(e)=>setPasswordData({...passwordData,currentPassword:e.target.value})}/>
 
-<input
-type="password"
-placeholder="New Password"
-onChange={(e)=>setPasswordData({...passwordData,newPassword:e.target.value})}
-/>
+<input type="password" placeholder="New Password"
+onChange={(e)=>setPasswordData({...passwordData,newPassword:e.target.value})}/>
 
-<input
-type="password"
-placeholder="Confirm Password"
-onChange={(e)=>setPasswordData({...passwordData,confirmPassword:e.target.value})}
-/>
+<input type="password" placeholder="Confirm Password"
+onChange={(e)=>setPasswordData({...passwordData,confirmPassword:e.target.value})}/>
 
 <div className="modal-actions">
-
-<button
-className="cancel-btn"
-onClick={()=>setShowPasswordModal(false)}
->
-Cancel
-</button>
-
-<button
-className="save-btn"
-onClick={handlePasswordUpdate}
->
-Update
-</button>
-
+<button className="cancel-btn" onClick={()=>setShowPasswordModal(false)}>Cancel</button>
+<button className="save-btn" onClick={handlePasswordUpdate}>Update</button>
 </div>
 
 </div>
-
 </div>
-
-)}
-
-
-{/* 2FA MODAL */}
-
-{show2FAModal &&(
-
-<div className="modal-overlay">
-
-<div className="modal-box">
-
-<button
-className="close-btn"
-onClick={()=>setShow2FAModal(false)}
->
-✕
-</button>
-
-<h3>Enable 2FA</h3>
-
-<input
-placeholder="Enter OTP"
-value={otp}
-maxLength={6}
-onChange={(e)=>setOtp(e.target.value)}
-/>
-
-<div className="modal-actions">
-
-<button
-className="cancel-btn"
-onClick={()=>setShow2FAModal(false)}
->
-Cancel
-</button>
-
-<button
-className="save-btn"
-onClick={handleEnable2FA}
->
-Enable
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 )}
 
 </div>
-
 );
-
 }
