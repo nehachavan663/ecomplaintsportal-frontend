@@ -3,7 +3,6 @@ import "./Faqs.css";
 
 export default function Faqs() {
   const [activeIndex, setActiveIndex] = useState(null);
-  const [search, setSearch] = useState("");
 
   const faqs = [
     {
@@ -33,55 +32,36 @@ export default function Faqs() {
     },
   ];
 
-  const filteredFaqs = faqs.filter((faq) =>
-    faq.question.toLowerCase().includes(search.toLowerCase())
-  );
-
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
-    
     <div className="faq-wrapper">
       <div className="faq-header">
         <h1>Frequently Asked Questions</h1>
         <p>Find answers to common questions about the complaint system.</p>
-
-        <input
-          type="text"
-          placeholder="Search questions..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="faq-search"
-        />
       </div>
 
       <div className="faq-container">
-        {filteredFaqs.length > 0 ? (
-          filteredFaqs.map((faq, index) => (
-            <div
-              key={index}
-              className={`faq-item ${
-                activeIndex === index ? "active" : ""
-              }`}
-              onClick={() => toggleFAQ(index)}
-            >
-              <div className="faq-question">
-                <h3>{faq.question}</h3>
-                <span>{activeIndex === index ? "-" : "+"}</span>
-              </div>
-
-              {activeIndex === index && (
-                <div className="faq-answer">
-                  <p>{faq.answer}</p>
-                </div>
-              )}
+        {faqs.map((faq, index) => (
+          <div
+            key={index}
+            className={`faq-item ${activeIndex === index ? "active" : ""}`}
+            onClick={() => toggleFAQ(index)}
+          >
+            <div className="faq-question">
+              <h3>{faq.question}</h3>
+              <span>{activeIndex === index ? "-" : "+"}</span>
             </div>
-          ))
-        ) : (
-          <p className="no-results">No matching questions found.</p>
-        )}
+
+            {activeIndex === index && (
+              <div className="faq-answer">
+                <p>{faq.answer}</p>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
