@@ -1,12 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import "./contact.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 
 function Contact() {
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  const [loading, setLoading] = useState(false); // ✅ NEW
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setLoading(true); // ✅ START LOADING
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/contact",
+        formData
+      );
+
+      // ✅ SUCCESS POPUP
+      Swal.fire({
+        icon: "success",
+        title: "Message Sent!",
+        text: res.data,
+        confirmButtonColor: "#3085d6"
+      });
+
+      // ✅ RESET FORM
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: ""
+      });
+
+    } catch (error) {
+      console.error(error);
+
+      // ❌ ERROR POPUP
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        confirmButtonColor: "#d33"
+      });
+    }
+
+    setLoading(false); // ✅ STOP LOADING
+  };
+
   return (
     <HomeLayout>
       <section className="contact-page">
+
         <h1>Contact & Support</h1>
 
         <p className="subtitle">
@@ -29,31 +91,13 @@ function Contact() {
               <p><strong>Company:</strong> Ecomplaintsportal</p>
               <p><strong>Email:</strong> support@ecomplaintsportal.com</p>
               <p><strong>Phone:</strong> +91 XXXXX XXXXX</p>
-              <p>
-                <strong>Business Hours:</strong><br />
-                Monday - Friday : 9AM - 6PM<br />
-                Saturday : 10AM - 2PM
-              </p>
             </div>
 
             <div className="card">
               <h3>Quick Support</h3>
               <p>• Complaint Submission Issues</p>
               <p>• Login / Account Problems</p>
-              <p>• Complaint Status Tracking</p>
               <p>• Technical Errors & Bugs</p>
-              <p>• Feedback & Suggestions</p>
-            </div>
-
-            <div className="card">
-              <h3>Response Time</h3>
-              <p>
-                Our support team usually responds within
-                <strong> 24 working hours</strong>.
-              </p>
-              <p>
-                Critical technical issues are prioritized and handled faster.
-              </p>
             </div>
 
           </div>
@@ -61,22 +105,46 @@ function Contact() {
           {/* RIGHT SIDE */}
           <div className="right-section">
 
-            <form className="contact-form">
+            <form className="contact-form" onSubmit={handleSubmit}>
               <h3>Send Us a Message</h3>
 
-              <input placeholder="Full Name" />
-              <input placeholder="Email Address" />
-              <input placeholder="Subject" />
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Full Name"
+                required
+              />
+
+              <input
+                type="email"   // ✅ EMAIL VALIDATION
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email Address"
+                required
+              />
+
+              <input
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Subject"
+                required
+              />
 
               <textarea
-                placeholder="Write your message with complete details so we can assist you faster..."
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Write your message..."
+                required
               ></textarea>
 
-              <button type="submit">Send Message</button>
+              <button type="submit" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
+              </button>
 
-              <p className="form-note">
-                By submitting this form, you agree to our privacy and support policies.
-              </p>
             </form>
 
             <div className="card">
@@ -86,17 +154,10 @@ function Contact() {
               <p>Instagram : @Ecomplaintsportal</p>
             </div>
 
-            <div className="card">
-              <h3>Urgent Support Notice</h3>
-              <p>
-                For urgent system outages or security concerns,
-                please mention <strong>"URGENT"</strong> in the subject line.
-              </p>
-            </div>
-
           </div>
 
         </div>
+
       </section>
     </HomeLayout>
   );

@@ -33,6 +33,7 @@ import ManageComplaint from "./Admin/ManageComplaint";
 import Reports from "./Admin/Reports";
 import AdminProfile from "./Admin/AdminProfile";
 import ManageDepartments from "./Admin/ManageDepartments";
+import ViewMessages from "./Admin/ViewMessages";
 
 /* ---------- DEPARTMENT ---------- */
 import DepartmentDashboard from "./Department/DepartmentDashboard";
@@ -76,6 +77,7 @@ function App() {
               <Route path="manage-department" element={<ManageDepartments />} />
               <Route path="reports" element={<Reports />} />
               <Route path="profile" element={<AdminProfile />} />
+              <Route path="/admin/view-messages" element={<ViewMessages />} />
             </Route>
 
             {/* ================= 404 ================= */}

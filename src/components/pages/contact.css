@@ -7,6 +7,13 @@
 body {
   margin: 0;
 }
+.subtitle {
+  color: #e8f5e9;
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: 20px;
+}
 
 /* BACKGROUND */
 .contact-page {
