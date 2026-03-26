@@ -342,3 +342,23 @@ section {
   position: relative;
   z-index: 1;
 }
+.hero-points {
+  list-style: none;   /* remove default bullets */
+  padding: 0;
+  margin: 10px 0;
+}
+
+.hero-points li {
+  display: flex;          /* 🔥 KEY FIX */
+  align-items: center;    /* vertical alignment */
+  gap: 8px;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.stat h3 {
+  transition: 0.3s;
+}
+
+.stat:hover h3 {
+  transform: scale(1.1);
+}
