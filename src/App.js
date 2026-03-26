@@ -77,9 +77,8 @@ function App() {
               <Route path="manage-department" element={<ManageDepartments />} />
               <Route path="reports" element={<Reports />} />
               <Route path="profile" element={<AdminProfile />} />
-              <Route path="/admin/view-messages" element={<ViewMessages />} />
-            </Route>
-
+              <Route path="view-messages" element={<ViewMessages />} />
+            </Route >
             {/* ================= 404 ================= */}
             <Route
               path="*"
