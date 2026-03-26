@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import "./Home.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 import { FaFileAlt, FaSearch, FaUserShield, FaBell } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";   // ✅ ADD THIS
+  // ✅ ADD THIS
 
 import img1 from "./Images/hero.png";
 import img2 from "./Images/hero2.webp";
@@ -19,22 +20,18 @@ const navigate = useNavigate();
 const [stats, setStats] = useState({
   total: 0,
   resolved: 0,
-  users: 0
+  studentCount: 0
 });
 useEffect(() => {
-  const fetchStats = () => {
-    axios.get("https://ecomplaintsportal-backend.onrender.com/api/admin/dashboard")
-      .then(res => {
-        setStats(res.data);
-      })
-      .catch(err => console.log(err));
-  };
-
-  fetchStats();
-
-  const interval = setInterval(fetchStats, 5000); // 🔥 auto update
-
-  return () => clearInterval(interval);
+  axios.get("https://ecomplaintsportal-backend.onrender.com/api/admin/dashboard")
+    .then(res => {
+      setStats({
+        total: res.data.total || 0,
+        resolved: res.data.resolved || 0,
+        studentCount: res.data.studentCount || 0
+      });
+    })
+    .catch(err => console.log(err));
 }, []);
 
 const handleProtectedNav = (path) => {
@@ -275,7 +272,7 @@ const handleProtectedNav = (path) => {
 </div>
 
 <div className="stat">
-  <h3>{stats.users || 0}+</h3>
+ <h3>{stats.studentCount}+</h3>
   <p>Students</p>
 </div>
 </section>
