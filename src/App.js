@@ -78,8 +78,7 @@ function App() {
               <Route path="reports" element={<Reports />} />
               <Route path="profile" element={<AdminProfile />} />
               <Route path="view-messages" element={<ViewMessages />} />
-            </Route>
-
+            </Route >
             {/* ================= 404 ================= */}
             <Route
               path="*"
