@@ -7,8 +7,6 @@ function Help() {
     <section className="help-page">
       <h1>Help Center</h1>
 
-      <input className="search" placeholder="Search help topics..." />
-
       <div className="card">
         <h3>📌 Getting Started</h3>
         <p>Create an account and submit your complaint through dashboard.</p>
