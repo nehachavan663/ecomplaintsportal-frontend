@@ -1,68 +1,96 @@
 import React from "react";
 import HomeLayout from "../../layouts/HomeLayouts";
-import "./privacy.css";   // make sure this file exists
+import "./privacy.css";
 
 function Privacy() {
+  const cards = [
+    {
+      title: "Info Collection",
+      desc: "We collect essential data for complaint registration and service improvement.",
+     icon: (
+  <path
+    d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"
+    fill="#2e7d32"
+  />
+)
+    },
+    {
+      title: "Data Protection",
+      desc: "Your information is securely stored and never shared without consent.",
+      icon: (
+  <>
+    <rect x="5" y="11" width="14" height="10" rx="2" fill="#2e7d32" />
+    <path d="M8 11V7a4 4 0 118 0v4" stroke="#fff" strokeWidth="2" />
+  </>
+)
+    
+    },
+    {
+      title: "Secure Processing",
+      desc: "We ensure safe complaint handling with modern security systems.",
+icon: (
+  <>
+    <path d="M5 3h10l4 4v14H5z" fill="#2e7d32" />
+    <path d="M9 12h6M9 16h6M9 8h6" stroke="#fff" strokeWidth="2" />
+  </>
+)
+    },
+    {
+      title: "Fast Handling",
+      desc: "Complaints are processed quickly with real-time tracking support.",
+      icon: (
+  <>
+    <circle cx="12" cy="12" r="9" fill="#2e7d32" />
+    <path d="M12 8v4l2 2" stroke="#fff" strokeWidth="2" />
+  </>
+)
+    },
+    {
+      title: "Transparency",
+      desc: "Users can track every step of complaint resolution clearly.",
+      icon: (
+  <>
+    <circle cx="12" cy="12" r="9" fill="#2e7d32" />
+    <path d="M12 6v6l4 2" stroke="#fff" strokeWidth="2" />
+  </>
+)
+    },
+    {
+      title: "User Rights",
+      desc: "You can access, update, or delete your data anytime.",
+    icon: (
+  <>
+    <circle cx="12" cy="12" r="9" fill="#2e7d32" />
+    <path d="M12 8v8M8 12h8" stroke="#fff" strokeWidth="2" />
+  </>
+)
+    }
+    
+  ];
+
   return (
     <HomeLayout>
       <section className="privacy-page">
         <h1>Privacy & Data Protection</h1>
 
-        <div className="card">
-          <h3>Our Commitment to Privacy</h3>
-          <p>
-            At Ecomplaintsportal, we value your trust. Protecting your
-            personal information is a top priority, and we ensure that
-            all data is handled responsibly and securely.
-          </p>
-        </div>
+        <div className="card-container">
+          {cards.map((card, index) => (
+            <div className="card" key={index}>
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="#2e7d32"
+            
+                >
+                  {card.icon}
+                </svg>
+              </div>
 
-        <div className="card">
-          <h3>Information We Collect</h3>
-          <p>
-            We collect only essential information required for complaint
-            registration, tracking, and communication. This may include
-            your name, contact details, and complaint-related information.
-          </p>
+              <h3>{card.title}</h3>
+              <p>{card.desc}</p>
+            </div>
+          ))}
         </div>
-
-        <div className="card">
-          <h3>How We Use Your Information</h3>
-          <ul>
-            <li>To register and process complaints efficiently</li>
-            <li>To provide status updates and notifications</li>
-            <li>To improve platform performance and user experience</li>
-            <li>To ensure system monitoring and security</li>
-          </ul>
-        </div>
-
-        <div className="card">
-          <h3>Data Security Measures</h3>
-          <p>
-            We implement authentication controls, secure servers,
-            and encrypted technologies to safeguard your data
-            against unauthorized access or misuse.
-          </p>
-        </div>
-
-        <div className="card">
-          <h3>Your Rights</h3>
-          <p>
-            You have the right to request access, correction,
-            or deletion of your personal data at any time.
-          </p>
-        </div>
-
-        <div className="card">
-          <h3>Company Responsibility</h3>
-          <p>
-            This platform is developed and maintained by
-            <strong> Fourise Software Solutions Pvt. Ltd.</strong>,
-            committed to maintaining high standards of privacy,
-            transparency, and digital security.
-          </p>
-        </div>
-
       </section>
     </HomeLayout>
   );
