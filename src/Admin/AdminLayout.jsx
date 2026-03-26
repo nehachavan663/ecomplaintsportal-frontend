@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import logo from "../components/Home/Images/elogo1.png";
 
 import "./AdminDashboard.css";
 import { useLocation } from "react-router-dom";
@@ -26,10 +27,16 @@ useEffect(() => {
 
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "show" : ""}`}>
-        <div className="sidebar-header">
+
+  <div className="sidebar-header">
     <button className="close-btn" onClick={() => setOpen(false)}>
       <FaTimes />
     </button>
+  </div>
+
+  {/* ✅ ADD THIS LOGO BLOCK HERE */}
+  <div className="sidebar-logo">
+    <img src={logo} alt="logo" />
   </div>
       
 <nav>

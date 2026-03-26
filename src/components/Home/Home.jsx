@@ -4,6 +4,7 @@ import HomeLayout from "../../layouts/HomeLayouts";
 import { FaFileAlt, FaSearch, FaUserShield, FaBell } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";   // ✅ ADD THIS
 
 import img1 from "./Images/hero.png";
 import img2 from "./Images/hero2.webp";
@@ -11,9 +12,30 @@ import img3 from "./Images/image.png";
 
 const images = [img1, img2, img3];
 
+
 function Home() {
   const isLoggedIn = localStorage.getItem("user");
 const navigate = useNavigate();
+const [stats, setStats] = useState({
+  total: 0,
+  resolved: 0,
+  users: 0
+});
+useEffect(() => {
+  const fetchStats = () => {
+    axios.get("https://ecomplaintsportal-backend.onrender.com/api/admin/dashboard")
+      .then(res => {
+        setStats(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
+  fetchStats();
+
+  const interval = setInterval(fetchStats, 5000); // 🔥 auto update
+
+  return () => clearInterval(interval);
+}, []);
 
 const handleProtectedNav = (path) => {
   if (!isLoggedIn) {
@@ -53,13 +75,12 @@ const handleProtectedNav = (path) => {
             <div className="hero-left">
               <h1>Online Complaint Management System</h1>
 
-              <ul className="hero-points">
-                <li>✔ Easy complaint registration</li>
-                <li>✔ Real-time tracking</li>
-                <li>✔ Fast admin resolution</li>
-                <li>✔ Transparent & paperless</li>
-              </ul>
-
+             <ul className="hero-points">
+  <li>✔ Easy complaint registration</li>
+  <li>✔ Real-time tracking</li>
+  <li>✔ Fast admin resolution</li>
+  <li>✔ Transparent & paperless</li>
+</ul>
               <div className="hero-buttons">
   <button
     className="primary-btn"
@@ -234,12 +255,29 @@ const handleProtectedNav = (path) => {
 </section>
 {/* STATS */}
 <section className="stats">
-  <div className="stats-grid">
-    <div className="stat"><h3>10k+</h3><p>Complaints</p></div>
-    <div className="stat"><h3>98%</h3><p>Resolved</p></div>
-    <div className="stat"><h3>24h</h3><p>Response</p></div>
-    <div className="stat"><h3>5k+</h3><p>Students</p></div>
-  </div>
+  <div className="stat">
+  <h3>{stats.total}</h3>
+  <p>Complaints</p>
+</div>
+
+<div className="stat">
+  <h3>
+    {stats.total > 0 
+      ? Math.round((stats.resolved / stats.total) * 100) 
+      : 0}%
+  </h3>
+  <p>Resolved</p>
+</div>
+
+<div className="stat">
+  <h3>24h</h3> {/* keep static if no backend */}
+  <p>Response</p>
+</div>
+
+<div className="stat">
+  <h3>{stats.users || 0}+</h3>
+  <p>Students</p>
+</div>
 </section>
 
 {/* TESTIMONIAL */}

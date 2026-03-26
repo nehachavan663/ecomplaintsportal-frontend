@@ -34,6 +34,7 @@ const [stats, setStats] = useState({
 });
 
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     axios.get("https://ecomplaintsportal-backend.onrender.com/api/admin/dashboard")
@@ -61,26 +62,45 @@ const [stats, setStats] = useState({
       },
     ],
   };
+const hasCategoryData =
+  stats.categoryStats && Object.keys(stats.categoryStats).length > 0;
 
- const labels = Object.keys(stats.departmentStats || {});
-const data = Object.values(stats.departmentStats || {});
+let labels = [];
+let data = [];
 
+if (hasCategoryData) {
+  // ✅ REAL DATA (BEST CASE)
+  labels = Object.keys(stats.categoryStats);
+  data = Object.values(stats.categoryStats);
+
+} else if (stats.total > 0) {
+  // ✅ FALLBACK → SHOW STATUS DISTRIBUTION
+  labels = ["Pending", "In Progress", "Resolved"];
+  data = [
+    stats.pending || 0,
+    stats.inProgress || 0,
+    stats.resolved || 0
+  ];
+
+} else {
+  // ✅ NO DATA AT ALL
+  labels = ["No Data"];
+  data = [1];
+}
 const categoryData = {
-  labels: labels,
+  labels,
   datasets: [
     {
-      data: data,
-      backgroundColor: [
-        "#4CAF50",
-        "#FF9800",
-        "#2196F3",
-        "#9C27B0",
-        "#00BCD4",
-        "#E91E63",
-        "#FFC107",
-        "#795548",
-        "#607D8B"
-      ]
+      data,
+      backgroundColor: hasCategoryData
+        ? [
+            "#4CAF50",
+            "#FF9800",
+            "#2196F3",
+            "#9C27B0",
+            "#00BCD4"
+          ]
+        : ["#ff9f43", "#9b59b6", "#38b764"], // match bar chart
     }
   ]
 };
@@ -126,23 +146,31 @@ const categoryData = {
       <div className="dashboard-grid">
 
         <div className="panel chart">
-          <Bar data={chartData} options={{ responsive: true }} />
+         <Bar 
+  data={chartData} 
+  options={{ 
+    responsive: true,
+    maintainAspectRatio: false   // 🔥 MUST
+  }} 
+/>
         </div>
 
         <div className="panel chart">
           <h3>Complaints by Category</h3>
-        {categoryData.datasets[0].data.some(v => v > 0) ? (
-  <Pie
-    data={categoryData}
-    options={{
-      plugins: {
-        legend: {
-          display: true
-        }
-      },
-      maintainAspectRatio: false
-    }}
-  />
+       {true ? (
+ <Pie
+  data={categoryData}
+  options={{
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom"   // 🔥 better for mobile
+      }
+    }
+  }}
+/>
 ) : (
   <div style={{textAlign:"center", padding:"40px", color:"#777"}}>
     No category data available
