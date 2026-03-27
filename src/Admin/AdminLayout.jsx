@@ -6,6 +6,8 @@ import "./AdminDashboard.css";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
+import { FaComments } from "react-icons/fa";
+
 import {
   FaTachometerAlt,
   FaClipboardList,
@@ -70,6 +72,14 @@ useEffect(() => {
     onClick={() => setOpen(false)}
   >
     <FaChartBar /> Reports
+  </NavLink>
+
+  <NavLink
+    to="/admin/view-messages"
+    className={({ isActive }) => (isActive ? "active" : "")}
+    onClick={() => setOpen(false)}
+  >
+   <FaComments /> Contact Messages
   </NavLink>
 
   <NavLink
