@@ -362,3 +362,28 @@ section {
 .stat:hover h3 {
   transform: scale(1.1);
 }
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+
+  padding: 40px 20px;
+  gap: 20px;
+}
+
+/* each stat */
+.stat-box {
+  flex: 1;
+}
+
+.stat-box h2 {
+  color: #1f8f4e;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.stat-box p {
+  color: #444;
+  font-size: 16px;
+}
