@@ -37,9 +37,9 @@ useEffect(() => {
   </div>
 
   {/* ✅ ADD THIS LOGO BLOCK HERE */}
-  <div className="sidebar-logo">
-    <img src={logo} alt="logo" />
-  </div>
+ <div className="logo-container">
+  <img src={logo} alt="logo" className="logo-img" />
+</div>
       
 <nav>
   <NavLink
