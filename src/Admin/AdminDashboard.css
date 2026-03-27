@@ -654,7 +654,7 @@ th, td {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding: 10px 15px;
+  
 }
 
 /* ===== FIX LOGO GAP ===== */
@@ -671,6 +671,22 @@ th, td {
   max-width: 100%;
   height: auto;
   display: block;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* align left like heading */
+  padding: 0;                 /* ❌ remove space */
+  margin: 0;                  /* ❌ remove space */
+}
+
+.logo-img {
+  width: 180px;               /* adjust size */
+  height: auto;
+  display: block;
+
+  margin: 0;                  /* ❌ remove extra gap */
+  padding: 0;                 /* ❌ remove space */
 }
 
 /* MOBILE */
