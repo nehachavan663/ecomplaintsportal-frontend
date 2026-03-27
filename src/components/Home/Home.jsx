@@ -252,28 +252,30 @@ const handleProtectedNav = (path) => {
 </section>
 {/* STATS */}
 <section className="stats">
-  <div className="stat">
-  <h3>{stats.total}</h3>
-  <p>Complaints</p>
-</div>
+ 
 
-<div className="stat">
-  <h3>
-    {stats.total > 0 
-      ? Math.round((stats.resolved / stats.total) * 100) 
-      : 0}%
-  </h3>
-  <p>Resolved</p>
-</div>
+<div className="stats-container">
 
-<div className="stat">
-  <h3>24h</h3> {/* keep static if no backend */}
-  <p>Response</p>
-</div>
+  <div className="stat-box">
+    <h2>{stats.total}</h2>
+    <p>Complaints</p>
+  </div>
 
-<div className="stat">
- <h3>{stats.studentCount}+</h3>
-  <p>Students</p>
+  <div className="stat-box">
+    <h2>{stats.resolvedPercentage || 0}%</h2>
+    <p>Resolved</p>
+  </div>
+
+  <div className="stat-box">
+    <h2>24h</h2>
+    <p>Response</p>
+  </div>
+
+  <div className="stat-box">
+    <h2>{stats.studentCount || 0}+</h2>
+    <p>Students</p>
+  </div>
+
 </div>
 </section>
 
