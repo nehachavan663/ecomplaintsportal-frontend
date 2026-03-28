@@ -27,38 +27,38 @@ function ViewMessages() {
 
   const sendReply = async (id) => {
 
-    if (!reply[id]) {
-      Swal.fire("Warning", "Please enter a reply", "warning");
-      return;
-    }
+  if (!reply[id] || reply[id].trim() === "") {
+    Swal.fire("Warning", "Please enter a reply", "warning");
+    return;
+  }
 
-    try {
-      await axios.put(
-        `https://ecomplaintsportal-backend.onrender.com/api/contact/${id}`,
-        { adminResponse: reply[id] }
-      );
+  try {
+    await axios.put(
+      `https://ecomplaintsportal-backend.onrender.com/api/contact/${id}`,
+      { adminResponse: reply[id] }
+    );
 
-      Swal.fire({
-        icon: "success",
-        title: "Reply Sent!",
-        text: "Email sent successfully 📧",
-        timer: 2000,
-        showConfirmButton: false
-      });
+    Swal.fire({
+      icon: "success",
+      title: "Reply Sent!",
+      text: "Email sent successfully 📧",
+      timer: 2000,
+      showConfirmButton: false
+    });
 
-      fetchMessages();
+    setReply({ ...reply, [id]: "" }); // ✅ clear box
+    fetchMessages();
 
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: err.response?.status === 404
-          ? "Backend not updated (redeploy required)"
-          : "Failed to send reply"
-      });
-    }
-  };
+  } catch (err) {
+    console.error(err);
 
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Failed to send reply"
+    });
+  }
+};
   return (
     <div className="messages-container">
 
@@ -69,13 +69,13 @@ function ViewMessages() {
       ) : (
         <table className="messages-table">
          <thead>
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Subject</th>   {/* ✅ added */}
-    <th>Message</th>
-    <th>Reply</th>
-  </tr>
+ <tr>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Subject</th>
+  <th>Message</th>
+  <th>Reply</th>
+</tr>
 </thead>
 
 <tbody>
@@ -95,11 +95,12 @@ function ViewMessages() {
           </div>
         )}
 
-        <textarea
-          className="reply-box"
-          placeholder="Type your reply..."
-          onChange={(e) => handleChange(msg.id, e.target.value)}
-        />
+     <textarea
+  className="reply-box"
+  placeholder="Type your reply..."
+  value={reply[msg.id] || ""}   // ✅ ADD THIS
+  onChange={(e) => handleChange(msg.id, e.target.value)}
+/>
 
         <button
           className="send-btn"
