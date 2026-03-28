@@ -113,9 +113,13 @@ const filteredMessages = messages.filter((msg) => {
   return matchesSearch && matchesStatus;
 });
 const handleDelete = async (id) => {
+  if (!id) {
+    Swal.fire("Error", "Invalid ID", "error");
+    return;
+  }
+
   const confirm = await Swal.fire({
     title: "Delete message?",
-    text: "This cannot be undone!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#ef4444",
@@ -129,9 +133,13 @@ const handleDelete = async (id) => {
       `https://ecomplaintsportal-backend.onrender.com/api/contact/${id}`
     );
 
+    // 🔥 instant UI update
+    setMessages(prev => prev.filter(m => (m.id || m._id) !== id));
+
     Swal.fire("Deleted!", "Message removed", "success");
-    fetchMessages();
-  } catch {
+
+  } catch (err) {
+    console.error(err);
     Swal.fire("Error", "Delete failed", "error");
   }
 };
@@ -212,64 +220,66 @@ const handleDelete = async (id) => {
             </thead>
 
             <tbody>
-  {filteredMessages.map((msg) => (
-   <tr key={msg._id}>
-      
-      <td>{msg.name}</td>
-      <td>{msg.email}</td>
-      <td>{msg.subject}</td>
-      <td>{msg.message}</td>
+  {filteredMessages.map((msg) => {
+    const id = msg.id || msg._id;   // 🔥 universal fix
 
-      {/* ✅ REPLY COLUMN */}
-      <td className="reply-cell">
-        {msg.adminResponse ? (
-          <>
-            <div
-              className="old-reply"
-              onClick={() =>
-                Swal.fire("Full Reply", msg.adminResponse)
-              }
+    return (
+      <tr key={id}>
+        
+        <td>{msg.name}</td>
+        <td>{msg.email}</td>
+        <td>{msg.subject}</td>
+        <td>{msg.message}</td>
+
+        <td className="reply-cell">
+          {msg.adminResponse ? (
+            <>
+              <div
+                className="old-reply"
+                onClick={() =>
+                  Swal.fire("Full Reply", msg.adminResponse)
+                }
+              >
+                {highlightText(msg.adminResponse, debouncedSearch)}
+              </div>
+
+              <span className="status replied">✔ Replied</span>
+            </>
+          ) : (
+            <>
+              <span className="status pending">No Reply</span>
+
+              <button
+                className="send-btn"
+                onClick={() => sendReply(id)}
+              >
+                ↩ Reply
+              </button>
+            </>
+          )}
+        </td>
+
+        <td className="action-cell">
+          <div>
+            <button
+              className="edit-btn"
+              onClick={() => sendReply(id)}
             >
-              {highlightText(msg.adminResponse, debouncedSearch)}
-            </div>
-
-            <span className="status replied">✔ Replied</span>
-          </>
-        ) : (
-          <>
-            <span className="status pending">No Reply</span>
+              <i className="bi bi-pencil"></i>
+            </button>
 
             <button
-              className="send-btn"
-              onClick={() => sendReply(msg.id)}
+              className="delete-btn"
+              onClick={() => handleDelete(id)}
             >
-              ↩ Reply
+              <i className="bi bi-trash"></i>
             </button>
-          </>
-        )}
-      </td>
+          </div>
+        </td>
 
-      {/* ✅ ACTION COLUMN */}
-   <td className="action-cell">
-  <div>
-    <button
-      className="edit-btn"
-      onClick={() => sendReply(msg.id)}
-    >
-      <i className="bi bi-pencil"></i>
-    </button>
-
-    <button
-      className="delete-btn"
-     onClick={() => handleDelete(msg._id)}
-    >
-      <i className="bi bi-trash"></i>
-    </button>
-  </div>
-</td>
-
-    </tr>
-  ))}
+      </tr>
+    );
+  })}
 </tbody>
           </table>
         </div>
