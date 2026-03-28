@@ -1,112 +1,430 @@
-/* ===============================
-   PAGE BACKGROUND
-================================ */
+/* PAGE */
 .messages-container {
   min-height: calc(100vh - 100px);
   background: linear-gradient(180deg, #eafaf2, #fefff4);
   padding: 20px;
 }
 
-/* ===============================
-   TITLE CARD
-================================ */
+/* TITLE */
 .messages-container h2 {
-  background: #ffffff;
+  background: #fff;
   padding: 18px 24px;
   border-radius: 18px;
-  box-shadow: 0 20px 30px rgba(0,0,0,.08);
+  box-shadow: 0 15px 25px rgba(0,0,0,.08);
   margin-bottom: 20px;
   color: #366343;
 }
 
-/* ===============================
-   TABLE CARD
-================================ */
-.messages-table {
+/* TABLE */
+.table-wrapper {
+  overflow-x: auto;
   width: 100%;
-  border-collapse: collapse;
-  background: #ffffff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0,0,0,.08);
 }
 
-/* ===============================
-   TABLE HEADER
-================================ */
+.messages-table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 25px rgba(0,0,0,.08);
+}
+
+/* HEADER */
 .messages-table th {
   background: #ffe8b3;
   color: #065f46;
   padding: 14px;
   text-align: center;
-  font-weight: 600;
+  border-right: 1px solid #f3faf6;
+  border-bottom: 1px solid #e6f7ef;
 }
-
-/* ===============================
-   TABLE BODY
-================================ */
-.messages-table td {
-  padding: 14px;
-  text-align: center;
+.messages-table tbody tr {
   background: #f8fff9;
-  border-bottom: 1px solid #d1fae5;
 }
 
-.messages-table tr:hover td {
-  background: #d1fae5;
-  transition: 0.2s;
+.messages-table tbody tr:hover {
+  background: #e6f9ec;   /* 🔥 clean single color */
+}
+/* BODY */
+.messages-table td {
+  padding: 12px 10px;
+  background: transparent;  
+  text-align: center;
+  border-right: 1px solid #f3faf6;
+  border-bottom: 1px solid #edfdf4;
+  white-space: nowrap; /* 🔥 Changed to nowrap to keep rows single-line */
+    overflow: visible; 
+  text-overflow: ellipsis;
+}
+.status,
+.send-btn {
+  flex-shrink: 0;   
+}
+.messages-table tr {
+  transition: all 0.2s ease;
 }
 
-/* ===============================
-   REPLY COLUMN
-================================ */
+.messages-table tr:hover {
+  transform: scale(1.002);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+/* REMOVE LAST BORDER */
+.messages-table td:last-child,
+.messages-table th:last-child {
+  border-right: none;
+}
+/* SMOOTH ROW HOVER */
+.messages-table tr {
+  transition: all 0.2s ease;
+}
+
+/* Optional subtle lift */
+.messages-table tr:hover {
+  transform: scale(1.002);
+}
+.old-reply:hover {
+  background: #bbf7d0;
+}
+
+
+/* REPLY CELL - FIXED FOR ONE LINE */
 .reply-cell {
   display: flex;
-  flex-direction: row;   /* ✅ change from column → row */
+  flex-direction: row;
   align-items: center;
   gap: 12px;
+
+  white-space: nowrap;
+  overflow-x: auto;        /* 🔥 ENABLE SCROLL */
+  max-width: 280px;        /* 🔥 FIX WIDTH */
+  scrollbar-width: thin;
+}
+.status.replied {
+  background: #bbf7d0;
 }
 
-/* ===============================
-   TEXTAREA
-================================ */
-.reply-box {
-  flex: 1;              /* ✅ take full space */
-  min-height: 60px;
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid #bbf7d0;
-  background: #f8fff9;
+.status.pending {
+  background: #fecaca;
 }
 
-.reply-box:focus {
-  border-color: #22c55e;
-  box-shadow: 0 0 0 2px rgba(34,197,94,.2);
+/* OLD REPLY */
+.old-reply {
+  font-size: 12px;
+ background: #ecfdf5;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: #065f46;
+  max-width: 180px;
+  white-space: nowrap;        
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.messages-table tbody tr:hover .old-reply {
+  background: #d1fae5;   /* subtle change */
+}
+.messages-table tbody tr:hover .status.replied {
+  background: #bbf7d0;
 }
 
-/* ===============================
-   SEND BUTTON (MATCH STYLE)
-================================ */
+/* STATUS */
+.status {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap; /* Keep badge on one line */
+}
+
+.status.replied {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status.pending {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* BUTTON */
 .send-btn {
-  height: 42px;
-  padding: 0 18px;
-  border-radius: 30px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 20px;
+  border: none;
+  background: #bbf7d0;
+  color: #065f46;
+  font-weight: 600;
+  cursor: pointer;
   white-space: nowrap;
 }
 
 .send-btn:hover {
   background: #22c55e;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0,0,0,.15);
+  color: #fff;
 }
 
-/* ===============================
-   EMPTY TEXT
-================================ */
-.messages-container p {
+/* LOADER */
+.vm-loading-wrapper {
   text-align: center;
-  color: #166534;
+}
+
+.vm-loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #d1fae5;
+  border-top: 4px solid #22c55e;
+  border-radius: 50%;
+  margin: auto;
+  animation: spin 0.8s linear infinite;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+/* INPUT */
+.filter-bar input {
+  flex: 1;
+  min-width: 200px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 20px;
+  border: 1px solid #d1fae5;
+  outline: none;
+}
+
+/* RESET BUTTON */
+.reset-btn {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 20px;
+  border: none;
+  background:#38ed7a;
+  color: #1a1a1a;
   font-weight: 600;
-  margin-top: 20px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background:#38ed7a;
+  color: #8db48e;
+}
+
+/* DROPDOWN */
+.filter-bar select {
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 20px;
+  border: 1px solid #d1fae5;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ===== MODERN FILTER BAR ===== */
+.filter-bar-modern {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* FILTER BOX */
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #e6f9ec;
+  border: 2px solid #86efac;
+  padding: 10px 16px;
+  border-radius: 40px;
+  min-height: 55px;
+}
+
+/* SEARCH BIG */
+.filter-item.search {
+  flex: 1;
+}
+
+/* INPUT + SELECT */
+.filter-item input,
+.filter-item select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: #065f46;
+}
+
+/* ICON */
+.filter-item span {
+  font-size: 18px;
+  color: #16a34a;
+}
+
+/* RESET BUTTON */
+.reset-btn-modern {
+  height: 55px;
+  padding: 0 30px;
+  border-radius: 40px;
+  border: none;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #064e3b;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.reset-btn-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(34,197,94,.3);
+  color: white;
+}
+
+/* ===== FIX SEARCH FULL WIDTH ===== */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* SEARCH CONTAINER */
+.search-box {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* INPUT FULL WIDTH */
+.search-box input {
+  width: 100%;
+  height: 42px;
+  padding: 0 15px 0 38px;
+  border-radius: 30px;
+  border: 2px solid #86efac;
+  outline: none;
+}
+
+/* ICON */
+.search-box i {
+  position: absolute;
+  left: 12px;
+  color: #16a34a;
+  font-size: 16px;
+}
+
+/* ===== MATCH DROPDOWN WITH SEARCH ===== */
+.filter-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 30px;
+  border: 2px solid #86efac;
+  background: #ecfdf5;
+  cursor: pointer;
+}
+
+/* SELECT INSIDE */
+.filter-select select {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #065f46;
+  cursor: pointer;
+}
+
+/* ICON */
+.filter-select i {
+  color: #16a34a;
+  font-size: 16px;
+}
+
+/* ACTION COLUMN */
+.action-cell {
+  display: table-cell;       
+  text-align: center;
+  vertical-align: middle;
+}
+
+.action-cell > div {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.messages-table td,
+.messages-table th {
+  white-space: nowrap;       
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* EDIT BUTTON */
+.edit-btn {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #bbf7d0;
+  color: #065f46;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-btn:hover {
+  background: #22c55e;
+  color: white;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #fee2e2;
+  color: #991b1b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  background: #ef4444;
+  color: white;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  /* 🔥 Removed the flex-direction: column here so it stays on one line even on mobile */
+  .reply-cell {
+    flex-direction: row; 
+    overflow-x: auto; /* Adds internal scroll if row is too wide for cell */
+  }
+
+  .send-btn {
+    width: auto;
+  }
 }
