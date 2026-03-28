@@ -30,7 +30,7 @@ function Contact() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/contact",
+        "https://ecomplaintsportal-backend.onrender.com/api/contact",
         formData
       );
 
