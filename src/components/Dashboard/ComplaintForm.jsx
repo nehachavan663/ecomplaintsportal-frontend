@@ -151,7 +151,7 @@ useEffect(() => {
 
   const studentId = localStorage.getItem("studentId");
 
-  if (!studentId) return;
+  if (!studentId) return; 
 
   fetch(`https://ecomplaintsportal-backend.onrender.com/api/studentProfile/${studentId}`)
     .then(res => res.json())
@@ -222,6 +222,7 @@ const complaintData = {
       });
 
       if (response.ok) {
+        window.dispatchEvent(new Event("statsUpdated"));
 Swal.fire({
   icon: "success",
   title: "Complaint Submitted!",

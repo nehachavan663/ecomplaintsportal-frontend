@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./Home.css";
 import HomeLayout from "../../layouts/HomeLayouts";
 import { FaFileAlt, FaSearch, FaUserShield, FaBell } from "react-icons/fa";
@@ -11,29 +11,135 @@ import img1 from "./Images/hero.png";
 import img2 from "./Images/hero2.webp";
 import img3 from "./Images/image.png";
 
-const images = [img1, img2, img3];
 
+const images = [img1, img2, img3];
 
 function Home() {
   const isLoggedIn = localStorage.getItem("user");
 const navigate = useNavigate();
-const [stats, setStats] = useState({
+
+const url = "https://ecomplaintsportal-backend.onrender.com/api/admin/dashboard";
+
+// ✅ FIRST define stats
+const [stats, setStats] = useState(() => {
+  const saved = sessionStorage.getItem("stats");
+  return saved
+    ? JSON.parse(saved)
+    : {
+        total: 0,
+        resolved: 0,
+        studentCount: 0,
+        resolvedPercentage: 0
+      };
+});
+
+// ✅ THEN use it here
+const prevStatsRef = useRef({
   total: 0,
-  resolved: 0,
+  resolvedPercentage: 0,
+  studentCount: 0
+});
+
+// ✅ then this
+const [displayStats, setDisplayStats] = useState({
+  total: 0,
+  resolvedPercentage: 0,
   studentCount: 0
 });
 useEffect(() => {
-  axios.get("https://ecomplaintsportal-backend.onrender.com/api/admin/dashboard")
-    .then(res => {
-      setStats({
-        total: res.data.total || 0,
-        resolved: res.data.resolved || 0,
-        studentCount: res.data.studentCount || 0
-      });
-    })
-    .catch(err => console.log(err));
-}, []);
+  const start = prevStatsRef.current; // ✅ stable previous value
+  const end = stats;
 
+  // skip if same
+  if (
+    start.total === end.total &&
+    start.studentCount === end.studentCount &&
+    start.resolvedPercentage === end.resolvedPercentage
+  ) {
+    return;
+  }
+
+const duration = 1400;
+const steps = 40;
+  const intervalTime = duration / steps;
+
+  let step = 0;
+
+  const interval = setInterval(() => {
+    step++;
+
+const progress = step / steps;
+
+// 🔥 smooth ease-out animation
+const easeOut = 1 - Math.pow(1 - progress, 3);
+
+setDisplayStats({
+  total: Math.floor(start.total + (end.total - start.total) * easeOut),
+  resolvedPercentage: Math.floor(
+    start.resolvedPercentage +
+      (end.resolvedPercentage - start.resolvedPercentage) * easeOut
+  ),
+  studentCount: Math.floor(
+    start.studentCount +
+      (end.studentCount - start.studentCount) * easeOut
+  )
+});
+
+    if (step >= steps) {
+      clearInterval(interval);
+      setDisplayStats(end);
+      prevStatsRef.current = end; // ✅ update ref
+    }
+  }, intervalTime);
+
+  return () => clearInterval(interval);
+}, [stats]);
+// later use it
+const fetchStats = async () => {
+  try {
+    const res = await axios.get(url, {
+      params: { t: new Date().getTime() },
+      headers: {
+        "Cache-Control": "no-cache"
+      }
+    });
+
+    const total = res.data.total || 0;
+    const resolved = res.data.resolved || 0;
+
+    const newStats = {
+      total,
+      resolved,
+      studentCount: res.data.studentCount || 0,
+      resolvedPercentage: total
+        ? Math.round((resolved / total) * 100)
+        : 0
+    };
+
+    // 🔥 prevent old overwrite
+    setStats((prev) => {
+      if (total < prev.total) return prev;
+      return newStats;
+    });
+
+    // 🔥 save for fast reload
+    sessionStorage.setItem("stats", JSON.stringify(newStats));
+
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+useEffect(() => {
+  fetchStats(); // first call
+
+  // 🔥 ADD THIS (VERY IMPORTANT)
+  const timer = setTimeout(() => {
+    fetchStats(); // second call (gets latest data)
+  }, 2000);
+
+  return () => clearTimeout(timer);
+}, []);
 const handleProtectedNav = (path) => {
   if (!isLoggedIn) {
     Swal.fire({
@@ -59,7 +165,15 @@ const handleProtectedNav = (path) => {
 
     return () => clearInterval(timer);
   }, []);
+useEffect(() => {
+  const handleUpdate = () => {
+    fetchStats(); // 🔥 instant refresh
+  };
 
+  window.addEventListener("statsUpdated", handleUpdate);
+
+  return () => window.removeEventListener("statsUpdated", handleUpdate);
+}, []);
 
   return (
     <HomeLayout>
@@ -257,12 +371,12 @@ const handleProtectedNav = (path) => {
 <div className="stats-container">
 
   <div className="stat-box">
-    <h2>{stats.total}</h2>
+   <h2>{displayStats.total}</h2>
     <p>Complaints</p>
   </div>
 
   <div className="stat-box">
-    <h2>{stats.resolvedPercentage || 0}%</h2>
+    <h2>{displayStats.resolvedPercentage|| 0}%</h2>
     <p>Resolved</p>
   </div>
 
@@ -272,7 +386,7 @@ const handleProtectedNav = (path) => {
   </div>
 
   <div className="stat-box">
-    <h2>{stats.studentCount || 0}+</h2>
+    <h2>{displayStats.studentCount|| 0}+</h2>
     <p>Students</p>
   </div>
 
