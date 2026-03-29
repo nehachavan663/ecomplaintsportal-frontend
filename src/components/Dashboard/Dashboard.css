@@ -164,7 +164,7 @@
 .activity {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;  
   padding: 20px;
   margin-bottom: 12px;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -174,8 +174,14 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+   position: relative;   /* ✅ IMPORTANT */
+  padding-right: 90px; 
+  
 }
-
+.activity > div {
+  flex: 1;
+  min-width: 0;   /* 🔥 allows text wrapping properly */
+}
 .activity::before {
   content: "";
   position: absolute;
@@ -221,15 +227,18 @@
 }
 
 /* Enhanced Badges */
-
 .badge {
+  position: absolute;
+  top: 18px;     /* ✅ ADD THIS */
+  right: 18px;   /* ✅ ADD THIS */
+
   padding: 8px 14px;
   border-radius: 25px;
   font-size: 12px;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
+
   white-space: nowrap;
+  z-index: 5;    /* ✅ ensures visibility */
 }
 
 .badge:hover {
@@ -293,14 +302,11 @@
   
   .activity {
     padding: 16px;
-    flex-direction: column;
+    flex-direction: row; 
     align-items: flex-start;
     gap: 12px;
   }
   
-  .activity .badge {
-    align-self: flex-end;
-  }
 }
 
 @media (max-width: 480px) {
@@ -324,5 +330,16 @@
   .badge {
     padding: 6px 12px;
     font-size: 11px;
+  }
+}
+@media (max-width: 480px) {
+  .activity {
+    padding-right: 80px; /* adjust for smaller screens */
+  }
+
+  .badge {
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
   }
 }

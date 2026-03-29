@@ -5,7 +5,7 @@
   min-height: calc(100vh - 100px); /* adjust if header height differs */
   background: linear-gradient(180deg, #eafaf2, #f4fff9);
   padding: 20px;
-    overflow-x:hidden;
+      overflow-x: auto; 
   overflow-y: auto;   /* allow vertical scroll */
 }
 
@@ -125,7 +125,9 @@
   padding: 16px;
   box-shadow: 0 10px 25px rgba(0,0,0,.08);
 }
-
+.mc-table-scroll {
+  padding-bottom: 10px;
+}
 
 /* ===============================
    TABLE SCROLL CONTAINER
