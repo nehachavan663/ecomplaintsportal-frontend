@@ -368,13 +368,15 @@ section {
   align-items: center;
   text-align: center;
 
-  padding: 40px 20px;
   gap: 20px;
-}
+  padding: 30px 20px;
 
+  flex-wrap: wrap;   /* 🔥 IMPORTANT FIX */
+}
 /* each stat */
 .stat-box {
-  flex: 1;
+  flex: 1 1 22%;   /* desktop: 4 in row */
+  min-width: 120px;
 }
 
 .stat-box h2 {
@@ -386,4 +388,18 @@ section {
 .stat-box p {
   color: #444;
   font-size: 16px;
+}
+@media (max-width: 768px) {
+  .stats-container {
+    justify-content: center;
+  }
+
+  .stat-box {
+    flex: 1 1 45%;   /* 2 per row */
+  }
+}
+@media (max-width: 480px) {
+  .stat-box {
+    flex: 1 1 100%;   /* 1 per row */
+  }
 }
