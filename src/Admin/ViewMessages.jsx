@@ -146,7 +146,7 @@ const handleDelete = async (id) => {
   return (
     <div className="messages-container">
 
-      <h2>📩 Messages</h2>
+      <h2> Messages</h2>
 
       {/* FILTER */}
      <div className="filter-bar">
