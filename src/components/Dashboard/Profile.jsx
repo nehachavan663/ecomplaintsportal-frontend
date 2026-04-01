@@ -223,14 +223,16 @@ function Profile() {
         <div className="profile-card">
 
           <div className="avatar">
-            <img
-              src={
-                student.profileImage
-                ? `https://ecomplaintsportal-backend.onrender.com/api/studentProfile/image/${student.profileImage}`
-                : "https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
-              }
-              alt="profile"
-            />
+         <img
+  src={
+    student.profileImage
+      ? student.profileImage.startsWith("http")
+        ? student.profileImage
+        : `https://ecomplaintsportal-backend.onrender.com/api/studentProfile/image/${student.profileImage}`
+      : "https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+  }
+  alt="profile"
+/>
           </div>
 
           {isEditing && (
@@ -244,19 +246,21 @@ function Profile() {
 
           <h2>{student.fullName}</h2>
 
-          {!isEditing ? (
-            <button className="edit-btn" onClick={() => setIsEditing(true)}>
-              <i className="bi bi-pencil-square"></i> Edit Profile
-            </button>
-          ) : (
-            <button className="edit-btn" onClick={handleSave}>
-              <i className="bi bi-save"></i> Save Profile
-            </button>
-          )}
+          <div className="profile-actions">
+  {!isEditing ? (
+    <button className="edit-btn" onClick={() => setIsEditing(true)}>
+      <i className="bi bi-pencil-square"></i> Edit Profile
+    </button>
+  ) : (
+    <button className="edit-btn" onClick={handleSave}>
+      <i className="bi bi-save"></i> Save Profile
+    </button>
+  )}
 
-          <button className="logout-btn" onClick={handleLogout}>
-            <i className="bi bi-box-arrow-right"></i> Log Out
-          </button>
+  <button className="logout-btn" onClick={handleLogout}>
+    <i className="bi bi-box-arrow-right"></i> Log Out
+  </button>
+</div>
 
         </div>
 
