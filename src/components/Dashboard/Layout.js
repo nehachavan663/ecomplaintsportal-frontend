@@ -10,7 +10,7 @@ import ComplaintForm from "./ComplaintForm";
 import Profile from "./Profile";
 import Setting from "./Setting";
 import Faqs from "./Faqs";
-
+import logo from "../Home/Images/elogo1.png";
 function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -33,10 +33,10 @@ function Layout() {
 
         {/* MOBILE HEADER */}
         <div className="mobile-header">
-          <FaBars
-            className="mobile-icon"
-            onClick={() => setSidebarOpen(true)}
-          />
+         <FaBars
+  className="mobile-icon"
+  onClick={() => setSidebarOpen(!sidebarOpen)}  // 🔥 toggle instead of only open
+/>
           <h4>ecomplaintsportal</h4>
 
           <div className="mobile-right">
@@ -57,19 +57,19 @@ function Layout() {
 
         {/* SIDEBAR */}
         <div className={`sidebar ${sidebarOpen ? "show" : ""}`}>
-          <h3 className="sidebar-title">
-            ecomplaintsportal
-          </h3>
-
+      <div className="logo-container">
+  <img src={logo} alt="logo" className="logo-img" />
+</div>
           <div className="menu-container">
             {menuItems.map((item) => (
-              <NavLink
-                key={item.name}
-                to={item.path}
-                className="menu-link"
-              >
-                {item.name}
-              </NavLink>
+            <NavLink
+  key={item.name}
+  to={item.path}
+  className="menu-link"
+  onClick={() => setSidebarOpen(false)}   // ✅ ADD THIS
+>
+  {item.name}
+</NavLink>
             ))}
           </div>
 
