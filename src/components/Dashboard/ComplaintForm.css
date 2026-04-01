@@ -27,7 +27,7 @@ html, body {
     display: grid;
   grid-template-columns: 420px 1fr;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;  
   margin: auto;
   background: #ffffff;
   border-radius: 40px;
@@ -40,6 +40,7 @@ html, body {
 .pro-form-wrapper {
   width: 100%;
   max-width: 650px;
+  margin: 0 auto; 
 }
 /* ================= SIDEBAR ================= */
 .pro-info-sidebar {
@@ -111,6 +112,7 @@ html, body {
   /* FIXED: Ensure chips do not bleed into the form */
   overflow: visible; 
   z-index: 1;
+   overflow: hidden;
 }
 
 .pro-hero-img {
@@ -144,6 +146,7 @@ html, body {
   display: flex;
   flex-direction: column;
   background: #ffffff;
+  justify-content: center;  
 }
 
 .pro-heading-card {
@@ -293,6 +296,30 @@ html, body {
   0% { left: -150%; }
   100% { left: 150%; }
 }
+@media (min-width: 1200px) {
+  .pro-form-section {
+    padding: 50px 60px;
+  }
+
+  .pro-info-sidebar {
+    padding: 50px 40px;
+  }
+}
+@media (max-width: 1200px) {
+  .pro-main-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .pro-page-wrapper {
+    padding: 20px 10px;
+  }
+
+  .pro-form-section {
+    padding: 25px 15px;
+  }
+}
 
 /* ================= MOBILE FIXES ================= */
 @media (max-width: 1024px) {
@@ -314,7 +341,11 @@ html, body {
     max-width: 300px;
   }
 }
-
+@media (min-width: 1400px) {
+  .pro-main-container {
+    max-width: 1200px;
+  }
+}
 @media (max-width: 600px) {
   .pro-form-row { grid-template-columns: 1fr; }
   .pro-form-section { padding: 25px 14px; }
