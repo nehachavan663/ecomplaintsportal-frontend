@@ -15,17 +15,21 @@
 }
 
 /* =====================
-   Filters Card
+   Filters Card (FINAL COMPACT)
 ===================== */
 .filters {
   background: #ffffff;
-  padding: 18px;
+  padding: 10px;               /* 🔽 smaller */
   border-radius: 14px;
+
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px;                    /* 🔽 tighter */
+
+  overflow-x: auto;
   margin-bottom: 24px;
-  animation: fadeDown 0.4s ease;
+
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08),
               0 2px 6px rgba(0, 0, 0, 0.05);
 }
@@ -40,10 +44,10 @@
 
 .filters input,
 .filters select {
-  padding: 9px 12px;
-  border-radius: 8px;
+  padding: 4px 5px;            /* 🔽 smaller */
+  font-size: 12px;
+  border-radius: 5px;
   border: 1px solid #d8eee4;
-  font-size: 14px;
   background-color: #f9fffc;
 }
 
@@ -56,38 +60,42 @@
 
 /* ✅ Reset Button Specific (Improved Targeting) */
 .reset-btn {
+  padding: 4px 8px;            /* 🔽 smaller */
+  font-size: 12px;
+  border-radius: 6px;
+
+  white-space: nowrap;
+  flex-shrink: 0;
+
   background: linear-gradient(135deg, #8ef0c3, #6dd6aa);
   color: #1f3d32;
   border: none;
-  border-radius: 10px;
-  padding: 9px 20px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .reset-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(109, 214, 170, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(109, 214, 170, 0.4);
 }
 
 /* =====================
-   Filter Items
+   Filter Items (SMALLER)
 ===================== */
 .filter-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: #f9fffc;
-  border-radius: 10px;
-  padding: 6px 10px;
-  animation: popIn 0.4s ease;
-}
+  gap: 4px;
 
+  background: #f9fffc;
+  border-radius: 6px;
+  padding: 3px 5px;            /* 🔽 reduced */
+
+  min-width: 110px;            /* 🔽 reduced */
+  flex-shrink: 0;
+}
+/* Icon smaller */
 .filter-icon {
-  font-size: 16px;
+  font-size: 13px;             /* 🔽 smaller */
   color: #2f9e44;
-  transition: transform 0.35s ease, color 0.35s ease;
 }
 
 .filter-item:hover {
@@ -96,9 +104,17 @@
 
 .filter-item:hover .filter-icon {
   color: #ff922b;
-  transform: scale(1.35) rotate(-6deg);
+  transform: scale(1.2);
 }
 
+.filters::-webkit-scrollbar {
+  height: 4px;
+}
+
+.filters::-webkit-scrollbar-thumb {
+  background: #ccefe0;
+  border-radius: 10px;
+} 
 /* =====================
    Table Wrapper
 ===================== */
@@ -261,26 +277,29 @@ tbody td:last-child {
 }
 
 /* =====================
-   Mobile Responsive
+   MOBILE FIX (IMPORTANT)
 ===================== */
 @media (max-width: 768px) {
+
   .reports-container {
-    padding: 12px;
+    padding: 10px;
   }
 
   .filters {
-    flex-direction: column;
+    flex-wrap: nowrap;        /* ✅ keep single row */
+    overflow-x: auto;
   }
 
-  .filters input,
-  .filters select,
-  .reset-btn,
-  .actions button {
-    width: 100%;
+  .filter-item {
+    min-width: 100px;         /* 🔽 even smaller */
   }
 
   .actions {
     flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
   }
 }
 
