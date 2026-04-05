@@ -182,7 +182,7 @@ section h2 {
 .stats {
   background: linear-gradient(135deg, #ecfdf5, #d1fae5);
   border-radius: 20px;
-  margin: 25px 40px;
+   margin: 25px 40px;
   padding: 35px 30px;
   text-align: center;
   box-shadow: 0 12px 30px rgba(0,0,0,0.08);
@@ -334,7 +334,7 @@ section h2 {
 /* ===== FIX HIDDEN SECTIONS BUG ===== */
 
 .home-page {
-  overflow: visible !important;
+overflow-x: hidden;
   height: auto !important;
 }
 
